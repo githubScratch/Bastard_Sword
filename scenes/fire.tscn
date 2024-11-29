@@ -1,0 +1,91 @@
+[gd_scene load_steps=13 format=3 uid="uid://cqpvk8ibn0sbf"]
+
+[ext_resource type="Texture2D" uid="uid://dfk0vblai1srh" path="res://Characters/Fire.png" id="1_iw2sx"]
+[ext_resource type="Script" path="res://scenes/fire_follows.gd" id="2_kw0te"]
+[ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="3_hbdb4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7bb2"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjuyx"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11g1t"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo54e"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyudq"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3njmj"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r87s"]
+atlas = ExtResource("1_iw2sx")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bar02"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7bb2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjuyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11g1t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo54e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyudq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3njmj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r87s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e6wjp"]
+radius = 23.1948
+
+[node name="Node2D" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-1, -27)
+scale = Vector2(1, 0.966338)
+sprite_frames = SubResource("SpriteFrames_bar02")
+frame_progress = 0.173635
+script = ExtResource("2_kw0te")
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D"]
+position = Vector2(0, 28)
+shape = SubResource("CircleShape2D_e6wjp")
+
+[node name="PointLight2D" type="PointLight2D" parent="AnimatedSprite2D"]
+position = Vector2(2, 45.5327)
+color = Color(0.839325, 0.527358, 0.319742, 1)
+energy = 0.83
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.784314)
+shadow_item_cull_mask = 2
+texture = ExtResource("3_hbdb4")
+texture_scale = 1.2

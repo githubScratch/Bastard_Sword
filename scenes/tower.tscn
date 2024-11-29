@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxhonlp0bmnr1"]
+
+[ext_resource type="Texture2D" uid="uid://d1u7rnstt6w1d" path="res://Doodads/House_Yellow.png" id="1_3u4iu"]
+[ext_resource type="Texture2D" uid="uid://bkh1l3gt3jibj" path="res://Doodads/Tower_Purple.png" id="1_m5r4o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dpq0w"]
+radius = 44.0114
+
+[node name="tower" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, -4)
+shape = SubResource("CircleShape2D_dpq0w")
+debug_color = Color(0.389482, 0.602468, 0.301728, 0.42)
+
+[node name="TowerPurple" type="Sprite2D" parent="."]
+modulate = Color(0.533037, 0.533037, 0.533037, 1)
+position = Vector2(-5, -64)
+texture = ExtResource("1_m5r4o")
+
+[node name="HouseYellow" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-4, -32)
+texture = ExtResource("1_3u4iu")

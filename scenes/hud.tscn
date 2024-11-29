@@ -1,0 +1,175 @@
+[gd_scene load_steps=8 format=3 uid="uid://cj68s8it2kvcx"]
+
+[ext_resource type="Script" path="res://scenes/hud.gd" id="1_vmegr"]
+[ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="2_o2cg4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h1ivw"]
+bg_color = Color(0.2775, 0.311417, 0.37, 0.666667)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.115837, 0.229473, 0.353325, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gx0d6"]
+bg_color = Color(0.3596, 0.54188, 0.62, 0.372549)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3216, 0.472573, 0.67, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ximtu"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 45, 1)
+gravity = Vector3(0, -80, 0)
+scale_min = 2.0
+scale_max = 11.0
+color = Color(0.35, 0.0595, 0.0643416, 0.431373)
+turbulence_enabled = true
+turbulence_noise_strength = 2.05
+turbulence_noise_scale = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bj6n2"]
+bg_color = Color(0.472708, 0.0517219, 0.152511, 0.670588)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.526286, 0.140485, 0.0262424, 1)
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1la8"]
+bg_color = Color(0.72, 0.0216, 0.17292, 0.364706)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.344, 0.344, 1)
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vmegr")
+
+[node name="Score" type="Label" parent="."]
+unique_name_in_owner = true
+top_level = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -206.0
+offset_top = -93.0
+offset_right = -24.0
+offset_bottom = -19.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("2_o2cg4")
+theme_override_font_sizes/font_size = 60
+text = "Score : 0
+"
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 170.0
+offset_top = -33.0
+offset_right = 311.0
+offset_bottom = 91.0
+grow_vertical = 0
+rotation = -1.5708
+theme_override_styles/background = SubResource("StyleBoxFlat_h1ivw")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gx0d6")
+value = 40.0
+show_percentage = false
+
+[node name="staminalabel" type="Label" parent="StaminaBar"]
+top_level = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 175.0
+offset_top = -68.0
+offset_right = 294.0
+offset_bottom = -27.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.217679, 0.332912, 0.409401, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_o2cg4")
+theme_override_font_sizes/font_size = 30
+text = "Stamina"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="StaminaBar"]
+position = Vector2(46.9998, 64.0002)
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_ximtu")
+lifetime = 5.0
+explosiveness = 0.3
+randomness = 0.5
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -33.0
+offset_right = 166.0
+offset_bottom = 98.0
+grow_vertical = 0
+rotation = -1.5708
+theme_override_constants/outline_size = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_bj6n2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e1la8")
+max_value = 500.0
+value = 500.0
+rounded = true
+show_percentage = false
+
+[node name="healthlabel" type="Label" parent="HealthBar"]
+top_level = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = -68.0
+offset_right = 167.0
+offset_bottom = -27.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.4, 0.124, 0.1884, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_o2cg4")
+theme_override_font_sizes/font_size = 30
+text = "Health"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="HealthBar"]
+position = Vector2(42.9997, 69.0002)
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_ximtu")
+lifetime = 5.0
+explosiveness = 0.3
+randomness = 0.5

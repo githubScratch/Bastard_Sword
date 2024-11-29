@@ -1,0 +1,1215 @@
+[gd_scene load_steps=45 format=3 uid="uid://c3ehdu5ygtc8f"]
+
+[ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
+[ext_resource type="Script" path="res://code/camera_2d.gd" id="2_rwjdb"]
+[ext_resource type="PackedScene" uid="uid://d3i6la4uyy1rv" path="res://scenes/playerKnight.tscn" id="3_s8k3s"]
+[ext_resource type="PackedScene" uid="uid://du4urybcs2ggd" path="res://scenes/static_body_2d_tree.tscn" id="4_b2gvr"]
+[ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="5_6rxkt"]
+[ext_resource type="PackedScene" uid="uid://t1n4myqmsbu4" path="res://scenes/grass.tscn" id="5_f5omf"]
+[ext_resource type="Material" path="res://CRTMaterial.tres" id="5_t53eh"]
+[ext_resource type="Texture2D" uid="uid://bo80bfxcndbd0" path="res://particles/sprite_0029.png" id="6_0bv8k"]
+[ext_resource type="Texture2D" uid="uid://d1xrqy0kihmhy" path="res://particles/88.png" id="6_hb7rr"]
+[ext_resource type="AudioStream" uid="uid://dagiveqnjlb4f" path="res://audio/good knight.mp3" id="6_o7eq7"]
+[ext_resource type="Script" path="res://code/ScreenShake.gd" id="7_stxj5"]
+[ext_resource type="Texture2D" uid="uid://ckj5s7kcifkip" path="res://particles/smoke_04.png" id="8_6h204"]
+[ext_resource type="Shader" path="res://fog.gdshader" id="8_n3jq2"]
+[ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
+[ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
+[ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
+[ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
+[ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
+[ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
+
+[sub_resource type="Curve2D" id="Curve2D_h2b6t"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -1234, -935, 0, 0, 0, 0, 1443, -929, 0, 0, 0, 0, 1460, 757, 0, 0, 0, 0, -1237, 757, 0, 0, 0, 0, -1237, -935)
+}
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_vpk3n"]
+offsets = PackedFloat32Array(0.254098, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lpvwd"]
+gradient = SubResource("Gradient_vpk3n")
+
+[sub_resource type="Curve" id="Curve_5yywt"]
+max_value = 2.0
+_data = [Vector2(0, 1.58242), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uxskq"]
+curve = SubResource("Curve_5yywt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_el2cf"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1100, 500, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+direction = Vector3(0, 0, 0)
+flatness = 0.965
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -2000.0
+radial_accel_max = -500.0
+scale_min = 0.25
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_uxskq")
+color = Color(0.756, 0.9, 0.8952, 0.388235)
+color_ramp = SubResource("GradientTexture1D_lpvwd")
+
+[sub_resource type="Gradient" id="Gradient_l85yc"]
+offsets = PackedFloat32Array(0.631148, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c6s24"]
+gradient = SubResource("Gradient_l85yc")
+
+[sub_resource type="Curve" id="Curve_4diif"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4gqh8"]
+curve = SubResource("Curve_4diif")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4r17t"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(600, 350, 1)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_4gqh8")
+color = Color(1, 1, 1, 0.619608)
+color_ramp = SubResource("GradientTexture1D_c6s24")
+
+[sub_resource type="Gradient" id="Gradient_tqsy1"]
+offsets = PackedFloat32Array(0, 0.266667, 0.76, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.091036, 0.091036, 0.091036, 0.908964, 0.313333, 0.313333, 0.313333, 0.686667, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_bw4xp"]
+offsets = PackedFloat32Array(0, 0.197531)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_ir0bt"]
+offsets = PackedFloat32Array(0.82716, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="Environment" id="Environment_iy8c3"]
+background_mode = 3
+tonemap_mode = 2
+tonemap_exposure = 2.37
+tonemap_white = 6.5
+glow_enabled = true
+glow_levels/1 = 1.4
+glow_levels/2 = 0.69
+glow_intensity = 0.4
+glow_strength = 0.8
+glow_blend_mode = 0
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.287242, 0.462684, 0.543404, 1)
+fog_light_energy = 2.13
+fog_sun_scatter = 0.42
+fog_density = 1.0
+fog_height = 1.0
+fog_height_density = 1.0
+adjustment_enabled = true
+adjustment_brightness = 0.6
+adjustment_contrast = 1.17
+adjustment_saturation = 1.73
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_s1khf"]
+frequency = 0.0075
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yu4gj"]
+width = 320
+height = 180
+seamless = true
+noise = SubResource("FastNoiseLite_s1khf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_le5rh"]
+shader = ExtResource("8_n3jq2")
+shader_parameter/density = 0.239
+shader_parameter/speed = Vector2(0.02, 0.01)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_yu4gj")
+
+[sub_resource type="Theme" id="Theme_p16n4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nke7"]
+size = Vector2(6256, 1540.91)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_it0qx"]
+size = Vector2(1853, 4052)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3gpc"]
+shader = ExtResource("15_mqwap")
+
+[sub_resource type="Gradient" id="Gradient_xemxy"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_12b2o"]
+gradient = SubResource("Gradient_xemxy")
+fill_to = Vector2(0.724771, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nsyug"]
+shader = ExtResource("21_y83k0")
+shader_parameter/fog_strength = 0.0
+
+[node name="amorphous2" type="Node2D"]
+y_sort_enabled = true
+position = Vector2(-1, -13)
+script = ExtResource("1_hepxq")
+player_path = NodePath("playerKnight")
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+position = Vector2(560, 322)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+editor_draw_limits = true
+script = ExtResource("2_rwjdb")
+
+[node name="playerKnight" parent="." instance=ExtResource("3_s8k3s")]
+position = Vector2(574, 338)
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="playerKnight"]
+process_mode = 3
+position = Vector2(-367, -428)
+stream = ExtResource("6_o7eq7")
+volume_db = -5.0
+pitch_scale = 0.9
+autoplay = true
+
+[node name="Path2D" type="Path2D" parent="playerKnight"]
+curve = SubResource("Curve2D_h2b6t")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="playerKnight/Path2D"]
+position = Vector2(-1234, -935)
+rotation = 0.00224131
+
+[node name="rain" type="GPUParticles2D" parent="playerKnight"]
+process_mode = 3
+position = Vector2(-17, 7)
+amount = 900
+process_material = SubResource("ParticleProcessMaterial_el2cf")
+texture = ExtResource("5_6rxkt")
+lifetime = 0.5
+trail_enabled = true
+trail_lifetime = 0.25
+
+[node name="spalsh" type="GPUParticles2D" parent="playerKnight/rain"]
+process_mode = 3
+z_index = -3
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_4r17t")
+texture = ExtResource("6_hb7rr")
+
+[node name="Particles" type="Node" parent="."]
+
+[node name="barrier4" type="CPUParticles2D" parent="Particles"]
+position = Vector2(-661, 495)
+rotation = 1.5708
+amount = 40
+speed_scale = 0.2
+texture = ExtResource("6_0bv8k")
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 1)
+gravity = Vector2(200, 0)
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+linear_accel_min = 50.0
+linear_accel_max = 50.0
+angle_min = 250.0
+angle_max = 290.0
+scale_amount_min = 0.1
+scale_amount_max = 0.4
+color = Color(0, 0, 0, 0.6)
+color_ramp = SubResource("Gradient_tqsy1")
+
+[node name="barrier3" type="CPUParticles2D" parent="Particles"]
+position = Vector2(2076, 177)
+rotation = 1.5708
+amount = 40
+speed_scale = 0.2
+texture = ExtResource("6_0bv8k")
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 1)
+gravity = Vector2(-200, 0)
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+linear_accel_min = 50.0
+linear_accel_max = 50.0
+angle_min = 70.0
+angle_max = 110.0
+scale_amount_min = 0.1
+scale_amount_max = 0.4
+color = Color(0, 0, 0, 0.6)
+color_ramp = SubResource("Gradient_tqsy1")
+
+[node name="barrier2" type="CPUParticles2D" parent="Particles"]
+position = Vector2(761, -770)
+amount = 40
+speed_scale = 0.2
+texture = ExtResource("6_0bv8k")
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 1)
+gravity = Vector2(0, 200)
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+linear_accel_min = 50.0
+linear_accel_max = 50.0
+angle_min = 160.0
+angle_max = 200.0
+scale_amount_min = 0.1
+scale_amount_max = 0.4
+color = Color(0, 0, 0, 0.6)
+color_ramp = SubResource("Gradient_tqsy1")
+
+[node name="barrier" type="CPUParticles2D" parent="Particles"]
+position = Vector2(760, 1203)
+amount = 40
+speed_scale = 0.2
+texture = ExtResource("6_0bv8k")
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 1)
+gravity = Vector2(0, -200)
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+linear_accel_min = 50.0
+linear_accel_max = 50.0
+angle_min = -20.0
+angle_max = 20.0
+scale_amount_min = 0.1
+scale_amount_max = 0.4
+color = Color(0, 0, 0, 0.6)
+color_ramp = SubResource("Gradient_tqsy1")
+
+[node name="fog" type="CPUParticles2D" parent="Particles"]
+process_mode = 3
+z_index = 4096
+position = Vector2(-489, 231)
+amount = 20
+lifetime = 10.0
+speed_scale = 0.5
+texture = ExtResource("8_6h204")
+emission_shape = 3
+emission_rect_extents = Vector2(20, 1000)
+spread = 80.0
+gravity = Vector2(200, 25)
+angular_velocity_max = 20.0
+linear_accel_min = -48.48
+radial_accel_min = -44.44
+damping_min = 6.061
+damping_max = 23.233
+angle_min = -305.5
+angle_max = 130.9
+scale_amount_min = 2.5
+scale_amount_max = 3.5
+color = Color(0.744285, 0.7221, 0.87, 0.192157)
+color_ramp = SubResource("Gradient_bw4xp")
+color_initial_ramp = SubResource("Gradient_ir0bt")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 45.0
+autostart = true
+
+[node name="Timer3" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="Timer4" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="CRT" type="ColorRect" parent="."]
+y_sort_enabled = true
+material = ExtResource("5_t53eh")
+offset_left = -2610.0
+offset_top = -1781.0
+offset_right = 3984.0
+offset_bottom = 2354.0
+color = Color(0.4968, 0.54, 0.52992, 0.913725)
+
+[node name="Ambience" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Ambience"]
+environment = SubResource("Environment_iy8c3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Ambience"]
+layer = -1
+
+[node name="Floor" type="ColorRect" parent="Ambience/CanvasLayer"]
+z_index = -1
+y_sort_enabled = true
+offset_left = -1215.0
+offset_top = -733.0
+offset_right = 2493.0
+offset_bottom = 1425.0
+color = Color(0.23417, 0.283186, 0.225069, 1)
+
+[node name="Color Filter" type="CanvasModulate" parent="Ambience"]
+position = Vector2(-1, -13)
+color = Color(0.2556, 0.588827, 0.71, 0.686275)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="Ambience"]
+position = Vector2(-1, -13)
+color = Color(0.0286121, 0.0851183, 0.0215786, 1)
+shadow_enabled = true
+shadow_color = Color(0.172064, 0.145888, 0.125562, 0.815686)
+shadow_filter = 1
+shadow_filter_smooth = 6.5
+shadow_item_cull_mask = 0
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Ambience"]
+layer = 5
+visible = false
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Ambience/ParallaxBackground"]
+motion_mirroring = Vector2(1152, 648)
+
+[node name="ColorRect" type="ColorRect" parent="Ambience/ParallaxBackground/ParallaxLayer"]
+material = SubResource("ShaderMaterial_le5rh")
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.360231, 0.400199, 0.229241, 1)
+
+[node name="ScreenShake" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_stxj5")
+
+[node name="Trees" type="Node2D" parent="."]
+
+[node name="StaticBody2Dtree28" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-339.002, -481.16)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree82" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1966, -667)
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree83" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1551, -414)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree87" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1632, -23)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree88" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1994, -470)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree89" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1728, -513)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree90" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1361, -532)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree91" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1268, -610)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree92" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1749.69, -650.292)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree65" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-430.008, -614.475)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree68" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-100.932, -388.89)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree70" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-933, 310.843)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree71" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-877.311, 170.054)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree72" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-159, -481)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree73" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-890.003, 459)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree74" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-369.863, -570.433)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree75" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(10, -552)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree79" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2183, 457)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree80" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(297, -521)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree84" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-298, -30)
+scale = Vector2(0.843896, 0.759998)
+
+[node name="StaticBody2Dtree85" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2102, 1011)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree86" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2198, 750)
+scale = Vector2(2.07819, 2.28532)
+
+[node name="Trees" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(396, 43)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree2" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(519, -309)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree3" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-469, -376)
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree16" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-474.998, 1026.84)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree17" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(348, 1264)
+scale = Vector2(2.07819, 2.28532)
+
+[node name="StaticBody2Dtree18" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(594, 1203)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree19" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(98.2309, 1141.66)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree20" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1249, 1154)
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree21" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(11, 1051)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree22" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1092, 1125)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree23" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(150.035, -365.478)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree24" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-573.118, 83.0004)
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree25" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-566.004, 893.525)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree26" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-519.792, -202.526)
+scale = Vector2(0.843896, 0.759998)
+
+[node name="StaticBody2Dtree27" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1461, 1094)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree29" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-484.239, 386.948)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree5" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-575.253, -301)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree6" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(483, -445)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree7" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1568, -208)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree9" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(322, -339)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree10" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-597.996, 669.843)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree11" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-524.045, 1164.37)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree12" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-542.307, 529.054)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree14" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-542.307, 294.843)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree30" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-274, 504)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree31" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1060, 412)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree32" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(597, -563)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree33" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1486, -743)
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree34" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(95, 918)
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree35" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(592, -272)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree36" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1300, -230)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree37" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(285, 1036)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree38" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1397, -296)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree64" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2179, -575)
+rotation = 3.14159
+scale = Vector2(1.75377, 1.73684)
+
+[node name="StaticBody2Dtree66" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2094, 72.9998)
+rotation = 3.14159
+scale = Vector2(1.18498, 1.31579)
+
+[node name="StaticBody2Dtree67" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2197, -139.001)
+rotation = 3.14159
+scale = Vector2(0.999999, 0.999999)
+
+[node name="StaticBody2Dtree69" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2121, -315)
+rotation = 3.14159
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree76" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2052, -133)
+rotation = 3.14159
+scale = Vector2(0.843895, 0.759999)
+
+[node name="StaticBody2Dtree77" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1976, 263)
+rotation = 3.14159
+scale = Vector2(0.843895, 0.759999)
+
+[node name="StaticBody2Dtree78" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1898, 356)
+rotation = 3.14159
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree81" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1939, -7.00002)
+rotation = 3.14159
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree39" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1490, 103)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree40" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1667, 267)
+scale = Vector2(1.48, 1.32)
+
+[node name="StaticBody2Dtree41" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1673, 882.999)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree42" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1712, 50)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree43" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(2073, -595)
+scale = Vector2(0.843896, 0.759998)
+
+[node name="StaticBody2Dtree44" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1835, 203)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree45" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1762, 335)
+scale = Vector2(0.843896, 0.759998)
+
+[node name="StaticBody2Dtree46" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(211, 547)
+scale = Vector2(1, 0.999999)
+
+[node name="StaticBody2Dtree47" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(968, 547)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree48" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-360, 631)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree49" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-65.9999, 782)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree50" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-554.999, 818)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree51" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1455, -98.9999)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree52" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(493, 961)
+scale = Vector2(1.24897, 1.0032)
+
+[node name="StaticBody2Dtree53" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1088, -118)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree54" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1696, 445)
+scale = Vector2(0.600989, 0.438974)
+
+[node name="StaticBody2Dtree55" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-505.859, 937.567)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree56" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1734, -343)
+scale = Vector2(1.054, 0.762431)
+
+[node name="StaticBody2Dtree57" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-215.592, 1110.84)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree58" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(227, 92)
+scale = Vector2(0.71216, 0.577598)
+
+[node name="StaticBody2Dtree" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-649, -76)
+scale = Vector2(0.843896, 0.759999)
+
+[node name="StaticBody2Dtree59" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(908, -418)
+scale = Vector2(2.46261, 3.00701)
+
+[node name="StaticBody2Dtree60" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-952, 104)
+scale = Vector2(1.66393, 2.27804)
+
+[node name="StaticBody2Dtree61" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(-236, 829)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="StaticBody2Dtree62" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1613, 1155)
+scale = Vector2(2.07819, 2.28532)
+
+[node name="StaticBody2Dtree63" parent="Trees" instance=ExtResource("4_b2gvr")]
+position = Vector2(1229, -403)
+scale = Vector2(1.40418, 1.73131)
+
+[node name="Grass" type="Node2D" parent="."]
+position = Vector2(1376, 496)
+
+[node name="Grass" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1189, -63)
+
+[node name="Grass2" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1053, 84)
+
+[node name="Grass3" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-728, -541)
+
+[node name="Grass4" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-400, -524)
+
+[node name="Grass5" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-123, -408)
+
+[node name="Grass6" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+
+[node name="Grass7" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-529, 182)
+
+[node name="Grass8" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1221, 532)
+
+[node name="Grass9" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1597, 338)
+
+[node name="Grass10" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1249, 389)
+
+[node name="Grass11" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1591, -214)
+
+[node name="Grass12" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1318, -553)
+
+[node name="Grass13" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1119, -663)
+
+[node name="Grass14" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-945, -609)
+
+[node name="Grass15" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-1167, -634)
+
+[node name="Grass16" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-310, -417)
+
+[node name="Grass17" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(-355, -396)
+
+[node name="Grass18" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(160, -90)
+
+[node name="Grass19" parent="Grass" instance=ExtResource("5_f5omf")]
+modulate = Color(0.56, 0.56, 0.56, 0.345098)
+position = Vector2(116, 143)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UILayer" instance=ExtResource("10_mpyds")]
+
+[node name="StartScreen" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="StartScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ControlsButton" type="Button" parent="StartScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = 76.0
+offset_right = 152.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Controls"
+
+[node name="BeginButton" type="Button" parent="StartScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -176.0
+offset_top = 76.0
+offset_right = -48.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Begin"
+
+[node name="Title" type="Label" parent="StartScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -399.0
+offset_top = -224.0
+offset_right = 389.0
+offset_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.186737, 0.468127, 0.802244, 1)
+theme_override_colors/font_shadow_color = Color(0.96, 0.96, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0.58, 0.284683, 0.203, 0.803922)
+theme_override_constants/shadow_outline_size = 20
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 140
+text = "BASTARD
+SWORD"
+horizontal_alignment = 1
+
+[node name="QuitButton" type="Button" parent="StartScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -51.0
+offset_top = -148.0
+offset_right = 51.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 30
+text = "Quit"
+
+[node name="ControlsScreen" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="ControlsScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="4" type="Label" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 66.0
+offset_top = 51.0
+offset_right = 346.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Charge
+Shield Bash
+Shield Charge"
+
+[node name="3" type="Label" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -493.0
+offset_top = 51.0
+offset_right = 43.0
+offset_bottom = 205.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Sprint + Attack :
+Defend + Attack :
+Defend + Sprint + Attack :"
+horizontal_alignment = 2
+
+[node name="2" type="Label" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -284.0
+offset_right = 401.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "Attack
+Hold to Defend
+Dodge
+Hold to Sprint
+Lock On"
+
+[node name="1" type="Label" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -274.0
+offset_top = -284.0
+offset_right = -43.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "LMB : 
+RMB :
+Space :
+D :
+F :"
+horizontal_alignment = 2
+
+[node name="BackButton" type="Button" parent="ControlsScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -128.0
+offset_right = 184.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Return"
+
+[node name="GameOverScreen" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOverScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0.572549)
+
+[node name="RestartButton" type="Button" parent="GameOverScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -219.5
+offset_top = 116.0
+offset_right = 219.5
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_p16n4")
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "Arise Again?"
+
+[node name="Text" type="Label" parent="GameOverScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -399.0
+offset_top = -71.0
+offset_right = 389.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.705939, 2.23808e-06, 2.88785e-07, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 140
+text = "Thou art Dead"
+horizontal_alignment = 1
+
+[node name="beginaudio" type="AudioStreamPlayer2D" parent="."]
+visible = false
+stream = ExtResource("13_0ejgo")
+volume_db = -8.914
+
+[node name="JoystickSupport" type="Node2D" parent="."]
+visible = false
+script = ExtResource("15_nb5k2")
+
+[node name="Boundry" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Boundry"]
+position = Vector2(-1, -13)
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+position = Vector2(651, -1575)
+shape = SubResource("RectangleShape2D_0nke7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+position = Vector2(614, 2024)
+shape = SubResource("RectangleShape2D_0nke7")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+position = Vector2(3052.5, 199)
+shape = SubResource("RectangleShape2D_it0qx")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+position = Vector2(-1738, 253)
+shape = SubResource("RectangleShape2D_it0qx")
+
+[node name="ColorRect" type="ColorRect" parent="Boundry/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2589.0
+offset_top = 1260.0
+offset_right = 4038.0
+offset_bottom = 2772.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Boundry/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = 2190.0
+offset_top = -1292.0
+offset_right = 3878.0
+offset_bottom = 2092.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Boundry/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2498.0
+offset_top = -1313.0
+offset_right = -810.0
+offset_bottom = 2071.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Boundry/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2509.0
+offset_top = -2109.0
+offset_right = 3974.0
+offset_bottom = -760.0
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Boundry/StaticBody2D"]
+position = Vector2(1961, 228)
+scale = Vector2(7.15625, 41.75)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Boundry/StaticBody2D"]
+position = Vector2(-627, 284)
+rotation = -3.14159
+scale = Vector2(7.15625, 41.75)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Boundry/StaticBody2D"]
+position = Vector2(721, -584)
+rotation = -1.5708
+scale = Vector2(7.15625, 48.7579)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Boundry/StaticBody2D"]
+position = Vector2(674, 1084)
+rotation = 1.5708
+scale = Vector2(7.15625, 48.7579)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_nsyug")
+offset_right = 1158.0
+offset_bottom = 661.0
+color = Color(0, 0, 0, 0)
+
+[connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="timeout" from="Timer3" to="." method="_on_timer_3_timeout"]
+[connection signal="timeout" from="Timer4" to="." method="_on_timer_4_timeout"]
+[connection signal="pressed" from="StartScreen/ColorRect/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="StartScreen/ColorRect/BeginButton" to="." method="_on_begin_button_pressed"]
+[connection signal="pressed" from="StartScreen/ColorRect/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ControlsScreen/ColorRect/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="GameOverScreen/ColorRect/RestartButton" to="." method="_on_restart_button_pressed"]

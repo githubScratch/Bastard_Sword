@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4aux7wswfscy"]
+
+[ext_resource type="Script" path="res://blood.gd" id="1_mor10"]
+[ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="1_ymqoh"]
+
+[node name="blood" type="CPUParticles2D"]
+modulate = Color(0.77, 0.77, 0.77, 0.792157)
+show_behind_parent = true
+z_index = -800
+z_as_relative = false
+lifetime = 0.4
+explosiveness = 1.0
+texture = ExtResource("1_ymqoh")
+emission_shape = 1
+emission_sphere_radius = 20.0
+spread = 40.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 290.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.8, 0.112, 0.112, 0.756863)
+script = ExtResource("1_mor10")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
