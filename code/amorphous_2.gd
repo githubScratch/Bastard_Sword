@@ -2,17 +2,28 @@ extends Node2D
 
 # Reference to the player character, where Path2D is now a child
 @export var player_path: NodePath  # Path to the player, set in the Inspector
+
 @onready var begin_audio = $beginaudio  # Reference to the AudioStreamPlayer node
 @onready var hud = $UILayer/HUD
+
+@onready var fog: CPUParticles2D = %fog
+#@export var base_particle_amount: int = 20
+#@export var max_particle_amount: int = 100
+#@export var base_opacity: float = 0.2
+#@export var max_opacity: float = 1.0
+#var warlock_count: int = 0
 
 var score := 0:
 	set(value):
 		score = value
-		hud.score = score
+		hud.update_score(score)  # Call the method on the HUD node
 
 func _ready() -> void:
 	score = 0
 	get_tree().paused = true
+	player_path = NodePath("playerKnight")
+	fog.preprocess = 5.0  # Preloads particles for 1 second
+	fog.one_shot = false
 
 func spawn_goblin():
 	# Locate the PathFollow2D node under the player
@@ -51,12 +62,25 @@ func spawn_warlock():
 	if path_follow != null:
 		var warlock_instance = preload("res://scenes/warlock.tscn").instantiate()  # Ensure the path is correct
 		path_follow.progress_ratio = randf()  # Randomize position on the path
-		warlock_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
+		warlock_instance.global_position = path_follow.global_position  # Set position on the instantiated 
 		var character_body = warlock_instance.get_node("CharacterBody2D")
 		character_body.killed.connect(_on_enemy_killed)
-		add_child(warlock_instance)  # Add the instantiated goblin to the scene
+		add_child(warlock_instance)  # Add the instantiated  to the scene
+		
+		#warlock_count += 1
+		#update_particles()
+		
 	else:
 		push_error("Failed to locate PathFollow2D under the player.")
+
+#func update_particles():
+	# Calculate particle amount and opacity based on enemy count
+	#var normalized_count = float(warlock_count) / 10.0 # Adjust divisor for sensitivity
+	#var new_amount = clamp(int(base_particle_amount + (max_particle_amount - base_particle_amount) * normalized_count), base_particle_amount, max_particle_amount)
+	#var new_opacity = clamp(base_opacity + (max_opacity - base_opacity) * normalized_count, base_opacity, max_opacity)
+	# Apply changes
+	#fog.amount = new_amount
+	#fog.modulate = Color(.74, .72, .87, new_opacity)
 
 func spawn_moblin():
 	# Locate the PathFollow2D node under the player

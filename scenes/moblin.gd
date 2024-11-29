@@ -12,7 +12,7 @@ signal killed #sends score updates, etc
 @onready var collision_shape_2d: CollisionShape2D = $GrabAura/CollisionShape2D
 
 @export var move_speed = 40.0
-@export var rotation_speed = 5
+@export var rotation_speed = 2
 @export var run_away_multiplier = 1.5
 @export var bump_speed = 200.0
 @export var bump_push_time = 0.4
@@ -132,7 +132,8 @@ func _ready():
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()
 	#print("State:", state, "Direction:", wander_direction, "Velocity:", velocity)
-
+	_rotate_to_player(delta)
+	
 	# Decrement the bump cooldown timer
 	if bump_cooldown_timer > 0:
 		bump_cooldown_timer -= delta
@@ -161,6 +162,14 @@ func _physics_process(delta):
 		"bump":
 			_handle_bump(delta)
 
+func _rotate_to_player(delta):
+	# Calculate the direction to the player
+	var direction_to_player = global_position.direction_to(player.global_position)
+	var target_rotation = direction_to_player.angle()
+	
+	# Smoothly adjust rotation using lerp_angle
+	rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
+
 func _handle_wander(delta):
 	wander_timer -= delta
 	if wander_timer <= 0:
@@ -176,8 +185,8 @@ func _handle_wander(delta):
 	# Update position
 	if velocity.length() > 0:
 		move_and_slide()
-		var target_rotation = velocity.angle()
-		rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
+		#var target_rotation = velocity.angle()
+		#rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
 
 
 func _handle_pause(delta):

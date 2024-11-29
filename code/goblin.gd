@@ -13,7 +13,7 @@ signal killed #sends score updates, etc
 @onready var frenziedFlame = $frenziedFlame 
 @onready var hitWarning = $hitWarning 
 @onready var collision_shape = $CollisionShape2D
-@export var rotation_speed = 5.0  # Speed at which the goblin rotates
+@export var rotation_speed = 40.0  # Speed at which the goblin rotates
 
 var health = 100  # Initial health of the goblin
 var attack_damage = 20  # Damage dealt by the goblin

@@ -179,6 +179,9 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 [sub_resource type="Gradient" id="Gradient_2bicv"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_oeh6o"]
+radius = 18.5607
+
 [sub_resource type="Curve" id="Curve_014mp"]
 max_value = 50.0
 _data = [Vector2(0, 12.0879), 0.0, 0.0, 0, 0, Vector2(0.151685, 0), 0.0, 0.0, 0, 0]
@@ -191,9 +194,6 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 [sub_resource type="Gradient" id="Gradient_6yqax"]
 offsets = PackedFloat32Array(0.56, 0.893333)
 colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_oeh6o"]
-radius = 18.5607
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lfbec"]
 radius = 210.002
@@ -252,8 +252,19 @@ color = Color(0.3876, 0.216, 0.45, 0.843137)
 color_ramp = SubResource("Gradient_u5lmj")
 color_initial_ramp = SubResource("Gradient_2bicv")
 
-[node name="CPUParticles2D3" type="CPUParticles2D" parent="CharacterBody2D/AnimatedSprite2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+z_index = -1
+position = Vector2(-4, 7)
+scale = Vector2(2, 2)
+shape = SubResource("CircleShape2D_oeh6o")
+
+[node name="SlowAura" type="Area2D" parent="CharacterBody2D"]
+unique_name_in_owner = true
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="CharacterBody2D/SlowAura"]
 z_index = -2
+rotation = -1.5708
+scale = Vector2(1.5, 1.5)
 amount = 50
 texture = ExtResource("7_n8cvq")
 emission_shape = 1
@@ -266,15 +277,6 @@ scale_amount_min = 0.7
 color = Color(0.10868, 0.0176, 0.22, 0.52549)
 color_ramp = SubResource("Gradient_fl27o")
 color_initial_ramp = SubResource("Gradient_6yqax")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-z_index = -1
-position = Vector2(-4, 7)
-scale = Vector2(2, 2)
-shape = SubResource("CircleShape2D_oeh6o")
-
-[node name="SlowAura" type="Area2D" parent="CharacterBody2D"]
-unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/SlowAura"]
 shape = SubResource("CircleShape2D_lfbec")

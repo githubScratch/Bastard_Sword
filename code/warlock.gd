@@ -83,7 +83,9 @@ func take_damage(amount):
 	knockback_timer = knockback_duration
 	start_shake_effect() # Trigger the shake effect
 	start_flash_effect()  # Call the flash effect coroutine
-
+	
+	increase_scale(Vector2(1.2, 1.2))
+	
 	if health <= 0:
 		die()
 	await get_tree().create_timer(damage_delay).timeout  # Wait for the specified delay
@@ -93,6 +95,9 @@ func die():
 	var sprite = $AnimatedSprite2D  # Replace with your visual node
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0, 3.0)
+	var particles = slow_aura.get_node("CPUParticles2D3")
+	tween.tween_property(particles, "modulate", Color(0, 0, 0, 0), 1.0)  # Fades to transparent
+	particles.emitting = false
 	is_dead = true
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
@@ -103,6 +108,33 @@ func die():
 	killed.emit()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
+
+
+func increase_scale(scale_factor: Vector2) -> void:
+	if slow_aura:
+		slow_aura.scale *= scale_factor
+	var particles = slow_aura.get_node("CPUParticles2D3")
+	if particles:
+		particles.scale *= scale_factor
+		particles.set("scale_amount_min", particles.get("scale_amount_min") * scale_factor.x)
+		particles.set("scale_amount_max", particles.get("scale_amount_max") * scale_factor.x)
+
+func teleport_and_fade(unit: Node2D, direction: Vector2, fade_duration: float = 1.0, teleport_distance: float = 150.0):
+	# Create a tween for fading out
+	var tween = create_tween()
+	# Step 1: Fade Out
+	tween.tween_property(unit, "modulate", Color(1, 1, 1, 0), fade_duration / 2)
+	# Wait for the fade-out tween to finish
+	await tween.finished
+	# Step 2: Move the unit 150 pixels in the given direction
+	unit.position += direction.normalized() * teleport_distance
+	# Step 3: Fade Back In
+	tween = create_tween()  # Create a new tween for fading back in
+	tween.tween_property(unit, "modulate", Color(1, 1, 1, 1), fade_duration / 2)
+	
+	# Wait for the fade-in tween to finish
+	await tween.finished
+
 
 func start_flash_effect():
 	# Start the flash effect
