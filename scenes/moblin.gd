@@ -14,8 +14,8 @@ signal killed #sends score updates, etc
 @export var move_speed = 40.0
 @export var rotation_speed = 2
 @export var run_away_multiplier = 1.5
-@export var bump_speed = 200.0
-@export var bump_push_time = 0.4
+@export var bump_speed = 250.0
+@export var bump_push_time = 0.5
 @export var pre_bump_timer = 0.25
 @export var wander_time_range = Vector2(2, 6)
 @export var pause_time_range = Vector2(0.5, 2)
@@ -257,4 +257,4 @@ func _on_grab_aura_body_exited(body: CharacterBody2D) -> void:
 
 func _on_exit_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):  # Ensure the object is the player
-		bump_speed = 200
+		bump_speed = 250

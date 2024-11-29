@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=45 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://code/camera_2d.gd" id="2_rwjdb"]
@@ -18,7 +18,6 @@
 [ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
 [ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
-[ext_resource type="PackedScene" uid="uid://cogicqxyg02wr" path="res://scenes/warlock.tscn" id="20_6kmys"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
@@ -320,7 +319,7 @@ wait_time = 45.0
 autostart = true
 
 [node name="Timer3" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 30.0
 autostart = true
 
 [node name="Timer4" type="Timer" parent="."]
@@ -1203,9 +1202,6 @@ material = SubResource("ShaderMaterial_nsyug")
 offset_right = 1158.0
 offset_bottom = 661.0
 color = Color(0, 0, 0, 0)
-
-[node name="Node2D" parent="." instance=ExtResource("20_6kmys")]
-position = Vector2(-111, 449)
 
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -16,9 +16,9 @@ var can_attack = true  # Flag to check if the kab can attack
 var is_dead = false  # State to track if the kab is dead
 var is_hurt = false
 var damage_delay = 0.2  # Delay before applying damage
-var knockback_force = 450.0  # Strength of the knockback effect
+var knockback_force = 250.0  # Strength of the knockback effect
 var bashback_force = 350.0
-var knockback_duration = 0.1  # Duration of the knockback effect
+var knockback_duration = 1.25  # Duration of the knockback effect
 var knockback_timer = 0.0  # Timer to track knockback duration
 var throw_cooldown = 3.0  # Cooldown duration between attacks
 var throw_timer = 0.0  # Timer to track the attack cooldown
@@ -82,9 +82,13 @@ func take_damage(amount):
 	velocity = (global_position.direction_to(get_node("/root/amorphous2/playerKnight").global_position) * -knockback_force)  # Apply knockback
 	knockback_timer = knockback_duration
 	start_shake_effect() # Trigger the shake effect
-	start_flash_effect()  # Call the flash effect coroutine
-	
+	#start_flash_effect()  # Call the flash effect coroutine
 	increase_scale(Vector2(1.2, 1.2))
+	
+	if health > 50:
+		animated_sprite.modulate = Color(.4, .46, .79, 0.1)
+		await get_tree().create_timer(1.25).timeout
+		animated_sprite.modulate = Color(.4, .46, .79, 0.6)
 	
 	if health <= 0:
 		die()
@@ -114,26 +118,10 @@ func increase_scale(scale_factor: Vector2) -> void:
 	if slow_aura:
 		slow_aura.scale *= scale_factor
 	var particles = slow_aura.get_node("CPUParticles2D3")
-	if particles:
+	if particles and health > 49:
 		particles.scale *= scale_factor
-		particles.set("scale_amount_min", particles.get("scale_amount_min") * scale_factor.x)
-		particles.set("scale_amount_max", particles.get("scale_amount_max") * scale_factor.x)
-
-func teleport_and_fade(unit: Node2D, direction: Vector2, fade_duration: float = 1.0, teleport_distance: float = 150.0):
-	# Create a tween for fading out
-	var tween = create_tween()
-	# Step 1: Fade Out
-	tween.tween_property(unit, "modulate", Color(1, 1, 1, 0), fade_duration / 2)
-	# Wait for the fade-out tween to finish
-	await tween.finished
-	# Step 2: Move the unit 150 pixels in the given direction
-	unit.position += direction.normalized() * teleport_distance
-	# Step 3: Fade Back In
-	tween = create_tween()  # Create a new tween for fading back in
-	tween.tween_property(unit, "modulate", Color(1, 1, 1, 1), fade_duration / 2)
-	
-	# Wait for the fade-in tween to finish
-	await tween.finished
+		particles.set("scale_amount_min", particles.get("scale_amount_min") * 1.25 * scale_factor.x)
+		particles.set("scale_amount_max", particles.get("scale_amount_max") * 1.25 * scale_factor.x)
 
 
 func start_flash_effect():
