@@ -15,13 +15,13 @@ signal killed #sends score updates, etc
 @export var rotation_speed = 2
 @export var run_away_multiplier = 1.5
 @export var bump_speed = 250.0
-@export var bump_push_time = 0.5
-@export var pre_bump_timer = 0.25
+@export var bump_push_time = 0.8
+@export var pre_bump_timer = 0.15
 @export var wander_time_range = Vector2(2, 6)
 @export var pause_time_range = Vector2(0.5, 2)
 @export var player_detect_range = 100.0
 @export var mob_detect_range = 300.0
-@export var bump_distance = 75.0
+@export var bump_distance = 125.0
 @export var knockback_force = 75.0
 @export var speed_multiplier = 0.25 # Reduce speed to 50%
 @export var transition_duration: float = 0.35  # Duration of the transition in seconds

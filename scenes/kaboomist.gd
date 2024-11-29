@@ -86,6 +86,9 @@ func die():
 	is_dead = true
 	collision_shape.disabled = true
 	animated_sprite.play("death")
+	var TNT_instance = preload("res://scenes/TNT.tscn").instantiate()  # Create TNT instance
+	TNT_instance.global_position = global_position  # Set the starting position of TNT
+	get_tree().current_scene.add_child(TNT_instance)  # Add TNT to the scene
 	killed.emit() #condense later to a new score value with a new emit recognition
 	killed.emit()
 	killed.emit()

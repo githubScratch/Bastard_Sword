@@ -13,6 +13,7 @@ class_name TNT  # This makes the class globally accessible
 @export var knockback_duration := 0.3      # Duration of knockback effect
 @onready var fuse = $fuse  # Reference to the AudioStreamPlayer node
 @onready var boom = $boom  # Reference to the AudioStreamPlayer node
+@onready var crosshairs: PointLight2D = %crosshairs
 
 # References to nodes
 @onready var animated_sprite = $AnimatedSprite2D
@@ -30,11 +31,11 @@ var is_bashed = false
 func _ready():
 	explosion_area.body_entered.connect(_on_ExplosionArea2D_body_entered)
 	animated_sprite.play("thrown")
-	zone_light.visible = false  # Ensure the light is off initially
+	zone_light.visible = true  # Ensure the light is off initially
 	explosion_area.monitoring = false  # Disable the explosion area until ready to explode
 	fuse.pitch_scale = randf_range(0.9, 1.1)
 	fuse.play()  # Play the sound effect
-
+	crosshairs.enabled = false
 	# Find the player in the scene (assuming the player is a Node2D)
 	player = get_tree().get_root().get_node("amorphous2/playerKnight") 
 	
@@ -69,14 +70,21 @@ func _process(delta):
 		
 		# Reverse scaling direction if limits are reached
 		if animated_sprite.scale.x >= 3.0:
-			pulse_direction = -1.0  # Scale back down
+			pulse_direction = -2.0  # Scale back down
 		elif animated_sprite.scale.x <= 2.0:
-			pulse_direction = 1.0  # Scale back up
+			pulse_direction = 2.0  # Scale back up
 		
 		# Stop moving if close to the target position
 		if global_position.distance_to(target_position) <= move_step.length() or is_bashed:
 			global_position = target_position
 			is_moving = false
+			crosshairs.enabled = true
+	else:
+		animated_sprite.scale += Vector2(pulse_speed * pulse_direction * delta, pulse_speed * pulse_direction * delta)
+		if animated_sprite.scale.x > 2.5:
+				pulse_direction = -2.0  # Scale back down
+		if animated_sprite.scale.x <= 2.5:
+				pulse_direction = 0  # Scale back down
 
 # Function to play explosion animation, activate light, and apply explosion effects
 func explode():

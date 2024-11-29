@@ -1,25 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://d4aux7wswfscy"]
+[gd_scene load_steps=5 format=3 uid="uid://d4aux7wswfscy"]
 
 [ext_resource type="Script" path="res://blood.gd" id="1_mor10"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="1_ymqoh"]
+
+[sub_resource type="Curve" id="Curve_ikk2r"]
+max_value = 100.0
+_data = [Vector2(0.0168539, 0), 0.0, 0.0, 0, 0, Vector2(0.320225, 97.8022), 61.1264, 61.1264, 0, 0, Vector2(0.938202, 100), 5.58873, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_tp3ff"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [node name="blood" type="CPUParticles2D"]
 modulate = Color(0.77, 0.77, 0.77, 0.792157)
 show_behind_parent = true
 z_index = -800
 z_as_relative = false
-lifetime = 0.4
+amount = 16
+lifetime = 10.0
 explosiveness = 1.0
 texture = ExtResource("1_ymqoh")
 emission_shape = 1
 emission_sphere_radius = 20.0
 spread = 40.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 150.0
+initial_velocity_min = 1.0
 initial_velocity_max = 290.0
+damping_min = 100.0
+damping_max = 100.0
+damping_curve = SubResource("Curve_ikk2r")
 scale_amount_min = 2.0
 scale_amount_max = 4.0
 color = Color(0.8, 0.112, 0.112, 0.756863)
+color_ramp = SubResource("Gradient_tp3ff")
 script = ExtResource("1_mor10")
 
 [node name="Timer" type="Timer" parent="."]

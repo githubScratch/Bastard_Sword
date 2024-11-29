@@ -217,7 +217,6 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_8n8q1")
 player_detect_range = 200.0
-bump_distance = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 position = Vector2(-19, -2)

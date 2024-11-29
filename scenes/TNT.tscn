@@ -212,6 +212,7 @@ visible = false
 shape = SubResource("CircleShape2D_s2oit")
 
 [node name="crosshairs" type="PointLight2D" parent="."]
+unique_name_in_owner = true
 z_index = -1585
 scale = Vector2(1, 1.002)
 color = Color(1, 0, 0, 0.380392)

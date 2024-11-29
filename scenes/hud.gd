@@ -1,18 +1,26 @@
 extends Control
 
-@onready var score_label = $Score	# Reference to the score Label node
+@onready var score_label = $Score
+var scale_factor = 1.0 # Tracks the cumulative scale factor
+var is_animating = false # Tracks if an animation is currently running
 
 func update_score(value: int) -> void:
 	# Update the score text
 	score_label.text = "Score: " + str(value)
-	
-	# Play the enlarging effect
-	_play_enlarge_effect()
+
+	# Increment the scale factor to stack the effect
+	scale_factor += 0.1
+
+	# If not animating, start the effect
+	if not is_animating:
+		_play_enlarge_effect()
 
 func _play_enlarge_effect():
-	# Save the original and enlarged scales
-	var original_scale = score_label.scale
-	var enlarged_scale = original_scale * 1.1	# Enlarge by 50%
+	is_animating = true
+
+	# Calculate the enlarged scale based on the scale factor
+	var original_scale = Vector2(1, 1)
+	var enlarged_scale = original_scale * scale_factor
 
 	# Create a tween
 	var tween = create_tween()
@@ -20,6 +28,12 @@ func _play_enlarge_effect():
 	# Animate to the enlarged scale
 	tween.tween_property(score_label, "scale", enlarged_scale, 0.1)
 
-
-	# Animate back to the original scale after enlarging
+	# Animate back to the original scale
 	tween.tween_property(score_label, "scale", original_scale, 0.2)
+
+	# Reset the scale factor and animation flag after the animation completes
+	tween.finished.connect(_on_tween_finished)
+
+func _on_tween_finished():
+	scale_factor = 1.0 # Reset the scale factor to default
+	is_animating = false
