@@ -356,8 +356,8 @@ radius = 16.0
 height = 34.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rvrpj"]
-radius = 51.0
-height = 114.0
+radius = 34.0
+height = 98.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dgx8f"]
 radius = 23.1948
@@ -494,7 +494,7 @@ collision_layer = 4
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" groups=["player"]]
-position = Vector2(20, -1)
+position = Vector2(47, 1)
 shape = SubResource("CapsuleShape2D_rvrpj")
 debug_color = Color(0.827704, 0.370539, 0.375999, 0.42)
 
@@ -517,7 +517,7 @@ monitoring = false
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BashBox"]
 position = Vector2(37, 1.5)
 scale = Vector2(4.7, 1.95)
-polygon = PackedVector2Array(15.9574, -30, -7.87234, -21.282, -8.08511, 22.8205, 15.7447, 27.9487, 19.5745, -1.79487)
+polygon = PackedVector2Array(15.9574, -30, -3.40426, -23.8462, -7.65957, -0.25641, -3.19149, 23.3333, 15.7447, 27.9487, 19.5745, -1.79487)
 
 [node name="ShieldBox" type="Area2D" parent="."]
 visible = false

@@ -7,11 +7,17 @@ extends Node2D
 @onready var hud = $UILayer/HUD
 
 @onready var fog: CPUParticles2D = %fog
-#@export var base_particle_amount: int = 20
-#@export var max_particle_amount: int = 100
-#@export var base_opacity: float = 0.2
-#@export var max_opacity: float = 1.0
-#var warlock_count: int = 0
+
+var elapsed_time = 0.0
+var event_thresholds = [30, 60, 120, 150, 180]  # Time thresholds for events (in seconds)
+var triggered_events = []  # Stores which thresholds have already been triggered
+var event_actions = {
+	30: [Callable(self, "spawn_moblin").bind(20)],
+	60: [Callable(self, "spawn_goblin").bind(10)],
+	120: [Callable(self, "spawn_kaboomist").bind(3), Callable(self, "spawn_moblin").bind(40)],
+	150: [Callable(self, "spawn_goblin").bind(20), Callable(self, "spawn_warlock").bind(4)],
+	180: [Callable(self, "enable_swarm_timer")]
+}
 
 var score := 0:
 	set(value):
@@ -25,82 +31,94 @@ func _ready() -> void:
 	fog.preprocess = 5.0  # Preloads particles for 1 second
 	fog.one_shot = false
 
-func spawn_goblin():
-	# Locate the PathFollow2D node under the player
+func _process(delta):
+	# Increment the elapsed time
+	elapsed_time += delta
+	
+	# Check thresholds
+	check_thresholds()
+
+func check_thresholds():
+	for threshold in event_thresholds:
+		if elapsed_time >= threshold and threshold not in triggered_events:
+			triggered_events.append(threshold)
+			trigger_event(threshold)
+
+func trigger_event(threshold):
+	print("Event triggered at:", threshold, "seconds")
+	if threshold in event_actions:
+		for action in event_actions[threshold]:
+			action.call()  # Execute each action in the list
+  # Execute the corresponding action
+
+func spawn_goblin(count: int):
+	# Ensure the PathFollow2D node under the player is located
 	var player = get_node(player_path)
 	var path_follow = player.get_node("Path2D/PathFollow2D") if player else null
-	# Ensure path_follow was successfully located
+	
 	if path_follow != null:
-		var goblin_instance = preload("res://scenes/goblin.tscn").instantiate()  # Ensure the path is correct
-		path_follow.progress_ratio = randf()  # Randomize position on the path
-		goblin_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
-		goblin_instance.killed.connect(_on_enemy_killed)
-		add_child(goblin_instance)  # Add the instantiated goblin to the scene
+		for i in range(count):
+			# Instantiate and spawn each goblin
+			var goblin_instance = preload("res://scenes/goblin.tscn").instantiate()
+			path_follow.progress_ratio = randf()  # Randomize position on the path
+			goblin_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
+			goblin_instance.killed.connect(_on_enemy_killed)  # Connect signals
+			add_child(goblin_instance)  # Add the instantiated goblin to the scene
 	else:
 		push_error("Failed to locate PathFollow2D under the player.")
 
-func spawn_kaboomist():
+func spawn_kaboomist(count: int):
 	# Locate the PathFollow2D node under the player
 	var player = get_node(player_path)
 	var path_follow = player.get_node("Path2D/PathFollow2D") if player else null
 	# Ensure path_follow was successfully located
 	if path_follow != null:
-		var kaboomist_instance = preload("res://scenes/kaboomist.tscn").instantiate()  # Ensure the path is correct
-		path_follow.progress_ratio = randf()  # Randomize position on the path
-		kaboomist_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
-		var character_body = kaboomist_instance.get_node("CharacterBody2D")
-		character_body.killed.connect(_on_enemy_killed)
-		add_child(kaboomist_instance)  # Add the instantiated goblin to the scene
+		for i in range(count):
+			var kaboomist_instance = preload("res://scenes/kaboomist.tscn").instantiate()  # Ensure the path is correct
+			path_follow.progress_ratio = randf()  # Randomize position on the path
+			kaboomist_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
+			var character_body = kaboomist_instance.get_node("CharacterBody2D")
+			character_body.killed.connect(_on_enemy_killed)
+			add_child(kaboomist_instance)  # Add the instantiated goblin to the scene
 	else:
 		push_error("Failed to locate PathFollow2D under the player.")
 
-func spawn_warlock():
+func spawn_warlock(count: int):
 	# Locate the PathFollow2D node under the player
 	var player = get_node(player_path)
 	var path_follow = player.get_node("Path2D/PathFollow2D") if player else null
 	# Ensure path_follow was successfully located
 	if path_follow != null:
-		var warlock_instance = preload("res://scenes/warlock.tscn").instantiate()  # Ensure the path is correct
-		path_follow.progress_ratio = randf()  # Randomize position on the path
-		warlock_instance.global_position = path_follow.global_position  # Set position on the instantiated 
-		var character_body = warlock_instance.get_node("CharacterBody2D")
-		character_body.killed.connect(_on_enemy_killed)
-		add_child(warlock_instance)  # Add the instantiated  to the scene
+		for i in range(count):
+			var warlock_instance = preload("res://scenes/warlock.tscn").instantiate()  # Ensure the path is correct
+			path_follow.progress_ratio = randf()  # Randomize position on the path
+			warlock_instance.global_position = path_follow.global_position  # Set position on the instantiated 
+			var character_body = warlock_instance.get_node("CharacterBody2D")
+			character_body.killed.connect(_on_enemy_killed)
+			add_child(warlock_instance)  # Add the instantiated  to the scene
 		
-		#warlock_count += 1
-		#update_particles()
-		
 	else:
 		push_error("Failed to locate PathFollow2D under the player.")
 
-#func update_particles():
-	# Calculate particle amount and opacity based on enemy count
-	#var normalized_count = float(warlock_count) / 10.0 # Adjust divisor for sensitivity
-	#var new_amount = clamp(int(base_particle_amount + (max_particle_amount - base_particle_amount) * normalized_count), base_particle_amount, max_particle_amount)
-	#var new_opacity = clamp(base_opacity + (max_opacity - base_opacity) * normalized_count, base_opacity, max_opacity)
-	# Apply changes
-	#fog.amount = new_amount
-	#fog.modulate = Color(.74, .72, .87, new_opacity)
-
-func spawn_moblin():
+func spawn_moblin(count: int):
 	# Locate the PathFollow2D node under the player
 	var player = get_node(player_path)
 	var path_follow = player.get_node("Path2D/PathFollow2D") if player else null
 	# Ensure path_follow was successfully located
 	if path_follow != null:
-		var moblin_instance = preload("res://scenes/moblin.tscn").instantiate()  # Ensure the path is correct
-		path_follow.progress_ratio = randf()  # Randomize position on the path
-		moblin_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
-		var character_body = moblin_instance.get_node("CharacterBody2D")
-		character_body.killed.connect(_on_enemy_killed)
-		add_child(moblin_instance)  # Add the instantiated goblin to the scene
+		for i in range(count):
+			var moblin_instance = preload("res://scenes/moblin.tscn").instantiate()  # Ensure the path is correct
+			path_follow.progress_ratio = randf()  # Randomize position on the path
+			moblin_instance.global_position = path_follow.global_position  # Set position on the instantiated goblin
+			var character_body = moblin_instance.get_node("CharacterBody2D")
+			character_body.killed.connect(_on_enemy_killed)
+			add_child(moblin_instance)  # Add the instantiated goblin to the scene
 	else:
 		push_error("Failed to locate PathFollow2D under the player.")
 
 func _on_timer_timeout() -> void:
 	if not %GameOverScreen.visible:
-		spawn_goblin()
-		spawn_goblin()
+		spawn_goblin(2)
 
 func _on_enemy_killed():
 	if not %GameOverScreen.visible:
@@ -116,7 +134,7 @@ func _on_player_knight_dead() -> void:
 
 func _on_timer_2_timeout() -> void:
 	if not %GameOverScreen.visible:
-		spawn_kaboomist()
+		spawn_kaboomist(1)
 
 func _on_restart_button_pressed() -> void:
 	# Hide the Game Over screen (optional, depending on your UI setup)
@@ -126,7 +144,6 @@ func _on_restart_button_pressed() -> void:
 	get_tree().reload_current_scene()
 
 func _on_begin_button_pressed() -> void:
-	print("Button pressed!")
 	get_tree().paused = false
 	$StartScreen.visible = false
 	begin_audio.pitch_scale = randf_range(0.9, 1.1)
@@ -146,9 +163,17 @@ func _on_quit_button_pressed() -> void:
 
 func _on_timer_3_timeout() -> void:
 	if not %GameOverScreen.visible:
-		spawn_warlock()
+		spawn_warlock(1)
 
 func _on_timer_4_timeout() -> void:
 	if not %GameOverScreen.visible:
-		spawn_moblin()
-		spawn_moblin()
+		spawn_moblin(2)
+
+func enable_swarm_timer():
+	var swarm_timer = $swarmtimer  # Ensure you reference the correct Timer node
+	swarm_timer.paused = false
+	swarm_timer.start()  # Start the Timer
+
+func _on_timer_5_timeout() -> void:
+	if not %GameOverScreen.visible:
+		spawn_goblin(4)

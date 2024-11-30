@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=45 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://code/camera_2d.gd" id="2_rwjdb"]
@@ -18,7 +18,6 @@
 [ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
 [ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
-[ext_resource type="PackedScene" uid="uid://u3e7xepharvd" path="res://scenes/kaboomist.tscn" id="20_4o431"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
@@ -311,6 +310,8 @@ color = Color(0.744285, 0.7221, 0.87, 0.184314)
 color_ramp = SubResource("Gradient_bw4xp")
 color_initial_ramp = SubResource("Gradient_ir0bt")
 
+[node name="Playtime" type="Timer" parent="."]
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
@@ -326,6 +327,9 @@ autostart = true
 [node name="Timer4" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
+
+[node name="swarmtimer" type="Timer" parent="."]
+wait_time = 4.0
 
 [node name="CRT" type="ColorRect" parent="."]
 y_sort_enabled = true
@@ -355,7 +359,7 @@ color = Color(0.23417, 0.283186, 0.225069, 1)
 
 [node name="Color Filter" type="CanvasModulate" parent="Ambience"]
 position = Vector2(-1, -13)
-color = Color(0.2556, 0.588827, 0.71, 0.686275)
+color = Color(0.36, 0.829333, 1, 0.839216)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="Ambience"]
 position = Vector2(-1, -13)
@@ -1115,30 +1119,30 @@ volume_db = -8.914
 visible = false
 script = ExtResource("15_nb5k2")
 
-[node name="Boundry" type="Node" parent="."]
+[node name="Boundries" type="Node" parent="."]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Boundry"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Boundries"]
 position = Vector2(-1, -13)
 collision_layer = 8
 collision_mask = 7
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+[node name="northshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
 position = Vector2(651, -1575)
 shape = SubResource("RectangleShape2D_0nke7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+[node name="southshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
 position = Vector2(614, 2024)
 shape = SubResource("RectangleShape2D_0nke7")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+[node name="eastshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
 position = Vector2(3052.5, 199)
 shape = SubResource("RectangleShape2D_it0qx")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundry/StaticBody2D"]
+[node name="westshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
 position = Vector2(-1738, 253)
 shape = SubResource("RectangleShape2D_it0qx")
 
-[node name="ColorRect" type="ColorRect" parent="Boundry/StaticBody2D"]
+[node name="ColorRect" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2589.0
 offset_top = 1260.0
@@ -1146,7 +1150,7 @@ offset_right = 4038.0
 offset_bottom = 2772.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect4" type="ColorRect" parent="Boundry/StaticBody2D"]
+[node name="ColorRect4" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = 2190.0
 offset_top = -1292.0
@@ -1154,7 +1158,7 @@ offset_right = 3878.0
 offset_bottom = 2092.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="Boundry/StaticBody2D"]
+[node name="ColorRect3" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2498.0
 offset_top = -1313.0
@@ -1162,7 +1166,7 @@ offset_right = -810.0
 offset_bottom = 2071.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Boundry/StaticBody2D"]
+[node name="ColorRect2" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2509.0
 offset_top = -2109.0
@@ -1170,24 +1174,24 @@ offset_right = 3974.0
 offset_bottom = -760.0
 color = Color(0, 0, 0, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="Boundry/StaticBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Boundries/StaticBody2D"]
 position = Vector2(1961, 228)
 scale = Vector2(7.15625, 41.75)
 texture = SubResource("GradientTexture2D_12b2o")
 
-[node name="Sprite2D2" type="Sprite2D" parent="Boundry/StaticBody2D"]
+[node name="Sprite2D2" type="Sprite2D" parent="Boundries/StaticBody2D"]
 position = Vector2(-627, 284)
 rotation = -3.14159
 scale = Vector2(7.15625, 41.75)
 texture = SubResource("GradientTexture2D_12b2o")
 
-[node name="Sprite2D4" type="Sprite2D" parent="Boundry/StaticBody2D"]
+[node name="Sprite2D4" type="Sprite2D" parent="Boundries/StaticBody2D"]
 position = Vector2(721, -584)
 rotation = -1.5708
 scale = Vector2(7.15625, 48.7579)
 texture = SubResource("GradientTexture2D_12b2o")
 
-[node name="Sprite2D3" type="Sprite2D" parent="Boundry/StaticBody2D"]
+[node name="Sprite2D3" type="Sprite2D" parent="Boundries/StaticBody2D"]
 position = Vector2(674, 1084)
 rotation = 1.5708
 scale = Vector2(7.15625, 48.7579)
@@ -1204,14 +1208,12 @@ offset_right = 1158.0
 offset_bottom = 661.0
 color = Color(0, 0, 0, 0)
 
-[node name="Node2D" parent="." instance=ExtResource("20_4o431")]
-position = Vector2(-155, 623)
-
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
 [connection signal="timeout" from="Timer3" to="." method="_on_timer_3_timeout"]
 [connection signal="timeout" from="Timer4" to="." method="_on_timer_4_timeout"]
+[connection signal="timeout" from="swarmtimer" to="." method="_on_timer_5_timeout"]
 [connection signal="pressed" from="StartScreen/ColorRect/ControlsButton" to="." method="_on_controls_button_pressed"]
 [connection signal="pressed" from="StartScreen/ColorRect/BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="StartScreen/ColorRect/QuitButton" to="." method="_on_quit_button_pressed"]
