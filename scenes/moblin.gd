@@ -4,8 +4,6 @@ class_name Moblin
 
 signal killed #sends score updates, etc
 
-###########always face player
-
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
 @onready var audio_hit = %OnHit  # Reference to the AudioStreamPlayer node

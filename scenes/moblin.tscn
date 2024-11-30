@@ -1,10 +1,14 @@
-[gd_scene load_steps=32 format=3 uid="uid://dewb36bcdpasb"]
+[gd_scene load_steps=34 format=3 uid="uid://dewb36bcdpasb"]
 
 [ext_resource type="Script" path="res://scenes/moblin.gd" id="1_8n8q1"]
 [ext_resource type="Texture2D" uid="uid://do3rqgyq0yjy3" path="res://Characters/Torch_Yellow (1).png" id="2_ne16v"]
 [ext_resource type="Texture2D" uid="uid://crdnpb5ao3ped" path="res://Characters/Dead.png" id="3_ktqlo"]
 [ext_resource type="Script" path="res://code/goblin layering.gd" id="4_rdw0p"]
 [ext_resource type="AudioStream" uid="uid://dks2ckewqsdj8" path="res://audio/sword-contact-with-swipe.wav" id="5_t5wep"]
+[ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="6_mpmke"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_m0oo3"]
+polygon = PackedVector2Array(3, 18, -9, 16, -8, 20, -7, 26, -11, 28, -14, 27, -16, 20, -12, 18, -11, 13, -16, 15, -22, 20, -26, 19, -40, 24, -38, 16, -40, 10, -47, 6, -51, -6, -45, -7, -37, -13, -41, -23, -27, -17, -24, -19, -20, -19, -16, -16, -9, -18, -11, -21, -10, -26, -4, -28, -2, -24, -3, -20, 0, -20, 2, -10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjgyt"]
 atlas = ExtResource("2_ne16v")
@@ -202,7 +206,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubgpi"]
-radius = 27.0185
+radius = 18.0278
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e3w27"]
 radius = 51.0392
@@ -218,16 +222,29 @@ collision_mask = 2
 script = ExtResource("1_8n8q1")
 player_detect_range = 200.0
 
+[node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D"]
+color = Color(0.549925, 0.801075, 0.525015, 1)
+energy = 0.5
+texture = ExtResource("6_mpmke")
+offset = Vector2(-20, 0)
+texture_scale = 0.25
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="CharacterBody2D"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+occluder = SubResource("OccluderPolygon2D_m0oo3")
+occluder_light_mask = 5
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 position = Vector2(-19, -2)
 rotation = -1.5708
+scale = Vector2(0.9, 0.9)
 sprite_frames = SubResource("SpriteFrames_n440p")
-animation = &"death"
-frame = 13
-frame_progress = 1.0
+animation = &"walk"
 script = ExtResource("4_rdw0p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-3, 1)
 shape = SubResource("CircleShape2D_ubgpi")
 
 [node name="GrabAura" type="Area2D" parent="CharacterBody2D"]
@@ -244,6 +261,7 @@ debug_color = Color(0.294261, 0.607344, 0.47102, 0.42)
 
 [node name="OnHit" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(-6, 1)
 stream = ExtResource("5_t5wep")
 volume_db = -13.0
 pitch_scale = 0.58

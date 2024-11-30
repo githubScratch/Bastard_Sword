@@ -13,7 +13,8 @@ signal killed #sends score updates, etc
 @onready var frenziedFlame = $frenziedFlame 
 @onready var hitWarning = $hitWarning 
 @onready var collision_shape = $CollisionShape2D
-@export var rotation_speed = 40.0  # Speed at which the goblin rotates
+@export var rotation_speed = 4.0  # Speed at which the goblin rotates
+@onready var raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]  # Replace with paths to the RayCast2D nodes
 
 var health = 100  # Initial health of the goblin
 var attack_damage = 50  # Damage dealt by the goblin
@@ -169,12 +170,18 @@ func _physics_process(delta):
 	match state:
 		"idle":
 			attack_area.set_deferred("monitoring", false)
-			if distance_to_player <= aggro_range and attack_timer <= 0:
-				state = "preparing"
-				prepare_timer = prepare_duration
-				animated_sprite.play("prepare")
-				velocity = Vector2.ZERO
-				last_known_player_position = player.global_position
+			# Iterate through each RayCast2D in the array
+			for raycast in raycasts:
+				if raycast.is_colliding():
+					var target = raycast.get_collider()
+					if target.is_in_group("player") and attack_timer <= 0:
+						state = "preparing"
+						prepare_timer = prepare_duration
+						animated_sprite.play("prepare")
+						velocity = Vector2.ZERO
+						last_known_player_position = target.global_position
+						break  # Exit the loop once a player is detected
+
 
 		"preparing":
 			hitWarning.enabled = true
@@ -204,6 +211,7 @@ func _physics_process(delta):
 
 			else:
 				velocity = Vector2.ZERO
+				attack_area.set_deferred("monitoring", false)
 				if animated_sprite.animation == "attack" and animated_sprite.is_playing():
 					return
 				else:

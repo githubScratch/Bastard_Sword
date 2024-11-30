@@ -477,4 +477,15 @@ scale_amount_curve = SubResource("Curve_wg2aa")
 color = Color(0.543821, 0.230057, 0.304132, 0.686275)
 color_initial_ramp = SubResource("Gradient_vbfay")
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(250, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="."]
+position = Vector2(-3, -18)
+target_position = Vector2(250, -20)
+
+[node name="RayCast2D3" type="RayCast2D" parent="."]
+position = Vector2(-3, 19)
+target_position = Vector2(250, 20)
+
 [connection signal="area_entered" from="AttackArea" to="." method="_on_attack_area_area_entered"]
