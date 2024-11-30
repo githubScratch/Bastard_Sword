@@ -24,7 +24,7 @@ var attack_recovery_time = 0.5  # Recovery time after attacking while defending
 var attack_move_recovery_time = 0.5  # Recovery time after any attack
 var attack_move_recovery_speed = 0.1  # 10% of normal speed during recovery
 
-var health = 500.0
+@export var health = 300.0
 var blood = load("res://scenes/blood.tscn")
 
 # Internal state flags and timers
@@ -43,6 +43,8 @@ var defend_timer = 0.0
 var defend_recovery = .5
 var dodge_direction = Vector2.ZERO  # Dodge direction
 var is_dead = false
+var is_hurt = false
+var damage_delay = 0.2
 
 #stamina
 var max_stamina = 100.0  # Maximum stamina value
@@ -73,12 +75,15 @@ signal dead
 @export var bashback_duration := 0.4      # Duration of knockback effect
 @export var bash_damage := 50   
 @onready var bash_box = $BashBox
+@onready var hurt_player: AudioStreamPlayer2D = %hurtplayer
 
 func _ready():
 	bash_box.monitoring = false  # Disable the explosion area until ready to explode
 	
 	
 func take_damage(amount):
+	if is_hurt:
+		return
 	if is_defending and current_stamina > 0: #add check to see if source of damage is to the front of the character
 		# Halve the damage and apply to stamina instead of health
 		var stamina_damage = amount / 2
@@ -93,11 +98,15 @@ func take_damage(amount):
 		start_shake_effect()# Trigger the shake effect
 		defended.pitch_scale = randf_range(0.8, 1.0)
 		defended.play()  # Play the sound effect#add defend sound effect
-	else:
+	elif health > 0:
+		is_hurt = true
+		await get_tree().create_timer(damage_delay).timeout
 		health -= amount
 		var blood_instantiate = blood.instantiate()
 		get_tree().current_scene.add_child(blood_instantiate)
 		blood_instantiate.global_position = global_position
+		hurt_player.pitch_scale = randf_range(0.7, 0.9)
+		hurt_player.play()
 		#print("Player Health: ", health)  # Print the player's health for debugging
 		health_bar.value = health  # Update health bar value
 		%ProgressBar.value = int(health)  # Update the health bar here
@@ -117,7 +126,9 @@ func take_damage(amount):
 		await get_tree().create_timer(0.1).timeout  # Duration of slow motion
 			# Restore the original time scale
 		Engine.time_scale = 1
-
+	await get_tree().create_timer(damage_delay).timeout
+	is_hurt = false
+	
 func start_flash_effect():
 	# Start the flash effect
 	animated_sprite.modulate = Color(1, 0, 0, 0.35)  # Red with 50% transparency
@@ -389,40 +400,13 @@ func _physics_process(delta):
 		is_attacking = false
 		is_bashing = false
 
-
-
-
-
 	# Check for collision with goblin and deal damage
 	if is_attacking:
 		# Get overlapping bodies from the attack area
 		var overlapping_bodies = attack_area.get_overlapping_bodies()
 		for body in overlapping_bodies:
-			#if body.is_in_group("goblins"):  # Make sure your goblin has the group "goblins"
-				#body.take_damage(5)  # Deal 25 damage (adjust as needed)
-				#is_attacking = false  # Reset attacking after hitting a goblin
-			#if body.is_in_group("kaboomist"):
-				#body.take_damage(5)  # Deal 25 damage (adjust as needed)
 			if body.has_method("take_damage"):
 				body.take_damage(50)  # Deal 25 damage (adjust as needed)
-	#if is_bashing:
-		#bash_box.monitoring = true  # Enable the explosion area for detecting overlaps
-		#var overlapping_bodies = bash_box.get_overlapping_bodies()
-		#for body in overlapping_bodies:
-				#if body.has_method("take_bash"):
-					#body.take_bash(bash_damage)
-	# Apply knockback force over the specified duration
-					#var knockback_vector = (body.global_position - global_position).normalized() * bashback_distance
-					#var target_position = body.global_position + knockback_vector
-	# Create the tween using the `create_tween()` method
-					#var tween = body.create_tween()
-					#tween.tween_property(body, "global_position", target_position, bashback_duration)
-					#await get_tree().create_timer(0.3).timeout
-					#bash_box.monitoring = false
-	#stamina: Update recovery timer
-	#if current_stamina <= 0 and recovery_timer == 0:
-		#recovery_timer = stamina_recovery_delay  # Start the recovery delay
-
 
 func _on_bash_box_body_entered(body: Node2D) -> void:
 	if body.has_method("take_bash"):

@@ -99,7 +99,7 @@ grow_vertical = 0
 rotation = -1.5708
 theme_override_styles/background = SubResource("StyleBoxFlat_h1ivw")
 theme_override_styles/fill = SubResource("StyleBoxFlat_gx0d6")
-value = 40.0
+value = 100.0
 show_percentage = false
 
 [node name="staminalabel" type="Label" parent="StaminaBar"]
@@ -143,8 +143,8 @@ rotation = -1.5708
 theme_override_constants/outline_size = 3
 theme_override_styles/background = SubResource("StyleBoxFlat_bj6n2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_e1la8")
-max_value = 500.0
-value = 500.0
+max_value = 150.0
+value = 150.0
 rounded = true
 show_percentage = false
 

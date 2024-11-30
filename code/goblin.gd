@@ -16,7 +16,7 @@ signal killed #sends score updates, etc
 @export var rotation_speed = 40.0  # Speed at which the goblin rotates
 
 var health = 100  # Initial health of the goblin
-var attack_damage = 20  # Damage dealt by the goblin
+var attack_damage = 50  # Damage dealt by the goblin
 var can_attack = true  # Flag to check if the goblin can attack
 var is_dead = false  # State to track if the goblin is dead
 var is_hurt = false
@@ -241,6 +241,6 @@ func _physics_process(delta):
 		for body in overlapping_bodies:
 			if body.is_in_group("player"):
 				body.take_damage(5)
-				hurt_player.pitch_scale = randf_range(0.7, 0.9)
-				hurt_player.play()
+				#hurt_player.pitch_scale = randf_range(0.7, 0.9)
+				#hurt_player.play()
 				

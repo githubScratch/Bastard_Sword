@@ -131,6 +131,9 @@ func _on_player_knight_dead() -> void:
 	player_knight.set_process(false)
 	player_knight.set_physics_process(false)
 	player_knight.animated_sprite.modulate = Color(1, 0, 0, 0.75)  # Set to red
+	var game_over_control = $GameOverScreen/Control  # Adjust this path
+	if game_over_control:
+		game_over_control.fade_in()
 
 func _on_timer_2_timeout() -> void:
 	if not %GameOverScreen.visible:

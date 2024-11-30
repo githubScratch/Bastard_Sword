@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://d3i6la4uyy1rv"]
+[gd_scene load_steps=61 format=3 uid="uid://d3i6la4uyy1rv"]
 
 [ext_resource type="Script" path="res://code/playerKnight.gd" id="1_c8ivu"]
 [ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="2_dg2hp"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dgykkukj76nbg" path="res://audio/shield-bash-impact.wav" id="7_5tjhr"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="8_kw3kp"]
 [ext_resource type="AudioStream" uid="uid://dn1b5l1jrjrru" path="res://audio/371922__mrthenoronha__single-iron-hit-hard.wav" id="9_8x3ph"]
+[ext_resource type="AudioStream" uid="uid://ck6b384s4lrpr" path="res://audio/77611__joelaudio__sfx_attack_sword_001.wav" id="11_qf0tg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjxu7"]
 resource_local_to_scene = true
@@ -429,6 +430,7 @@ turbulence_noise_strength = 5.0
 z_index = 1
 collision_mask = 10
 script = ExtResource("1_c8ivu")
+health = 150.0
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 light_mask = 7
@@ -463,8 +465,8 @@ rotation = -1.5708
 theme_override_constants/outline_size = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_8yr7f")
 theme_override_styles/fill = SubResource("StyleBoxFlat_wxcfa")
-max_value = 500.0
-value = 500.0
+max_value = 300.0
+value = 300.0
 rounded = true
 show_percentage = false
 
@@ -560,5 +562,12 @@ lifetime = 0.7
 one_shot = true
 speed_scale = 4.0
 explosiveness = 0.6
+
+[node name="hurtplayer" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-5, -1)
+stream = ExtResource("11_qf0tg")
+volume_db = -6.933
+pitch_scale = 0.82
 
 [connection signal="body_entered" from="BashBox" to="." method="_on_bash_box_body_entered"]
