@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4aux7wswfscy"]
+[gd_scene load_steps=6 format=3 uid="uid://d4aux7wswfscy"]
 
 [ext_resource type="Script" path="res://blood.gd" id="1_mor10"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="1_ymqoh"]
@@ -8,7 +8,13 @@ max_value = 100.0
 _data = [Vector2(0.0168539, 0), 0.0, 0.0, 0, 0, Vector2(0.320225, 97.8022), 61.1264, 61.1264, 0, 0, Vector2(0.938202, 100), 5.58873, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Curve" id="Curve_bbplw"]
+max_value = 1.5
+_data = [Vector2(0, 1.5), 0.0, 0.0, 0, 0, Vector2(0.0505618, 1.03846), -0.768446, -0.768446, 0, 0, Vector2(0.91573, 0.543956), -1.10027, -1.10027, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
 [sub_resource type="Gradient" id="Gradient_tp3ff"]
+offsets = PackedFloat32Array(0.72, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [node name="blood" type="CPUParticles2D"]
@@ -16,22 +22,25 @@ modulate = Color(0.77, 0.77, 0.77, 0.792157)
 show_behind_parent = true
 z_index = -800
 z_as_relative = false
-amount = 16
+amount = 32
 lifetime = 10.0
 explosiveness = 1.0
 texture = ExtResource("1_ymqoh")
 emission_shape = 1
-emission_sphere_radius = 20.0
-spread = 40.0
+emission_sphere_radius = 50.0
+spread = 120.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 1.0
-initial_velocity_max = 290.0
-damping_min = 100.0
-damping_max = 100.0
+initial_velocity_min = 50.0
+initial_velocity_max = 900.0
+linear_accel_min = -4500.0
+linear_accel_max = -4500.0
+damping_min = 6000.0
+damping_max = 6000.0
 damping_curve = SubResource("Curve_ikk2r")
-scale_amount_min = 2.0
-scale_amount_max = 4.0
-color = Color(0.8, 0.112, 0.112, 0.756863)
+scale_amount_min = 3.0
+scale_amount_max = 7.0
+scale_amount_curve = SubResource("Curve_bbplw")
+color = Color(0.64, 0.0896, 0.0896, 0.756863)
 color_ramp = SubResource("Gradient_tp3ff")
 script = ExtResource("1_mor10")
 

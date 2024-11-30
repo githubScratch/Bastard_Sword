@@ -53,7 +53,7 @@ func _ready():
 	attack_area.area_entered.connect(_on_AttackArea_area_entered)
 
 func _on_AttackArea_area_entered(area):
-	if area.is_in_group("player") and (current_time - last_damage_time) > 1000:  # 1-second cooldown
+	if area.is_in_group("player") and (current_time - last_damage_time) > 1000 and health > 0:  # 1-second cooldown
 		last_damage_time = current_time
 		var player = area.get_parent()
 		player.take_damage(attack_damage)
@@ -102,6 +102,7 @@ func take_damage(amount):
 	
 func die():
 	is_dead = true
+	attack_area.set_physics_process(false)
 	hitWarning.enabled = false
 	frenziedFlame.enabled = false
 	collision_shape.disabled = true
@@ -239,7 +240,7 @@ func _physics_process(delta):
 	if lunge_timer > 0 and attack_area.monitoring:
 		var overlapping_bodies = attack_area.get_overlapping_bodies()
 		for body in overlapping_bodies:
-			if body.is_in_group("player"):
+			if body.is_in_group("player") and health > 0:
 				body.take_damage(5)
 				#hurt_player.pitch_scale = randf_range(0.7, 0.9)
 				#hurt_player.play()

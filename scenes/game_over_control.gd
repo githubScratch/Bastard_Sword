@@ -1,6 +1,6 @@
 extends Control
 
-@export var fade_duration: float = 3.0  # Duration of fade in seconds
+@export var fade_duration: float = 5.0  # Duration of fade in seconds
 var fade_timer: float = 0.0  # Tracks elapsed time
 var has_faded_in: bool = false  # Tracks if fade-in has occurred
 

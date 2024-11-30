@@ -358,7 +358,7 @@ height = 34.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rvrpj"]
 radius = 34.0
-height = 98.0
+height = 138.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dgx8f"]
 radius = 23.1948
@@ -450,8 +450,8 @@ material = SubResource("ShaderMaterial_jjxu7")
 position = Vector2(-15.9996, -0.999649)
 rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_ah1ld")
-animation = &"swing"
-frame = 5
+animation = &"sprint_attack"
+frame = 6
 frame_progress = 1.0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
@@ -496,7 +496,7 @@ collision_layer = 4
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" groups=["player"]]
-position = Vector2(47, 1)
+position = Vector2(35, -16)
 shape = SubResource("CapsuleShape2D_rvrpj")
 debug_color = Color(0.827704, 0.370539, 0.375999, 0.42)
 
