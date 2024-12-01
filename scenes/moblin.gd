@@ -46,6 +46,7 @@ var knockback_timer = 0.0
 var blood = load("res://scenes/blood.tscn")
 
 
+
 func take_bash(_amount):
 	var screen_shake = get_node("/root/amorphous2/ScreenShake")
 	screen_shake.shake(0.5, 4.0)  # Screenshake for 0.5 seconds with a magnitude of 10
@@ -126,6 +127,26 @@ func _ready():
 	player = get_node("/root/amorphous2/playerKnight")
 	_randomize_timers()
 	state = "wander"
+	var game_timer = get_node("/root/amorphous2/globalTimer")  # Adjust the path
+	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
+
+func _adjust_stats_based_on_time(elapsed_time: float):
+	if elapsed_time > 10.0: 
+		self.move_speed += 40
+		self.animated_sprite
+		animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0) 
+	if elapsed_time > 20.0: 
+		self.move_speed += 40
+		self.bump_distance += 200
+		self.bump_push_time += 0.8
+		self.bump_speed += 50
+		animated_sprite.modulate = Color(0.8, 0.4, 0.2, 1.0)
+	if elapsed_time > 30.0: 
+		self.move_speed -= 40
+		self.bump_distance -= 100
+		self.bump_push_time -= 0.8
+		self.bump_speed -= 50
+		animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0)  # Adds red tint
 
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()

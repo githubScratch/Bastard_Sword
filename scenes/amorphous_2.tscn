@@ -1,12 +1,13 @@
-[gd_scene load_steps=46 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=47 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
+[ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
 [ext_resource type="Script" path="res://code/camera_2d.gd" id="2_rwjdb"]
 [ext_resource type="PackedScene" uid="uid://d3i6la4uyy1rv" path="res://scenes/playerKnight.tscn" id="3_s8k3s"]
 [ext_resource type="PackedScene" uid="uid://du4urybcs2ggd" path="res://scenes/static_body_2d_tree.tscn" id="4_b2gvr"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="5_6rxkt"]
 [ext_resource type="PackedScene" uid="uid://t1n4myqmsbu4" path="res://scenes/grass.tscn" id="5_f5omf"]
-[ext_resource type="Material" path="res://CRTMaterial.tres" id="5_t53eh"]
+[ext_resource type="Material" uid="uid://brbhehj8i5x3y" path="res://CRTMaterial.tres" id="5_t53eh"]
 [ext_resource type="Texture2D" uid="uid://bo80bfxcndbd0" path="res://particles/sprite_0029.png" id="6_0bv8k"]
 [ext_resource type="Texture2D" uid="uid://d1xrqy0kihmhy" path="res://particles/88.png" id="6_hb7rr"]
 [ext_resource type="AudioStream" uid="uid://dagiveqnjlb4f" path="res://audio/good knight.mp3" id="6_o7eq7"]
@@ -163,6 +164,10 @@ y_sort_enabled = true
 position = Vector2(-1, -13)
 script = ExtResource("1_hepxq")
 
+[node name="globalTimer" type="Timer" parent="."]
+autostart = true
+script = ExtResource("2_ax5jh")
+
 [node name="Camera2D2" type="Camera2D" parent="."]
 position = Vector2(560, 322)
 position_smoothing_enabled = true
@@ -310,8 +315,6 @@ scale_amount_max = 3.5
 color = Color(0.744285, 0.7221, 0.87, 0.184314)
 color_ramp = SubResource("Gradient_bw4xp")
 color_initial_ramp = SubResource("Gradient_ir0bt")
-
-[node name="Playtime" type="Timer" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
@@ -1220,6 +1223,7 @@ offset_right = 1158.0
 offset_bottom = 661.0
 color = Color(0, 0, 0, 0)
 
+[connection signal="timeout" from="globalTimer" to="globalTimer" method="_on_timeout"]
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

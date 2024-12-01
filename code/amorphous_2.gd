@@ -14,8 +14,8 @@ var triggered_events = []  # Stores which thresholds have already been triggered
 var event_actions = {
 	30: [Callable(self, "spawn_moblin").bind(20)],
 	60: [Callable(self, "spawn_goblin").bind(10)],
-	120: [Callable(self, "spawn_kaboomist").bind(3), Callable(self, "spawn_moblin").bind(40)],
-	150: [Callable(self, "spawn_goblin").bind(20), Callable(self, "spawn_warlock").bind(4)],
+	120: [Callable(self, "spawn_kaboomist").bind(2), Callable(self, "spawn_moblin").bind(20)],
+	150: [Callable(self, "spawn_goblin").bind(10), Callable(self, "spawn_warlock").bind(1)],
 	180: [Callable(self, "enable_swarm_timer")]
 }
 
