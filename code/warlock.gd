@@ -180,29 +180,44 @@ func _physics_process(delta):
 			var target_rotation = direction.angle()
 			rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
 
-
+func transition_audio_pitch_scale(bus_name: String, target_pitch: float, duration: float):
+	# Get the index of the custom bus
+	var bus_index = AudioServer.get_bus_index(bus_name)
+	
+	# Get the AudioEffectPitchShift instance
+	var effect = AudioServer.get_bus_effect(bus_index, 0)  # Assuming the PitchShift effect is the first
+	if effect and effect is AudioEffectPitchShift:
+		# Get the current pitch scale
+		var current_pitch = effect.pitch_scale
+		
+		# Create a Tween
+		var tween = create_tween()
+		
+		# Tween the pitch scale over the specified duration
+		tween.tween_property(effect, "pitch_scale", target_pitch, duration)
+	
 func _on_slow_aura_body_entered(body: CharacterBody2D) -> void:
 	if body.is_in_group("player"):  # Ensure the object is the player
 		# Create tween
 		var tween := create_tween()
-		
 		# Adjust movement speed gradually
 		tween.tween_property(body, "move_speed", body.move_speed * speed_multiplier, transition_duration)
-		
 		# Adjust audio pitch gradually
-		var audio_player: AudioStreamPlayer2D = body.get_node("AudioStreamPlayer2D2")  # Adjust path if needed
-		if audio_player:
-			tween.tween_property(audio_player, "pitch_scale", audio_player.pitch_scale * audio_pitch_multiplier, transition_duration)
-
+		#var audio_player: AudioStreamPlayer2D = body.get_node("song1")  # Adjust path if needed
+		#if audio_player:
+			#tween.tween_property(audio_player, "pitch_scale", audio_player.pitch_scale * audio_pitch_multiplier, transition_duration)
+		#await get_tree().create_timer(0.2).timeout
+		transition_audio_pitch_scale("GameAudio", 0.8, 0.4)  # Transition to 80% pitch over 2 seconds
+		
 func _on_slow_aura_body_exited(body: CharacterBody2D) -> void:
 	if body.is_in_group("player"):  # Ensure the object is the player
 		# Create tween
 		var tween := create_tween()
-		
 		# Restore movement speed gradually
 		tween.tween_property(body, "move_speed", normal_move_speed, transition_duration)
-		
 		# Restore audio pitch gradually
-		var audio_player: AudioStreamPlayer2D = body.get_node("AudioStreamPlayer2D2")  # Adjust path if needed
-		if audio_player:
-			tween.tween_property(audio_player, "pitch_scale", 0.9, transition_duration)
+		#var audio_player: AudioStreamPlayer2D = body.get_node("song1")  # Adjust path if needed
+		#if audio_player:
+			#tween.tween_property(audio_player, "pitch_scale", 1.0, transition_duration)
+		#await get_tree().create_timer(0.5).timeout
+		transition_audio_pitch_scale("GameAudio", 1.0, 0.5)  # Reset pitch to normal over 2 seconds

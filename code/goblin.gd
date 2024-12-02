@@ -15,6 +15,7 @@ signal killed #sends score updates, etc
 @onready var collision_shape = $CollisionShape2D
 @export var rotation_speed = 4.0  # Speed at which the goblin rotates
 @onready var raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]  # Replace with paths to the RayCast2D nodes
+@onready var torch_flame: PointLight2D = $torchFlame
 
 var health = 100  # Initial health of the goblin
 var attack_damage = 50  # Damage dealt by the goblin
@@ -52,6 +53,13 @@ func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight")  # Adjust the path as needed
 	attack_area.set_deferred("monitoring", false)  # ADDED
 	attack_area.area_entered.connect(_on_AttackArea_area_entered)
+	var game_timer = get_node("/root/amorphous2/globalTimer")  # Adjust the path
+	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
+
+func _adjust_stats_based_on_time(elapsed_time: float):
+	if elapsed_time > 200.0: 
+		self.move_speed += 100
+		torch_flame.energy += 2
 
 func _on_AttackArea_area_entered(area):
 	if area.is_in_group("player") and (current_time - last_damage_time) > 1000 and health > 0:  # 1-second cooldown
@@ -228,7 +236,7 @@ func _physics_process(delta):
 		if target_offset == Vector2.ZERO or global_position.distance_to(player.global_position + target_offset) < 10:
 		# Generate a random offset within a 300-unit radius of the player
 			var random_angle = randf() * TAU # Random angle in radians
-			var random_distance = randf_range(0, 250) # Random distance within 150 units
+			var random_distance = randf_range(0, 150) # Random distance within 150 units
 			target_offset = Vector2(cos(random_angle), sin(random_angle)) * random_distance
 	
 	# Recalculate the target position based on the player's current position and the stored offset

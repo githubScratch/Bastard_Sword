@@ -25,6 +25,7 @@ signal killed #sends score updates, etc
 @export var transition_duration: float = 0.35  # Duration of the transition in seconds
 @export var normal_move_speed: float = 225  # Player's original speed
 @export var bump_cooldown_time = 1.0  # Cooldown time for bump
+@onready var point_light_2d: PointLight2D = $PointLight2D
 
 var bump_cooldown_timer = 0.0  # Tracks the cooldown timer
 var health = 50
@@ -72,7 +73,7 @@ func take_damage(amount):
 	get_tree().current_scene.add_child(blood_instantiate)
 	blood_instantiate.global_position = global_position
 	blood_instantiate.rotation = global_position.angle_to_point(player.global_position) - 180
-	audio_hit.pitch_scale = randf_range(0.4, 0.6)
+	audio_hit.pitch_scale = randf_range(0.6, 0.8)
 	audio_hit.play()  # Play the sound effect
 	animated_sprite.play("walk")  # Play the hurt animation
 	velocity = (global_position.direction_to(get_node("/root/amorphous2/playerKnight").global_position) * -knockback_force)  # Apply knockback
@@ -131,22 +132,23 @@ func _ready():
 	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
 
 func _adjust_stats_based_on_time(elapsed_time: float):
-	if elapsed_time > 10.0: 
+	if elapsed_time > 60.0: 
 		self.move_speed += 40
-		self.animated_sprite
-		animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0) 
-	if elapsed_time > 20.0: 
+		#animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0) 
+		#point_light_2d.energy += 0.5
+	if elapsed_time > 90.0: 
 		self.move_speed += 40
-		self.bump_distance += 200
+		self.bump_distance += 100
 		self.bump_push_time += 0.8
-		self.bump_speed += 50
-		animated_sprite.modulate = Color(0.8, 0.4, 0.2, 1.0)
-	if elapsed_time > 30.0: 
-		self.move_speed -= 40
-		self.bump_distance -= 100
-		self.bump_push_time -= 0.8
-		self.bump_speed -= 50
-		animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0)  # Adds red tint
+		self.bump_speed += 100
+		point_light_2d.energy += 1
+	#if elapsed_time > 30.0: 
+		#self.move_speed -= 40
+		#self.bump_distance -= 100
+		#self.bump_push_time -= 0.8
+		#self.bump_speed -= 50
+		#animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0)  # Adds red tint
+		#PointLight2D.energy -= 1
 
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()
@@ -206,7 +208,6 @@ func _handle_wander(delta):
 		move_and_slide()
 		#var target_rotation = velocity.angle()
 		#rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
-
 
 func _handle_pause(delta):
 	pause_timer -= delta

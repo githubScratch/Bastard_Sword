@@ -392,7 +392,7 @@ func _physics_process(delta):
 			animated_sprite.play("idle")
 
 	# Reset the attack state when the animation finishes
-	if is_attacking and animated_sprite.animation == "swing" and animated_sprite.frame == 4:
+	if is_attacking and animated_sprite.animation == "swing" and animated_sprite.frame == 5:
 		is_attacking = false
 	elif is_attacking and animated_sprite.animation == "sprint_attack" and animated_sprite.frame == 5:
 		is_attacking = false

@@ -69,9 +69,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -307.0
-offset_top = -113.0
+offset_top = -175.0
 offset_right = -24.0
-offset_bottom = -19.0
+offset_bottom = -115.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
@@ -83,6 +83,31 @@ theme_override_constants/shadow_outline_size = 5
 theme_override_fonts/font = ExtResource("2_o2cg4")
 theme_override_font_sizes/font_size = 60
 text = "Score : 0
+"
+
+[node name="HighScore" type="Label" parent="."]
+unique_name_in_owner = true
+top_level = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -301.0
+offset_top = -102.0
+offset_right = -65.0
+offset_bottom = -41.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.733, 0.841, 0.983, 0.406)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("2_o2cg4")
+theme_override_font_sizes/font_size = 35
+text = "High Score : 0
 "
 
 [node name="StaminaBar" type="ProgressBar" parent="."]

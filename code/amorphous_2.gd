@@ -7,12 +7,17 @@ extends Node2D
 @onready var hud = $UILayer/HUD
 
 @onready var fog: CPUParticles2D = %fog
+@onready var rain: GPUParticles2D = $playerKnight/rain
+@onready var spalsh: GPUParticles2D = $playerKnight/rain/spalsh
+
+var high_score: int = 0
+const HIGH_SCORE_FILE = "user://high_score.save"
 
 var elapsed_time = 0.0
 var event_thresholds = [30, 60, 120, 150, 180]  # Time thresholds for events (in seconds)
 var triggered_events = []  # Stores which thresholds have already been triggered
 var event_actions = {
-	30: [Callable(self, "spawn_moblin").bind(20)],
+	30: [Callable(self, "spawn_moblin").bind(20), Callable(self, "blood_rain")],
 	60: [Callable(self, "spawn_goblin").bind(10)],
 	120: [Callable(self, "spawn_kaboomist").bind(2), Callable(self, "spawn_moblin").bind(20)],
 	150: [Callable(self, "spawn_goblin").bind(10), Callable(self, "spawn_warlock").bind(1)],
@@ -22,7 +27,8 @@ var event_actions = {
 var score := 0:
 	set(value):
 		score = value
-		hud.update_score(score)  # Call the method on the HUD node
+		hud.update_score(score, high_score)  # Pass both the score and high score
+  # Call the method on the HUD node
 
 func _ready() -> void:
 	score = 0
@@ -30,6 +36,8 @@ func _ready() -> void:
 	player_path = NodePath("playerKnight")
 	fog.preprocess = 5.0  # Preloads particles for 1 second
 	fog.one_shot = false
+	load_high_score()
+	hud.update_score(score, high_score)
 
 func _process(delta):
 	# Increment the elapsed time
@@ -50,6 +58,9 @@ func trigger_event(threshold):
 		for action in event_actions[threshold]:
 			action.call()  # Execute each action in the list
   # Execute the corresponding action
+
+func blood_rain():
+	print("blood rain")
 
 func spawn_goblin(count: int):
 	# Ensure the PathFollow2D node under the player is located
@@ -127,10 +138,12 @@ func _on_enemy_killed():
 @onready var player_knight: Player = $playerKnight
 
 func _on_player_knight_dead() -> void:
+	var is_new_high_score = check_and_update_high_score(score)
+	hud.update_high_score(high_score)  # Ensure the HUD always shows the current high score
 	%GameOverScreen.visible = true
+	player_knight.animated_sprite.modulate = Color(1, 0, 0, 0.75)  # Set to red
 	player_knight.set_process(false)
 	player_knight.set_physics_process(false)
-	player_knight.animated_sprite.modulate = Color(1, 0, 0, 0.75)  # Set to red
 	var game_over_control = $GameOverScreen/Control  # Adjust this path
 	if game_over_control:
 		game_over_control.fade_in()
@@ -151,7 +164,8 @@ func _on_begin_button_pressed() -> void:
 	$StartScreen.visible = false
 	begin_audio.pitch_scale = randf_range(0.9, 1.1)
 	begin_audio.play()  # Play the sound effect
-
+	#reset_high_score()
+	
 func _on_back_button_pressed() -> void:
 	$StartScreen.visible = true
 	$ControlsScreen.visible = false
@@ -180,3 +194,36 @@ func enable_swarm_timer():
 func _on_timer_5_timeout() -> void:
 	if not %GameOverScreen.visible:
 		spawn_goblin(4)
+		
+func load_high_score():
+	# Try to load the high score from the file
+	var file = FileAccess.open(HIGH_SCORE_FILE, FileAccess.READ)
+	if file:
+		high_score = file.get_line().to_int()
+		file.close()
+	else:
+		high_score = 0
+	print("Loaded high score:", high_score)
+
+func save_high_score():
+	# Save the high score to the file
+	var file = FileAccess.open(HIGH_SCORE_FILE, FileAccess.WRITE)
+	file.store_line(str(high_score))
+	file.close()
+	print("Saved high score:", high_score)
+
+
+func check_and_update_high_score(player_score: int):
+	# Check if the player's score is higher than the saved high score
+	if player_score > high_score:
+		high_score = player_score
+		save_high_score()
+		hud.update_high_score(high_score)  # Update the HUD
+		return true # Indicates a new high score
+	return false
+
+func reset_high_score():
+	high_score = 0  # Reset the high score in memory
+	save_high_score()  # Save the reset value to the file
+	hud.update_score(score, high_score)  # Update the HUD to reflect the change
+	print("High score reset to:", high_score)  # For debugging

@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=52 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -7,20 +7,31 @@
 [ext_resource type="PackedScene" uid="uid://du4urybcs2ggd" path="res://scenes/static_body_2d_tree.tscn" id="4_b2gvr"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="5_6rxkt"]
 [ext_resource type="PackedScene" uid="uid://t1n4myqmsbu4" path="res://scenes/grass.tscn" id="5_f5omf"]
+[ext_resource type="AudioStream" uid="uid://dkm87s0s7ny6n" path="res://audio/Goblin Bastards.mp3" id="5_gjrkm"]
 [ext_resource type="Material" uid="uid://brbhehj8i5x3y" path="res://CRTMaterial.tres" id="5_t53eh"]
 [ext_resource type="Texture2D" uid="uid://bo80bfxcndbd0" path="res://particles/sprite_0029.png" id="6_0bv8k"]
+[ext_resource type="Script" path="res://scenes/song_1.gd" id="6_5fkhe"]
 [ext_resource type="Texture2D" uid="uid://d1xrqy0kihmhy" path="res://particles/88.png" id="6_hb7rr"]
 [ext_resource type="AudioStream" uid="uid://dagiveqnjlb4f" path="res://audio/good knight.mp3" id="6_o7eq7"]
 [ext_resource type="Script" path="res://code/ScreenShake.gd" id="7_stxj5"]
+[ext_resource type="AudioStream" uid="uid://ugldd6411g7d" path="res://audio/goblin blood.mp3" id="7_vbpd5"]
 [ext_resource type="Texture2D" uid="uid://ckj5s7kcifkip" path="res://particles/smoke_04.png" id="8_6h204"]
 [ext_resource type="Shader" path="res://fog.gdshader" id="8_n3jq2"]
 [ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
 [ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
+[ext_resource type="PackedScene" uid="uid://cogicqxyg02wr" path="res://scenes/warlock.tscn" id="11_2yeby"]
 [ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
 [ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
 [ext_resource type="Script" path="res://scenes/game_over_control.gd" id="16_ulk6w"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
+fade_time = 1.0
+stream_count = 3
+stream_0 = ExtResource("5_gjrkm")
+stream_1 = ExtResource("7_vbpd5")
+stream_2 = ExtResource("6_o7eq7")
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
 _data = {
@@ -164,6 +175,9 @@ y_sort_enabled = true
 position = Vector2(-1, -13)
 script = ExtResource("1_hepxq")
 
+[node name="Node2D" parent="." instance=ExtResource("11_2yeby")]
+position = Vector2(-255, 228)
+
 [node name="globalTimer" type="Timer" parent="."]
 autostart = true
 script = ExtResource("2_ax5jh")
@@ -178,13 +192,14 @@ script = ExtResource("2_rwjdb")
 [node name="playerKnight" parent="." instance=ExtResource("3_s8k3s")]
 position = Vector2(574, 338)
 
-[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="playerKnight"]
+[node name="song1" type="AudioStreamPlayer2D" parent="playerKnight"]
 process_mode = 3
 position = Vector2(-367, -428)
-stream = ExtResource("6_o7eq7")
+stream = SubResource("AudioStreamPlaylist_gymkk")
 volume_db = -5.0
-pitch_scale = 0.9
 autoplay = true
+bus = &"GameAudio"
+script = ExtResource("6_5fkhe")
 
 [node name="Path2D" type="Path2D" parent="playerKnight"]
 curve = SubResource("Curve2D_h2b6t")
@@ -194,6 +209,7 @@ position = Vector2(-1234, -935)
 rotation = 0.00224131
 
 [node name="rain" type="GPUParticles2D" parent="playerKnight"]
+unique_name_in_owner = true
 process_mode = 3
 position = Vector2(-17, 7)
 amount = 900
@@ -204,6 +220,7 @@ trail_enabled = true
 trail_lifetime = 0.25
 
 [node name="spalsh" type="GPUParticles2D" parent="playerKnight/rain"]
+unique_name_in_owner = true
 process_mode = 3
 z_index = -3
 amount = 80

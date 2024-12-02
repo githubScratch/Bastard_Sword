@@ -1,19 +1,26 @@
 extends Control
 
 @onready var score_label = $Score
+@onready var high_score_label = $HighScore
+
 var scale_factor = 1.0 # Tracks the cumulative scale factor
 var is_animating = false # Tracks if an animation is currently running
 
-func update_score(value: int) -> void:
+func update_score(value: int, high_score: int) -> void:
 	# Update the score text
-	score_label.text = "Score: " + str(value)
-
+	$Score.text = "Score: " + str(value)
+	$HighScore.text = "High Score: " + str(high_score)
 	# Increment the scale factor to stack the effect
 	scale_factor += 0.1
 
 	# If not animating, start the effect
 	if not is_animating:
 		_play_enlarge_effect()
+		
+# Inside HUD.gd
+func update_high_score(value: int) -> void:
+	$HighScore.text = "High Score: " + str(value)
+
 
 func _play_enlarge_effect():
 	is_animating = true
