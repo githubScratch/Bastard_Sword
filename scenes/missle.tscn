@@ -413,7 +413,7 @@ editor_description = "slow acceleration.  gravity well on detonation.  can be de
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ivcp8")
 animation = &"seeking"
-frame_progress = 0.17216
+frame_progress = 0.292419
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="AnimatedSprite2D"]
 visible = false

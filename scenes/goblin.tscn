@@ -446,7 +446,6 @@ visible = false
 z_index = -100
 position = Vector2(-65, 38)
 rotation = 1.5708
-enabled = false
 color = Color(0.97, 0, 0, 1)
 energy = 5.0
 texture = ExtResource("10_2cqm2")

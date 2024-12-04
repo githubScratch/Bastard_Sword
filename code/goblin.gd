@@ -57,9 +57,13 @@ func _ready():
 	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
 
 func _adjust_stats_based_on_time(elapsed_time: float):
-	if elapsed_time > 200.0: 
+	if elapsed_time > 100.0: 
 		self.move_speed += 100
-		torch_flame.energy += 2
+		animated_sprite.modulate = Color(0.4, 0.6, 0.6, 1.0)
+	if elapsed_time > 200.0: 
+		self.lunge_duration -= 0.2
+		animated_sprite.scale = Vector2(1.25,1.25)
+		animated_sprite.modulate = Color(0.7, 0.4, 0.4, 1.0)
 
 func _on_AttackArea_area_entered(area):
 	if area.is_in_group("player") and (current_time - last_damage_time) > 1000 and health > 0:  # 1-second cooldown
@@ -116,8 +120,8 @@ func die():
 	frenziedFlame.enabled = false
 	collision_shape.disabled = true
 	animated_sprite.play("death")
-	killed.emit()
-	killed.emit()
+	for amount in range(2):
+		killed.emit()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 

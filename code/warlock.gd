@@ -48,7 +48,19 @@ var affected_bodies: Array = []  # List of affected bodies
 func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight")  # Adjust the path as needed
 	animated_sprite.play("idle")  # Play the hurt animation
-
+	var game_timer = get_node("/root/amorphous2/globalTimer")  # Adjust the path
+	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
+	
+func _adjust_stats_based_on_time(elapsed_time: float):
+	if elapsed_time > 90.0: 
+		self.health += 50
+		self.knockback_force -= 50
+		animated_sprite.scale = Vector2(2.5,2.5)
+	if elapsed_time > 180.0: 
+		self.health += 50
+		self.knockback_force -= 50
+		animated_sprite.scale = Vector2(3,3)
+	
 func take_bash(_amount):
 	if state == "preparing":
 		prepare_timer = prepare_duration
@@ -98,7 +110,7 @@ func take_damage(amount):
 func die():
 	var sprite = $AnimatedSprite2D  # Replace with your visual node
 	var tween = create_tween()
-	animated_sprite.scale = Vector2(4,4)
+	animated_sprite.scale = Vector2(5,5)
 	tween.tween_property(sprite, "modulate:a", 0, 5.0)
 	var particles = slow_aura.get_node("CPUParticles2D3")
 	tween.tween_property(particles, "modulate", Color(0, 0, 0, 0), 1.0)  # Fades to transparent
@@ -107,10 +119,8 @@ func die():
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
 	animated_sprite.play("death")
-	killed.emit() #condense later to a new score value with a new emit recognition
-	killed.emit()
-	killed.emit()
-	killed.emit()
+	for amount in range(4):
+		killed.emit()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 

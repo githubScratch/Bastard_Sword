@@ -306,7 +306,7 @@ rotation = -1.5708
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_yqrft")
 animation = &"attack"
-frame_progress = 0.342841
+frame_progress = 0.752499
 
 [node name="PointLight2D" type="PointLight2D" parent="CharacterBody2D/AnimatedSprite2D"]
 position = Vector2(-44, -22)

@@ -142,13 +142,11 @@ func _adjust_stats_based_on_time(elapsed_time: float):
 		self.bump_push_time += 0.8
 		self.bump_speed += 100
 		point_light_2d.energy += 1
-	#if elapsed_time > 30.0: 
-		#self.move_speed -= 40
-		#self.bump_distance -= 100
-		#self.bump_push_time -= 0.8
-		#self.bump_speed -= 50
-		#animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0)  # Adds red tint
-		#PointLight2D.energy -= 1
+	if elapsed_time > 120.0: 
+		animated_sprite.scale = Vector2(1.0,1.0)
+		self.bump_speed += 100
+		animated_sprite.modulate = Color(0.2, 0.5, 0.5, 1.0)  # Adds red tint
+		point_light_2d.energy += 1
 
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()

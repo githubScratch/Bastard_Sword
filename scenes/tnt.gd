@@ -38,7 +38,7 @@ func _ready():
 	crosshairs.enabled = false
 	# Find the player in the scene (assuming the player is a Node2D)
 	player = get_tree().get_root().get_node("amorphous2/playerKnight") 
-	
+
 	if player:
 		# Calculate the distance and direction to the player
 		var direction = (player.global_position - global_position).normalized()

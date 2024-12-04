@@ -17,7 +17,7 @@ var is_dead = false  # State to track if the kab is dead
 var is_hurt = false
 var damage_delay = 0.2  # Delay before applying damage
 var knockback_force = 450.0  # Strength of the knockback effect
-var bashback_force = 350.0
+var bashback_force = 150.0
 var knockback_duration = 0.1  # Duration of the knockback effect
 var knockback_timer = 0.0  # Timer to track knockback duration
 var throw_cooldown = 3.0  # Cooldown duration between attacks
@@ -41,6 +41,7 @@ var is_throwing_tnt = false
 func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight")  # Adjust the path as needed
 	animated_sprite.play("walk")  # Play the hurt animation
+
 
 func take_bash(_amount):
 	if state == "preparing":
@@ -89,16 +90,9 @@ func die():
 	var TNT_instance = preload("res://scenes/TNT.tscn").instantiate()  # Create TNT instance
 	TNT_instance.global_position = global_position  # Set the starting position of TNT
 	get_tree().current_scene.add_child(TNT_instance)  # Add TNT to the scene
-	killed.emit() #condense later to a new score value with a new emit recognition
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
-	killed.emit()
+	for amount in range(10):
+		killed.emit()
+
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 
