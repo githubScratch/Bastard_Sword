@@ -98,7 +98,8 @@ func take_damage(amount):
 func die():
 	var sprite = $AnimatedSprite2D  # Replace with your visual node
 	var tween = create_tween()
-	tween.tween_property(sprite, "modulate:a", 0, 3.0)
+	animated_sprite.scale = Vector2(4,4)
+	tween.tween_property(sprite, "modulate:a", 0, 5.0)
 	var particles = slow_aura.get_node("CPUParticles2D3")
 	tween.tween_property(particles, "modulate", Color(0, 0, 0, 0), 1.0)  # Fades to transparent
 	particles.emitting = false

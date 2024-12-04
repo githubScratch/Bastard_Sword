@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=51 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -19,7 +19,6 @@
 [ext_resource type="Shader" path="res://fog.gdshader" id="8_n3jq2"]
 [ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
 [ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
-[ext_resource type="PackedScene" uid="uid://cogicqxyg02wr" path="res://scenes/warlock.tscn" id="11_2yeby"]
 [ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
 [ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
@@ -29,8 +28,8 @@
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 fade_time = 1.0
 stream_count = 3
-stream_0 = ExtResource("5_gjrkm")
-stream_1 = ExtResource("7_vbpd5")
+stream_0 = ExtResource("7_vbpd5")
+stream_1 = ExtResource("5_gjrkm")
 stream_2 = ExtResource("6_o7eq7")
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
@@ -175,9 +174,6 @@ y_sort_enabled = true
 position = Vector2(-1, -13)
 script = ExtResource("1_hepxq")
 
-[node name="Node2D" parent="." instance=ExtResource("11_2yeby")]
-position = Vector2(-255, 228)
-
 [node name="globalTimer" type="Timer" parent="."]
 autostart = true
 script = ExtResource("2_ax5jh")
@@ -207,6 +203,7 @@ curve = SubResource("Curve2D_h2b6t")
 [node name="PathFollow2D" type="PathFollow2D" parent="playerKnight/Path2D"]
 position = Vector2(-1234, -935)
 rotation = 0.00224131
+scale = Vector2(1.5, 1.5)
 
 [node name="rain" type="GPUParticles2D" parent="playerKnight"]
 unique_name_in_owner = true
