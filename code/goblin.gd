@@ -186,7 +186,7 @@ func _physics_process(delta):
 			for raycast in raycasts:
 				if raycast.is_colliding():
 					var target = raycast.get_collider()
-					if target.is_in_group("player") and attack_timer <= 0:
+					if target != null and target.is_in_group("player") and attack_timer <= 0:
 						state = "preparing"
 						prepare_timer = prepare_duration
 						animated_sprite.play("prepare")

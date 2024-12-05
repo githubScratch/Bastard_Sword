@@ -138,7 +138,7 @@ func _on_enemy_killed():
 @onready var player_knight: Player = $playerKnight
 
 func _on_player_knight_dead() -> void:
-	var is_new_high_score = check_and_update_high_score(score)
+	var _is_new_high_score = check_and_update_high_score(score)
 	hud.update_high_score(high_score)  # Ensure the HUD always shows the current high score
 	%GameOverScreen.visible = true
 	player_knight.animated_sprite.modulate = Color(1, 0, 0, 0.75)  # Set to red

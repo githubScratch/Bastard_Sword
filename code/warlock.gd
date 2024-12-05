@@ -9,7 +9,7 @@ signal killed #sends score updates, etc
 @onready var audio_hit = %OnHit  # Reference to the AudioStreamPlayer node
 @onready var collision_shape = $CollisionShape2D
 @export var rotation_speed = 5.0  # Speed at which the kab rotates
-#@onready var TNT_scene = preload("res://scenes/TNT.tscn")
+@onready var Missile_scene = preload("res://scenes/missle.tscn")
 
 var health = 150  # Initial health of the kab
 var can_attack = true  # Flag to check if the kab can attack
@@ -20,19 +20,20 @@ var knockback_force = 250.0  # Strength of the knockback effect
 var bashback_force = 350.0
 var knockback_duration = 1.25  # Duration of the knockback effect
 var knockback_timer = 0.0  # Timer to track knockback duration
-var throw_cooldown = 3.0  # Cooldown duration between attacks
-var throw_timer = 0.0  # Timer to track the attack cooldown
+var missile_cooldown = 5.0  # Cooldown duration between attacks
+var missile_timer = 0.0  # Timer to track the attack cooldown
 var prepare_duration = 1.0  # Duration of the prepare animation
 var prepare_timer = 0.0  # Timer for the prepare phase
 #var thrown_distance = -50.0  # Distance to throw towards the player
-#var thrown_duration = 0.2  # Duration of the throw
-#var thrown_timer = 0.0  # Timer for the throw
+var shoot_duration = 0.2  # Duration of the throw
+var shoot_timer = 0.0  # Timer for the throw
+var is_shooting_missile = false  
 var state = "idle"  # Current state of the kab
 var last_known_player_position: Vector2  # Store the player's last position
 var last_damage_time = 0.0  # Store the last time damage was dealt
 var current_time = Time.get_ticks_msec()
 var move_speed = 90
-#var aggro_range = 300
+var aggro_range = 500
 var blood = load("res://scenes/blood.tscn")
 var player: Node
 
@@ -177,11 +178,55 @@ func _physics_process(delta):
 		return
 
 	var player = get_node("/root/amorphous2/playerKnight")
-	#var distance_to_player = global_position.distance_to(player.global_position)
+	var distance_to_player = global_position.distance_to(player.global_position)
 
 	# State handling with smoother movement and attack logic
 
-	if state == "idle" and throw_timer <= 0:
+	match state:
+		"idle":
+			if distance_to_player <= aggro_range and shoot_timer <= 0:
+				state = "preparing"
+				prepare_timer = prepare_duration
+				missile_timer = missile_cooldown
+				animated_sprite.play("idle")
+				velocity = Vector2.ZERO
+				last_known_player_position = player.global_position
+
+		"preparing":
+			prepare_timer -= delta
+			if prepare_timer <= 0:
+				state = "throwing"
+				shoot_timer = shoot_duration
+				animated_sprite.play("attack")
+				velocity = Vector2.ZERO
+
+		"throwing":
+			if shoot_timer > 0 and not is_shooting_missile:  # Ensure only one TNT is thrown
+				is_shooting_missile = true  
+				var TNT_instance = preload("res://scenes/missle.tscn").instantiate()  # Create TNT instance
+		
+				TNT_instance.global_position = global_position  # Set the starting position of TNT
+				get_tree().current_scene.add_child(TNT_instance)  # Add TNT to the scene
+
+				missile_timer -= delta  # Decrease throw cooldown timer
+
+				# After throwing, reset state or continue animation
+				if !animated_sprite.is_playing():
+					animated_sprite.play("attack")
+
+			else:
+				velocity = Vector2.ZERO
+				if animated_sprite.animation == "attack" and animated_sprite.is_playing():
+					return
+				else:
+					is_shooting_missile = false  # Reset flag when throw timer runs out
+					state = "idle"
+					animated_sprite.play("idle")
+
+	if shoot_timer > 0:
+		shoot_timer -= delta
+
+	if state == "idle" and shoot_timer <= 0:
 		var direction = global_position.direction_to(player.global_position)
 		velocity = direction * move_speed
 		move_and_slide()
@@ -199,7 +244,7 @@ func transition_audio_pitch_scale(bus_name: String, target_pitch: float, duratio
 	var effect = AudioServer.get_bus_effect(bus_index, 0)  # Assuming the PitchShift effect is the first
 	if effect and effect is AudioEffectPitchShift:
 		# Get the current pitch scale
-		var current_pitch = effect.pitch_scale
+		var _current_pitch = effect.pitch_scale
 		
 		# Create a Tween
 		var tween = create_tween()
