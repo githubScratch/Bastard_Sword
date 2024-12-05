@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=53 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -26,7 +26,6 @@
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
 [ext_resource type="Script" path="res://scenes/game_over_control.gd" id="16_ulk6w"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
-[ext_resource type="PackedScene" uid="uid://cogicqxyg02wr" path="res://scenes/warlock.tscn" id="26_xny0h"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
@@ -1242,9 +1241,6 @@ material = SubResource("ShaderMaterial_nsyug")
 offset_right = 1158.0
 offset_bottom = 661.0
 color = Color(0, 0, 0, 0)
-
-[node name="Node2D" parent="." instance=ExtResource("26_xny0h")]
-position = Vector2(1079, 792)
 
 [connection signal="timeout" from="globalTimer" to="globalTimer" method="_on_timeout"]
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]

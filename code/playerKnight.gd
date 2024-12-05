@@ -246,17 +246,24 @@ func _physics_process(delta):
 	if Input.is_action_pressed("defend") and attack_recovery_timer <= 0 and current_stamina > 9 and defend_timer <= 0:  # #stamina: Only defend if stamina is available
 		is_defending = true
 		hurt_box.set_deferred("monitoring", false)
-		#collision_shape.disabled = true
 		current_stamina -= defend_stamina_cost * delta
 		current_speed *= defend_slowdown_factor
 		if current_stamina <=10:
 			defend_timer = defend_recovery #stutter prevention
 		if not is_attacking:
 			animated_sprite.play("defend")
+			#current_speed *= hold_direction_slowdown_factor
+			#if not locked_target or not locked_target.get_tree(): 
+				#locked_target = get_nearest_enemy()
+			#if locked_target and locked_target.get_tree():
+			# Face the locked target
+				#var target_angle = (locked_target.global_position - global_position).angle()
+				#rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
 	else:
 		is_defending = false
 		hurt_box.set_deferred("monitoring", true)
 		collision_shape.disabled = false
+		#locked_target = null
 
 	# Apply sprint speed if sprinting
 	if Input.is_action_pressed("sprint") and not is_defending and current_stamina > 9 and sprint_timer <= 0:  # #stamina: Only sprint if stamina is available
@@ -290,6 +297,8 @@ func _physics_process(delta):
 			is_bashing = true
 			bash_box.monitoring = true
 			attack_recovery_timer = attack_recovery_time
+			await get_tree().create_timer(0.1).timeout
+			bash_box.monitoring = false
 		elif Input.is_action_pressed("sprint") and current_stamina > 20:
 			animated_sprite.play("sprint_attack")
 			audio_player.pitch_scale = randf_range(0.9, 1.1)
@@ -310,6 +319,8 @@ func _physics_process(delta):
 			is_bashing = true
 			bash_box.monitoring = true
 			attack_recovery_timer = attack_recovery_time
+			await get_tree().create_timer(0.1).timeout
+			bash_box.monitoring = false
 		else: 
 			animated_sprite.play("swing")
 			audio_player.pitch_scale = randf_range(0.9, 1.1)
@@ -338,7 +349,7 @@ func _physics_process(delta):
 		is_moving = true
 		return  # Skip further processing
 
-# feint movement during basic attack
+# feint movement during bash 
 	if feint_timer > 0:
 		var feint_direction = (global_position - mouse_pos).normalized()
 		velocity = feint_direction * (feint_distance / feint_duration)
@@ -348,18 +359,11 @@ func _physics_process(delta):
 
 	# Check if the "move hold direction" action is pressed
 	if Input.is_action_pressed("move_hold_direction"):
-		current_speed *= hold_direction_slowdown_factor
-		if not locked_target or not locked_target.get_tree(): 
-			# Find a new target if none is locked or the locked target is invalid
-			locked_target = get_nearest_enemy()
-		
-		if locked_target and locked_target.get_tree():
-			# Face the locked target
-			var target_angle = (locked_target.global_position - global_position).angle()
-			rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+		rotation_speed = 0
 	else:
 		# Reset the locked target when the button is released
-		locked_target = null
+		#locked_target = null
+		rotation_speed = 8
 
 		# Rotate to face the mouse, except during recovery
 		if attack_move_recovery_timer <= 0 and lunge_timer <= 0 and dodge_timer <= 0 and basic_attack_lunge_timer <= 0:

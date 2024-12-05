@@ -57,10 +57,11 @@ func take_bash(_amount):
 	start_flash_effect()  # Call the flash effect coroutine
 	knockback_timer = knockback_duration
 	if health <= 0:
-		die()
+		if not is_dead:  # Only call die() if not already dead
+			die()
 
 func take_damage(amount):
-	if is_dead:
+	if is_dead:  
 		return
 	if is_hurt:
 		return
@@ -75,14 +76,15 @@ func take_damage(amount):
 	blood_instantiate.rotation = global_position.angle_to_point(player.global_position) - 180
 	audio_hit.pitch_scale = randf_range(0.6, 0.8)
 	audio_hit.play()  # Play the sound effect
-	animated_sprite.play("walk")  # Play the hurt animation
+	#animated_sprite.play("walk")  # Play the hurt animation
 	velocity = (global_position.direction_to(get_node("/root/amorphous2/playerKnight").global_position) * -knockback_force)  # Apply knockback
 	knockback_timer = knockback_duration
 	start_shake_effect() # Trigger the shake effect
 	start_flash_effect()  # Call the flash effect coroutine
 
 	if health <= 0:
-		die()
+		if not is_dead:
+			die()
 	await get_tree().create_timer(damage_delay).timeout  # Wait for the specified delay
 	is_hurt = false
 
@@ -91,11 +93,19 @@ func die():
 	var tween = create_tween()
 	tween.tween_property(sprite, "modulate:a", 0, 3.0)
 	animated_sprite.play("death")
+	if is_dead:
+		return
 	is_dead = true
+	state = "dead"
+	velocity = Vector2.ZERO
+	print("Starting death animation")
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
-	
+	#animated_sprite.stop()  # Stop any current animation
+	animated_sprite.play("death")
 	killed.emit() #condense later to a new score value with a new emit recognition
+	await animated_sprite.animation_finished
+	print("Death animation finished")
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 
@@ -103,7 +113,7 @@ func start_flash_effect():
 	# Start the flash effect
 	animated_sprite.modulate = Color(1, 0, 0, 0.35)  # Red with 50% transparency
 	await get_tree().create_timer(0.1).timeout  # Wait for a short duration
-	animated_sprite.modulate = Color(.4, .46, .79, 1)  # Red with 50% transparency
+	animated_sprite.modulate = Color(1, 1, 1, 1)  # Red with 50% transparency
 
 func start_shake_effect():
 	# Store the original position
@@ -151,7 +161,8 @@ func _adjust_stats_based_on_time(elapsed_time: float):
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()
 	#print("State:", state, "Direction:", wander_direction, "Velocity:", velocity)
-	_rotate_to_player(delta)
+	if not is_dead:
+		_rotate_to_player(delta)
 	
 	# Decrement the bump cooldown timer
 	if bump_cooldown_timer > 0:
@@ -159,7 +170,7 @@ func _physics_process(delta):
 
 	# Detect player
 	var distance_to_player = global_position.distance_to(player.global_position)
-	if state != "bump" and bump_cooldown_timer <= 0:
+	if state != "bump" and bump_cooldown_timer <= 0 and not is_dead:
 		if distance_to_player <= bump_distance:
 			state = "bump"
 			bump_timer = 0.5  # Example bump duration
@@ -190,6 +201,8 @@ func _rotate_to_player(delta):
 	rotation = lerp_angle(rotation, target_rotation, rotation_speed * delta)
 
 func _handle_wander(delta):
+	if is_dead:
+		return
 	wander_timer -= delta
 	if wander_timer <= 0:
 		state = "pause"
@@ -214,6 +227,8 @@ func _handle_pause(delta):
 		_randomize_timers()
 
 func _handle_run_away(delta):
+	if is_dead:
+		return
 	run_away_timer -= delta
 	if run_away_timer <= 0:
 		state = "wander"
@@ -225,6 +240,8 @@ func _handle_run_away(delta):
 	animated_sprite.play("run")
 
 func _handle_bump(delta):
+	if is_dead:
+		return
 	bump_timer -= delta
 	if bump_timer <= 0:
 		state = "pause"

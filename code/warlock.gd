@@ -206,11 +206,13 @@ func _physics_process(delta):
 				velocity = Vector2.ZERO
 
 		"throwing":
-			if shoot_timer > 0 and not is_shooting_missile:  # Ensure only one TNT is thrown
+			if shoot_timer > 0 and not is_shooting_missile and current_time > 90:
 				is_shooting_missile = true  
 				var missile_instance = preload("res://scenes/missle.tscn").instantiate()  # Create TNT instance
-		
-				missile_instance.global_position = global_position  # Set the starting position of TNT
+				var offset_distance = 100  # Distance to instantiate missile in front
+				var offset = Vector2(cos(rotation), sin(rotation)) * offset_distance
+
+				missile_instance.global_position = global_position + offset # Set the starting position of TNT
 				get_tree().current_scene.add_child(missile_instance)  # Add TNT to the scene
 
 				missile_timer -= delta  # Decrease throw cooldown timer

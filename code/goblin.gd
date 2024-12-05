@@ -240,7 +240,7 @@ func _physics_process(delta):
 		if target_offset == Vector2.ZERO or global_position.distance_to(player.global_position + target_offset) < 10:
 		# Generate a random offset within a 300-unit radius of the player
 			var random_angle = randf() * TAU # Random angle in radians
-			var random_distance = randf_range(0, 150) # Random distance within 150 units
+			var random_distance = randf_range(0, 0) # Random distance within 150 units
 			target_offset = Vector2(cos(random_angle), sin(random_angle)) * random_distance
 	
 	# Recalculate the target position based on the player's current position and the stored offset

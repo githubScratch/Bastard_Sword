@@ -13,6 +13,9 @@ extends CharacterBody2D
 @onready var player = get_node("/root/amorphous2/playerKnight")
 @onready var lifetime_timer = Timer.new()
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var explosion_audio = $explosionAudio  # Reference to the AudioStreamPlayer node
+@onready var deflect_audio = $deflectAudio  # Reference to the AudioStreamPlayer node
+@onready var tracking_audio = $trackingAudio
 
 # Internal variables (adding health to existing variables)
 var current_speed: float = 0.0
@@ -29,9 +32,13 @@ var current_health: float  # New: Current health tracker
 var bashback_force = 450.0
 var is_bashed = false
 var is_exploding: bool = false
+var has_exploded = false
 var affected_units = [] 
 
 func _ready():
+	var sprite = $AnimatedSprite2D  # Replace with your visual node
+	var tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 1, 2.0)
 	# Initialize health
 	current_health = max_health
 	
@@ -44,6 +51,9 @@ func _ready():
 	
 	boombox_area.monitoring = false
 	
+	tracking_audio.pitch_scale = randf_range(0.9, 1.1)
+	tracking_audio.play()  # Play the sound effect
+	
 	if player and player.global_position.distance_to(global_position) <= detection_range:
 		current_direction = (player.global_position - global_position).normalized()
 	else:
@@ -54,6 +64,8 @@ func _ready():
 func take_damage(amount: float) -> void:
 	current_health -= amount
 	if not is_exploding:
+		deflect_audio.pitch_scale = randf_range(0.9, 1.1)
+		deflect_audio.play()  # Play the sound effect
 		animated_sprite.play("deflect")
 	start_flash_effect()  # Call the flash effect coroutine
 	if current_health < max_health:  # If health drops below maximum
@@ -142,7 +154,10 @@ func _on_boombox_body_entered(body):
 
 # Modify explode function to clear the list when done
 func explode():
+	if has_exploded:  # Prevent multiple explosions
+		return
 	is_exploding = true
+	has_exploded = true
 	current_speed = 0
 	velocity = Vector2.ZERO
 	var screen_shake = get_node("/root/amorphous2/ScreenShake")
@@ -150,9 +165,13 @@ func explode():
 	boombox_area.monitoring = true
 	if is_returning:
 		animated_sprite.play("detonate_b")
+		explosion_audio.pitch_scale = randf_range(1.5, 1.7)
+
 	else:
 		animated_sprite.play("detonate_p")
-	animated_sprite.scale = Vector2(3,3)
+		explosion_audio.pitch_scale = randf_range(0.9, 1.1)
+	explosion_audio.play()  # Play the sound effect
+	animated_sprite.scale = Vector2(2.3,2.3)
 	await get_tree().create_timer(0.10).timeout
 	boombox_area.monitoring = false
 	await get_tree().create_timer(1.0).timeout
