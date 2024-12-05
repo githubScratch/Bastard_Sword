@@ -29,6 +29,7 @@ var current_health: float  # New: Current health tracker
 var bashback_force = 450.0
 var is_bashed = false
 var is_exploding: bool = false
+var affected_units = [] 
 
 func _ready():
 	# Initialize health
@@ -52,12 +53,14 @@ func _ready():
 # New function to handle taking damage
 func take_damage(amount: float) -> void:
 	current_health -= amount
-	animated_sprite.play("deflect")
+	if not is_exploding:
+		animated_sprite.play("deflect")
+	start_flash_effect()  # Call the flash effect coroutine
 	if current_health < max_health:  # If health drops below maximum
 		# Stop tracking and set short lifetime
 		is_tracking = false
 		lifetime_timer.stop()  # Stop the existing timer
-		lifetime_timer.wait_time = 0.5  # Set new short lifetime
+		lifetime_timer.wait_time = 0.45  # Set new short lifetime
 		lifetime_timer.start()  # Start the new timer
 		
 		# Send missile flying away from player
@@ -65,7 +68,15 @@ func take_damage(amount: float) -> void:
 			var away_direction = (global_position - player.global_position).normalized()
 			current_direction = away_direction
 			current_speed = speed * 4.5  # Increase speed for dramatic effect
-
+			
+func start_flash_effect():
+	# Start the flash effect
+	Engine.time_scale = 0.6  # Set time scale to 0.1 for slow motion
+	animated_sprite.modulate = Color(0, 0, 1, 0.35)  # Red with 50% transparency
+	await get_tree().create_timer(0.1).timeout  # Wait for a short duration
+	animated_sprite.modulate = Color(1, 1, 1, 1)  # Red with 50% transparency
+	Engine.time_scale = 1
+	
 func _physics_process(delta):
 	if is_exploding:  # Skip all movement processing if exploding
 		return
@@ -114,23 +125,36 @@ func _on_hitbox_body_entered(body):
 		explode()
 
 func _on_boombox_body_entered(body):
+	if body in affected_units:  # Skip if already affected
+		return
+		
+	affected_units.append(body)  # Add to affected units list
+	
 	if body.has_method("take_damage"):
 		body.take_damage(explosion_damage)
 	
+	# Apply knockback force
 	var knockback_vector = (body.global_position - global_position).normalized() * knockback_distance
 	var target_position = body.global_position + knockback_vector
 	
 	var tween = body.create_tween()
 	tween.tween_property(body, "global_position", target_position, knockback_duration)
 
+# Modify explode function to clear the list when done
 func explode():
 	is_exploding = true
-	current_speed *= 0.5   # Immediately stop movement
-	velocity = Vector2.ZERO  # Reset velocity
+	current_speed = 0
+	velocity = Vector2.ZERO
+	var screen_shake = get_node("/root/amorphous2/ScreenShake")
+	screen_shake.shake(0.5, 10.0)  # Screenshake for 0.5 seconds with a magnitude of 10
 	boombox_area.monitoring = true
-	animated_sprite.play("detonate_p")
+	if is_returning:
+		animated_sprite.play("detonate_b")
+	else:
+		animated_sprite.play("detonate_p")
 	animated_sprite.scale = Vector2(3,3)
 	await get_tree().create_timer(0.10).timeout
 	boombox_area.monitoring = false
 	await get_tree().create_timer(1.0).timeout
+	affected_units.clear()  # Clear the list after explosion is done
 	queue_free()

@@ -14,7 +14,7 @@ signal killed #sends score updates, etc
 @onready var hitWarning = $hitWarning 
 @onready var collision_shape = $CollisionShape2D
 @export var rotation_speed = 4.0  # Speed at which the goblin rotates
-@onready var raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]  # Replace with paths to the RayCast2D nodes
+@onready var raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3]  
 @onready var torch_flame: PointLight2D = $torchFlame
 
 var health = 100  # Initial health of the goblin

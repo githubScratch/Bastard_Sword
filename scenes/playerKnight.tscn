@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://d3i6la4uyy1rv"]
+[gd_scene load_steps=64 format=3 uid="uid://d3i6la4uyy1rv"]
 
 [ext_resource type="Script" path="res://code/playerKnight.gd" id="1_c8ivu"]
 [ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="2_dg2hp"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dgykkukj76nbg" path="res://audio/shield-bash-impact.wav" id="7_5tjhr"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="8_kw3kp"]
 [ext_resource type="AudioStream" uid="uid://dn1b5l1jrjrru" path="res://audio/371922__mrthenoronha__single-iron-hit-hard.wav" id="9_8x3ph"]
+[ext_resource type="Texture2D" uid="uid://cmbwsq4ypue0k" path="res://particles/dirt_03.png" id="11_6wcfr"]
 [ext_resource type="AudioStream" uid="uid://ck6b384s4lrpr" path="res://audio/77611__joelaudio__sfx_attack_sword_001.wav" id="11_qf0tg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jjxu7"]
@@ -407,24 +408,31 @@ hue_variation_min = -2.23517e-08
 hue_variation_max = -2.23517e-08
 turbulence_enabled = true
 
+[sub_resource type="Gradient" id="Gradient_grbe4"]
+offsets = PackedFloat32Array(0.131148, 0.868852, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.15625, 0.15625, 0.15625, 0.15625, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2urj0"]
+gradient = SubResource("Gradient_grbe4")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ugw06"]
 particle_flag_disable_z = true
-emission_shape_scale = Vector3(40, 10, 0)
+emission_shape_scale = Vector3(10, 10, 0)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
 angle_min = 1.07288e-05
 angle_max = 240.0
-spread = 30.0
+spread = 40.0
 initial_velocity_min = 139.77
 initial_velocity_max = 155.9
 gravity = Vector3(0, 0, 0)
-damping_min = 1.075
-damping_max = 1.075
-scale_max = 4.0
-color = Color(0.9212, 0.95452, 0.98, 0.117647)
-hue_variation_min = -2.23517e-08
-hue_variation_max = 0.00999998
-turbulence_noise_strength = 5.0
+scale_min = 0.05
+scale_max = 0.2
+color = Color(0.693429, 0.582534, 0.537216, 0.276)
+color_ramp = SubResource("GradientTexture1D_2urj0")
+hue_variation_min = -0.06
+hue_variation_max = 0.1
+turbulence_noise_strength = 19.53
 
 [node name="playerKnight" type="CharacterBody2D" groups=["player"]]
 z_index = 1
@@ -554,13 +562,14 @@ volume_db = -5.943
 pitch_scale = 0.93
 
 [node name="BashParticles" type="GPUParticles2D" parent="."]
+position = Vector2(33, 2)
 emitting = false
-amount = 36
+amount = 44
 process_material = SubResource("ParticleProcessMaterial_ugw06")
-texture = ExtResource("8_kw3kp")
-lifetime = 0.7
+texture = ExtResource("11_6wcfr")
+lifetime = 0.8
 one_shot = true
-speed_scale = 4.0
+speed_scale = 2.0
 explosiveness = 0.6
 
 [node name="hurtplayer" type="AudioStreamPlayer2D" parent="."]

@@ -70,7 +70,7 @@ func take_damage(amount):
 	get_tree().current_scene.add_child(blood_instantiate)
 	blood_instantiate.global_position = global_position
 	blood_instantiate.rotation = global_position.angle_to_point(player.global_position) - 180
-	#audio_player.pitch_scale = randf_range(0.4, 0.6)
+	audio_player.pitch_scale = randf_range(0.5, 0.7)
 	audio_player.play()  # Play the sound effect
 	animated_sprite.play("idle")  # Play the hurt animation
 	velocity = (global_position.direction_to(get_node("/root/amorphous2/playerKnight").global_position) * -knockback_force)  # Apply knockback

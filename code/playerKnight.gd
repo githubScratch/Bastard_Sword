@@ -85,13 +85,11 @@ func take_damage(amount):
 	if is_hurt:
 		return
 	if is_defending and current_stamina > 0: #add check to see if source of damage is to the front of the character
-		# Halve the damage and apply to stamina instead of health
-		var stamina_damage = amount / 2
+		var stamina_damage = amount
+		#var stamina_damage = amount / 2
 		current_stamina -= stamina_damage
-		# Prevent stamina from going below zero
 		if current_stamina < 0:
 			current_stamina = 0
-		#print("Player defending: Stamina reduced to ", current_stamina)
 		stamina_bar.value = current_stamina  # Update stamina bar value
 		var screen_shake = get_node("/root/amorphous2/ScreenShake")
 		screen_shake.shake(0.5, 4.0)  # Screenshake for 0.5 seconds with a magnitude of 10
@@ -107,7 +105,6 @@ func take_damage(amount):
 		blood_instantiate.global_position = global_position
 		hurt_player.pitch_scale = randf_range(0.7, 0.9)
 		hurt_player.play()
-		#print("Player Health: ", health)  # Print the player's health for debugging
 		health_bar.value = health  # Update health bar value
 		%ProgressBar.value = int(health)  # Update the health bar here
 

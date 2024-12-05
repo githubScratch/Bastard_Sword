@@ -8,7 +8,7 @@ signal killed #sends score updates, etc
 @onready var animated_sprite = $AnimatedSprite2D  # Reference to the AnimatedSprite2D node
 @onready var audio_hit = %OnHit  # Reference to the AudioStreamPlayer node
 @onready var collision_shape = $CollisionShape2D
-@export var rotation_speed = 5.0  # Speed at which the kab rotates
+@export var rotation_speed = 1.0  # Speed at which the kab rotates
 @onready var Missile_scene = preload("res://scenes/missle.tscn")
 
 var health = 150  # Initial health of the kab
@@ -20,7 +20,7 @@ var knockback_force = 250.0  # Strength of the knockback effect
 var bashback_force = 350.0
 var knockback_duration = 1.25  # Duration of the knockback effect
 var knockback_timer = 0.0  # Timer to track knockback duration
-var missile_cooldown = 5.0  # Cooldown duration between attacks
+var missile_cooldown = 3.0  # Cooldown duration between attacks
 var missile_timer = 0.0  # Timer to track the attack cooldown
 var prepare_duration = 1.0  # Duration of the prepare animation
 var prepare_timer = 0.0  # Timer for the prepare phase
@@ -45,6 +45,7 @@ var player: Node
 var affected_bodies: Array = []  # List of affected bodies
 @onready var slow_aura: Area2D = %SlowAura
 @onready var collision_shape_2d: CollisionShape2D = $SlowAura/CollisionShape2D
+@onready var raycasts = [$RayCast2D, $RayCast2D2, $RayCast2D3, $RayCast2D4, $RayCast2D5]  
 
 func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight")  # Adjust the path as needed
@@ -184,13 +185,17 @@ func _physics_process(delta):
 
 	match state:
 		"idle":
-			if distance_to_player <= aggro_range and shoot_timer <= 0:
-				state = "preparing"
-				prepare_timer = prepare_duration
-				missile_timer = missile_cooldown
-				animated_sprite.play("idle")
-				velocity = Vector2.ZERO
-				last_known_player_position = player.global_position
+			for raycast in raycasts:
+				if raycast.is_colliding():
+					var target = raycast.get_collider()
+					if target != null and target.is_in_group("player") and missile_timer <= 0:
+						state = "preparing"
+						prepare_timer = prepare_duration
+						missile_timer = missile_cooldown
+						animated_sprite.play("attack")
+						velocity = Vector2.ZERO
+						last_known_player_position = player.global_position
+						break  # Exit the loop once a player is detected
 
 		"preparing":
 			prepare_timer -= delta
@@ -203,10 +208,10 @@ func _physics_process(delta):
 		"throwing":
 			if shoot_timer > 0 and not is_shooting_missile:  # Ensure only one TNT is thrown
 				is_shooting_missile = true  
-				var TNT_instance = preload("res://scenes/missle.tscn").instantiate()  # Create TNT instance
+				var missile_instance = preload("res://scenes/missle.tscn").instantiate()  # Create TNT instance
 		
-				TNT_instance.global_position = global_position  # Set the starting position of TNT
-				get_tree().current_scene.add_child(TNT_instance)  # Add TNT to the scene
+				missile_instance.global_position = global_position  # Set the starting position of TNT
+				get_tree().current_scene.add_child(missile_instance)  # Add TNT to the scene
 
 				missile_timer -= delta  # Decrease throw cooldown timer
 
@@ -222,7 +227,9 @@ func _physics_process(delta):
 					is_shooting_missile = false  # Reset flag when throw timer runs out
 					state = "idle"
 					animated_sprite.play("idle")
-
+					
+	if missile_timer > 0:
+		missile_timer -= delta  # Decrease throw cooldown timer
 	if shoot_timer > 0:
 		shoot_timer -= delta
 

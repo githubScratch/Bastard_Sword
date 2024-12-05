@@ -375,8 +375,7 @@ shape = SubResource("CircleShape2D_543h2")
 unique_name_in_owner = true
 position = Vector2(6, -32)
 scale = Vector2(0.960001, 0.879999)
-collision_layer = 4
-collision_mask = 3
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2(0, 36.3637)

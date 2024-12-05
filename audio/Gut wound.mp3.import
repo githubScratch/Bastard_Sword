@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dsjorsjkghupj"
+path="res://.godot/imported/Gut wound.mp3-77d3f93c70d36d7566764f659720c26b.mp3str"
+
+[deps]
+
+source_file="res://audio/Gut wound.mp3"
+dest_files=["res://.godot/imported/Gut wound.mp3-77d3f93c70d36d7566764f659720c26b.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
