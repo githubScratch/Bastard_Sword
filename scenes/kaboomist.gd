@@ -32,7 +32,7 @@ var last_known_player_position: Vector2  # Store the player's last position
 var last_damage_time = 0.0  # Store the last time damage was dealt
 var current_time = Time.get_ticks_msec()
 var move_speed = 90
-var aggro_range = 300
+var aggro_range = 400
 var blood = load("res://scenes/blood.tscn")
 var player: Node
 var is_frenzied = false

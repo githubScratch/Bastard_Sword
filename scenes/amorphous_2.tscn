@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=54 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
 [ext_resource type="Script" path="res://scenes/game_over_control.gd" id="16_ulk6w"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
+[ext_resource type="FontFile" uid="uid://cydtr0e33ebaw" path="res://fonts/GothicPixels.ttf" id="23_55g18"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
@@ -154,6 +155,10 @@ shader_parameter/noise_texture = SubResource("NoiseTexture2D_yu4gj")
 
 [sub_resource type="Theme" id="Theme_p16n4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nsyug"]
+shader = ExtResource("21_y83k0")
+shader_parameter/fog_strength = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0nke7"]
 size = Vector2(6256, 1540.91)
 
@@ -169,10 +174,6 @@ colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_12b2o"]
 gradient = SubResource("Gradient_xemxy")
 fill_to = Vector2(0.724771, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nsyug"]
-shader = ExtResource("21_y83k0")
-shader_parameter/fog_strength = 0.0
 
 [node name="amorphous2" type="Node2D"]
 y_sort_enabled = true
@@ -1144,6 +1145,110 @@ theme_override_font_sizes/font_size = 140
 text = "Thou art Dead"
 horizontal_alignment = 1
 
+[node name="SelectScreen" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="SelectScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ChooseLabel" type="Label" parent="SelectScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.5
+offset_top = -174.0
+offset_right = 307.5
+offset_bottom = -108.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "What foe do you seek?"
+horizontal_alignment = 2
+
+[node name="PackButton" type="Button" parent="SelectScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -321.0
+offset_top = -24.0
+offset_right = -79.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_pressed_color = Color(0.557344, 0.208142, 0.218238, 1)
+theme_override_colors/font_hover_color = Color(0.82606, 0.82606, 0.82606, 1)
+theme_override_colors/font_pressed_color = Color(0.196078, 0.843137, 1, 1)
+theme_override_colors/font_color = Color(0.462526, 0.648769, 0.769888, 1)
+theme_override_fonts/font = ExtResource("23_55g18")
+theme_override_font_sizes/font_size = 50
+text = "The Pack
+"
+
+[node name="HordeButton" type="Button" parent="SelectScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 66.5
+offset_top = -24.0
+offset_right = 333.5
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_hover_pressed_color = Color(0.830335, 0.830335, 0.830335, 1)
+theme_override_colors/font_hover_color = Color(0.196078, 0.843137, 1, 1)
+theme_override_colors/font_color = Color(0.462526, 0.648769, 0.769888, 1)
+theme_override_fonts/font = ExtResource("23_55g18")
+theme_override_font_sizes/font_size = 50
+text = "The Horde"
+
+[node name="BackButton2" type="Button" parent="SelectScreen/ColorRect"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -128.0
+offset_right = 184.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Return"
+
+[node name="VictoryScreen" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="VictoryScreen"]
+material = SubResource("ShaderMaterial_nsyug")
+offset_right = 1158.0
+offset_bottom = 661.0
+color = Color(0, 0, 0, 1)
+
 [node name="beginaudio" type="AudioStreamPlayer2D" parent="."]
 visible = false
 stream = ExtResource("13_0ejgo")
@@ -1231,17 +1336,6 @@ rotation = 1.5708
 scale = Vector2(7.15625, 48.7579)
 texture = SubResource("GradientTexture2D_12b2o")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-unique_name_in_owner = true
-visible = false
-material = SubResource("ShaderMaterial_nsyug")
-offset_right = 1158.0
-offset_bottom = 661.0
-color = Color(0, 0, 0, 0)
-
 [connection signal="timeout" from="globalTimer" to="globalTimer" method="_on_timeout"]
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
@@ -1254,3 +1348,7 @@ color = Color(0, 0, 0, 0)
 [connection signal="pressed" from="StartScreen/ColorRect/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="ControlsScreen/ColorRect/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="GameOverScreen/Control/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/PackButton" to="." method="_on_pack_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]

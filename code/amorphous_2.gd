@@ -160,15 +160,29 @@ func _on_restart_button_pressed() -> void:
 	get_tree().reload_current_scene()
 
 func _on_begin_button_pressed() -> void:
-	get_tree().paused = false
 	$StartScreen.visible = false
-	begin_audio.pitch_scale = randf_range(0.9, 1.1)
-	begin_audio.play()  # Play the sound effect
+	$SelectScreen.visible = true
 	#reset_high_score()
 	
+func _on_pack_button_pressed() -> void:
+	get_tree().paused = false
+	$SelectScreen.visible = false
+	begin_audio.pitch_scale = randf_range(0.9, 1.1)
+	begin_audio.play()  # Play the sound effect
+
+func _on_horde_button_pressed() -> void:
+	get_tree().paused = false
+	$SelectScreen.visible = false
+	begin_audio.pitch_scale = randf_range(0.7, 0.9)
+	begin_audio.play()  # Play the sound effect
+
 func _on_back_button_pressed() -> void:
 	$StartScreen.visible = true
 	$ControlsScreen.visible = false
+
+func _on_back_button_2_pressed() -> void:
+	$StartScreen.visible = true
+	$SelectScreen.visible = false
 
 func _on_controls_button_pressed() -> void:
 	$StartScreen.visible = false

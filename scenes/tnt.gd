@@ -40,18 +40,24 @@ func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight") 
 
 	if player:
-		# Calculate the distance and direction to the player
-		var direction = (player.global_position - global_position).normalized()
-		var distance_to_player = global_position.distance_to(player.global_position)
-		
-		# Set the target position to a maximum of max_travel_distance
-		var travel_distance = min(distance_to_player, max_travel_distance)
+	# Get the player's facing direction based on mouse cursor
+		var mouse_pos = get_global_mouse_position()
+		var player_direction = (mouse_pos - player.global_position).normalized()
+	
+	# Calculate the target point 200 units in front of the player
+		var target_point = player.global_position + (player_direction * 300)
+	
+	# Calculate direction from unit to the target point
+		var direction = (target_point - global_position).normalized()
+		var distance_to_target = global_position.distance_to(target_point)
+	
+	# Set the target position to a maximum of max_travel_distance
+		var travel_distance = min(distance_to_target, max_travel_distance)
 		target_position = global_position + direction * travel_distance
-		
-		# Start the explosion timer
+	
+	# Start the explosion timer
 		await get_tree().create_timer(explosion_delay).timeout
-		
-		# Stop movement and trigger the explosion
+	
 		is_moving = false
 		explode()
 

@@ -91,21 +91,21 @@ func take_damage(amount):
 func die():
 	var sprite = $AnimatedSprite2D  # Replace with your visual node
 	var tween = create_tween()
-	tween.tween_property(sprite, "modulate:a", 0, 3.0)
+	tween.tween_property(sprite, "modulate:a", 0, 1.5)
 	animated_sprite.play("death")
 	if is_dead:
 		return
 	is_dead = true
 	state = "dead"
 	velocity = Vector2.ZERO
-	print("Starting death animation")
+	#print("Starting death animation")
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
 	#animated_sprite.stop()  # Stop any current animation
 	animated_sprite.play("death")
 	killed.emit() #condense later to a new score value with a new emit recognition
 	await animated_sprite.animation_finished
-	print("Death animation finished")
+	#print("Death animation finished")
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 
