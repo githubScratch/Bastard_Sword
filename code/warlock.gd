@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 class_name Warlock  # This makes the class globally accessible
 
-signal killed #sends score updates, etc
+signal killed(score_value: int)  # Modified signal to include score value
+signal enemy_defeated  # New signal for tracking actual defeats
 
 # Kaboomist variables
 @onready var animated_sprite = $AnimatedSprite2D  # Reference to the AnimatedSprite2D node
@@ -121,8 +122,8 @@ func die():
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
 	animated_sprite.play("death")
-	for amount in range(4):
-		killed.emit()
+	killed.emit(4)
+	enemy_defeated.emit()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 

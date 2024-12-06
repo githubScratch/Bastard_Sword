@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 class_name Kaboomist  # This makes the class globally accessible
 
-signal killed #sends score updates, etc
-
+signal killed(score_value: int)  # Modified signal to include score value
+signal enemy_defeated  # New signal for tracking actual defeats
 # Kaboomist variables
 @onready var animated_sprite = $AnimatedSprite2D  # Reference to the AnimatedSprite2D node
 @onready var audio_player = %OnHit  # Reference to the AudioStreamPlayer node
@@ -90,9 +90,8 @@ func die():
 	var TNT_instance = preload("res://scenes/TNT.tscn").instantiate()  # Create TNT instance
 	TNT_instance.global_position = global_position  # Set the starting position of TNT
 	get_tree().current_scene.add_child(TNT_instance)  # Add TNT to the scene
-	for amount in range(10):
-		killed.emit()
-
+	killed.emit(10)
+	enemy_defeated.emit()
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
 

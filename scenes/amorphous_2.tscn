@@ -971,9 +971,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 66.0
-offset_top = 51.0
+offset_top = 101.0
 offset_right = 346.0
-offset_bottom = 205.0
+offset_bottom = 255.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
@@ -983,7 +983,7 @@ theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
 text = "Charge
 Shield Bash
-Shield Charge"
+"
 
 [node name="3" type="Label" parent="ControlsScreen/ColorRect"]
 layout_mode = 1
@@ -993,9 +993,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -493.0
-offset_top = 51.0
+offset_top = 101.0
 offset_right = 43.0
-offset_bottom = 205.0
+offset_bottom = 255.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
@@ -1005,7 +1005,7 @@ theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
 text = "Sprint + Attack :
 Defend + Attack :
-Defend + Sprint + Attack :"
+"
 horizontal_alignment = 2
 
 [node name="2" type="Label" parent="ControlsScreen/ColorRect"]
@@ -1122,6 +1122,27 @@ theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 60
 text = "Arise Again?"
 
+[node name="FinalScore2" type="Label" parent="GameOverScreen/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 392.0
+offset_top = 247.0
+offset_right = 760.0
+offset_bottom = 401.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.629106, 0.132752, 0.197875, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "Final Score:"
+
 [node name="Text" type="Label" parent="GameOverScreen/Control"]
 layout_mode = 1
 anchors_preset = 8
@@ -1130,9 +1151,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 91.5
-offset_top = 233.0
+offset_top = 100.0
 offset_right = 1010.5
-offset_bottom = 365.0
+offset_bottom = 232.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.705939, 2.23808e-06, 2.88785e-07, 1)
@@ -1191,10 +1212,9 @@ offset_right = -79.0
 offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_hover_pressed_color = Color(0.557344, 0.208142, 0.218238, 1)
-theme_override_colors/font_hover_color = Color(0.82606, 0.82606, 0.82606, 1)
-theme_override_colors/font_pressed_color = Color(0.196078, 0.843137, 1, 1)
-theme_override_colors/font_color = Color(0.462526, 0.648769, 0.769888, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.782818, 0.406259, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.368627, 0.372549, 1)
+theme_override_colors/font_color = Color(0.658824, 0.654902, 0.647059, 1)
 theme_override_fonts/font = ExtResource("23_55g18")
 theme_override_font_sizes/font_size = 50
 text = "The Pack
@@ -1214,9 +1234,9 @@ offset_right = 333.5
 offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_hover_pressed_color = Color(0.830335, 0.830335, 0.830335, 1)
-theme_override_colors/font_hover_color = Color(0.196078, 0.843137, 1, 1)
-theme_override_colors/font_color = Color(0.462526, 0.648769, 0.769888, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.527775, 0.00174349, 0.735835, 1)
+theme_override_colors/font_hover_color = Color(0.641071, 0.0170368, 0.180112, 1)
+theme_override_colors/font_color = Color(0.660065, 0.652982, 0.646915, 1)
 theme_override_fonts/font = ExtResource("23_55g18")
 theme_override_font_sizes/font_size = 50
 text = "The Horde"
@@ -1229,25 +1249,82 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -184.0
+offset_left = -117.5
 offset_top = -128.0
-offset_right = 184.0
-offset_bottom = -35.0
+offset_right = 117.5
+offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
-text = "Return"
+text = "None, take me back"
 
 [node name="VictoryScreen" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
 visible = false
 
 [node name="ColorRect" type="ColorRect" parent="VictoryScreen"]
 material = SubResource("ShaderMaterial_nsyug")
 offset_right = 1158.0
 offset_bottom = 661.0
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.541)
+
+[node name="Victory!" type="Label" parent="VictoryScreen"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -407.5
+offset_top = 100.0
+offset_right = 407.5
+offset_bottom = 175.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 80
+text = "Thou Art VICTORIOUS!"
+
+[node name="FinalScore" type="Label" parent="VictoryScreen"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -77.0
+offset_right = 140.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "Final Score : "
+
+[node name="RestartButton2" type="Button" parent="VictoryScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.5
+offset_top = 96.0
+offset_right = 199.5
+offset_bottom = 164.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_p16n4")
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 60
+text = "Return"
 
 [node name="beginaudio" type="AudioStreamPlayer2D" parent="."]
 visible = false
@@ -1350,5 +1427,7 @@ texture = SubResource("GradientTexture2D_12b2o")
 [connection signal="pressed" from="GameOverScreen/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/PackButton" to="." method="_on_pack_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
-[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
+[connection signal="pressed" from="VictoryScreen/RestartButton2" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VictoryScreen/RestartButton2" to="." method="_on_restart_button_2_pressed"]

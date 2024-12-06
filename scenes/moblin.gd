@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 class_name Moblin
 
-signal killed #sends score updates, etc
+signal killed(score_value: int)  # Modified signal to include score value
+signal enemy_defeated  # New signal for tracking actual defeats
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
@@ -103,7 +104,8 @@ func die():
 	collision_shape_2d.disabled = true
 	#animated_sprite.stop()  # Stop any current animation
 	animated_sprite.play("death")
-	killed.emit() #condense later to a new score value with a new emit recognition
+	killed.emit(1)
+	enemy_defeated.emit()
 	await animated_sprite.animation_finished
 	#print("Death animation finished")
 	await get_tree().create_timer(2.0).timeout

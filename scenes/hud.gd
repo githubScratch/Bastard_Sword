@@ -6,6 +6,9 @@ extends Control
 var scale_factor = 1.0 # Tracks the cumulative scale factor
 var is_animating = false # Tracks if an animation is currently running
 
+func update_enemies_remaining(enemies_remaining: int):
+	$EnemiesRemaining.text = "Remaining Enemies: " + str(enemies_remaining)
+
 func update_score(value: int, high_score: int) -> void:
 	# Update the score text
 	$Score.text = "Score: " + str(value)
