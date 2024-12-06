@@ -52,17 +52,17 @@ func _ready():
 	player = get_tree().get_root().get_node("amorphous2/playerKnight")  # Adjust the path as needed
 	animated_sprite.play("idle")  # Play the hurt animation
 	var game_timer = get_node("/root/amorphous2/globalTimer")  # Adjust the path
-	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
+	#_adjust_stats_based_on_time(game_timer.game_time_elapsed)
 	
-func _adjust_stats_based_on_time(elapsed_time: float):
-	if elapsed_time > 90.0: 
-		self.health += 50
-		self.knockback_force -= 50
-		animated_sprite.scale = Vector2(2.5,2.5)
-	if elapsed_time > 180.0: 
-		self.health += 50
-		self.knockback_force -= 50
-		animated_sprite.scale = Vector2(3,3)
+#func _adjust_stats_based_on_time(elapsed_time: float):
+	#if elapsed_time > 90.0: 
+		#self.health += 50
+		#self.knockback_force -= 50
+		#animated_sprite.scale = Vector2(2.5,2.5)
+	#if elapsed_time > 180.0: 
+		#self.health += 50
+		#self.knockback_force -= 50
+		#animated_sprite.scale = Vector2(3,3)
 	
 func take_bash(_amount):
 	if state == "preparing":

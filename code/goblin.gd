@@ -56,15 +56,16 @@ func _ready():
 	attack_area.area_entered.connect(_on_AttackArea_area_entered)
 	var game_timer = get_node("/root/amorphous2/globalTimer")  # Adjust the path
 	_adjust_stats_based_on_time(game_timer.game_time_elapsed)
+	hitWarning.enabled = false
 
 func _adjust_stats_based_on_time(elapsed_time: float):
 	if elapsed_time > 100.0: 
 		self.move_speed += 100
 		animated_sprite.modulate = Color(0.4, 0.6, 0.6, 1.0)
-	if elapsed_time > 200.0: 
-		self.lunge_duration -= 0.2
-		animated_sprite.scale = Vector2(1.25,1.25)
-		animated_sprite.modulate = Color(0.7, 0.4, 0.4, 1.0)
+	#if elapsed_time > 200.0: 
+		#self.lunge_duration -= 0.2
+		#animated_sprite.scale = Vector2(1.25,1.25)
+		#animated_sprite.modulate = Color(0.7, 0.4, 0.4, 1.0)
 
 func _on_AttackArea_area_entered(area):
 	if area.is_in_group("player") and (current_time - last_damage_time) > 1000 and health > 0:  # 1-second cooldown

@@ -419,7 +419,7 @@ colors = PackedColorArray(0.225423, 0.381874, 0.679649, 1, 1, 1, 1, 0.367)
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 z_index = 400
 scale = Vector2(2, 2)
-collision_layer = 7
+collision_layer = 6
 collision_mask = 0
 script = ExtResource("1_8v5w3")
 

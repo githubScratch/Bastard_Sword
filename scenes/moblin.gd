@@ -102,6 +102,7 @@ func die():
 	#print("Starting death animation")
 	collision_shape.disabled = true
 	collision_shape_2d.disabled = true
+	point_light_2d.enabled = false
 	#animated_sprite.stop()  # Stop any current animation
 	animated_sprite.play("death")
 	killed.emit(1)
@@ -153,12 +154,12 @@ func _adjust_stats_based_on_time(elapsed_time: float):
 		self.bump_distance += 100
 		self.bump_push_time += 0.8
 		self.bump_speed += 100
-		point_light_2d.energy += 1
+		#point_light_2d.energy += 1
 	if elapsed_time > 120.0: 
 		animated_sprite.scale = Vector2(1.0,1.0)
 		self.bump_speed += 100
 		animated_sprite.modulate = Color(0.2, 0.5, 0.5, 1.0)  # Adds red tint
-		point_light_2d.energy += 1
+		#point_light_2d.energy += 1
 
 func _physics_process(delta):
 	current_time = Time.get_ticks_msec()

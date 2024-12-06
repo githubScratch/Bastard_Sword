@@ -353,9 +353,7 @@ position = Vector2(-27, -2)
 rotation = -1.5708
 scale = Vector2(0.960001, 0.879999)
 sprite_frames = SubResource("SpriteFrames_80cig")
-animation = &"attack"
-frame = 5
-frame_progress = 1.0
+animation = &"prepare"
 script = ExtResource("4_fkalk")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
@@ -441,7 +439,6 @@ volume_db = -6.933
 pitch_scale = 0.82
 
 [node name="hitWarning" type="PointLight2D" parent="."]
-visible = false
 z_index = -100
 position = Vector2(-65, 38)
 rotation = 1.5708

@@ -45,7 +45,7 @@ func _ready():
 		var player_direction = (mouse_pos - player.global_position).normalized()
 	
 	# Calculate the target point 200 units in front of the player
-		var target_point = player.global_position + (player_direction * 300)
+		var target_point = player.global_position + (player_direction * 150)
 	
 	# Calculate direction from unit to the target point
 		var direction = (target_point - global_position).normalized()

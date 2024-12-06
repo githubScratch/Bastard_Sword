@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=50 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -16,7 +16,6 @@
 [ext_resource type="Script" path="res://code/ScreenShake.gd" id="7_stxj5"]
 [ext_resource type="AudioStream" uid="uid://ugldd6411g7d" path="res://audio/goblin blood.mp3" id="7_vbpd5"]
 [ext_resource type="Texture2D" uid="uid://ckj5s7kcifkip" path="res://particles/smoke_04.png" id="8_6h204"]
-[ext_resource type="Shader" path="res://fog.gdshader" id="8_n3jq2"]
 [ext_resource type="AudioStream" uid="uid://dsjorsjkghupj" path="res://audio/Gut wound.mp3" id="9_1wu8l"]
 [ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
 [ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
@@ -40,7 +39,7 @@ stream_4 = ExtResource("10_pvgkd")
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -1234, -935, 0, 0, 0, 0, 1443, -929, 0, 0, 0, 0, 1460, 757, 0, 0, 0, 0, -1237, 757, 0, 0, 0, 0, -1237, -935)
+"points": PackedVector2Array(0, 0, 0, 0, -1779, -1139, 0, 0, 0, 0, 2100, -1143, 0, 0, 0, 0, 2082, 1165, 0, 0, 0, 0, -1779, 1156, 0, 0, 0, 0, -1806, -1121)
 }
 point_count = 5
 
@@ -137,22 +136,6 @@ adjustment_brightness = 0.6
 adjustment_contrast = 1.17
 adjustment_saturation = 1.73
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_s1khf"]
-frequency = 0.0075
-metadata/_preview_in_3d_space_ = true
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yu4gj"]
-width = 320
-height = 180
-seamless = true
-noise = SubResource("FastNoiseLite_s1khf")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_le5rh"]
-shader = ExtResource("8_n3jq2")
-shader_parameter/density = 0.239
-shader_parameter/speed = Vector2(0.02, 0.01)
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_yu4gj")
-
 [sub_resource type="Theme" id="Theme_p16n4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nsyug"]
@@ -207,8 +190,8 @@ script = ExtResource("6_5fkhe")
 curve = SubResource("Curve2D_h2b6t")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="playerKnight/Path2D"]
-position = Vector2(-1234, -935)
-rotation = 0.00224131
+position = Vector2(-1779, -1139)
+rotation = -0.00103119
 scale = Vector2(1.5, 1.5)
 
 [node name="rain" type="GPUParticles2D" parent="playerKnight"]
@@ -233,7 +216,7 @@ texture = ExtResource("6_hb7rr")
 [node name="Particles" type="Node" parent="."]
 
 [node name="barrier4" type="CPUParticles2D" parent="Particles"]
-position = Vector2(-661, 495)
+position = Vector2(-657, 329)
 rotation = 1.5708
 amount = 40
 speed_scale = 0.2
@@ -253,7 +236,7 @@ color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
 [node name="barrier3" type="CPUParticles2D" parent="Particles"]
-position = Vector2(2076, 177)
+position = Vector2(2018, 184)
 rotation = 1.5708
 amount = 40
 speed_scale = 0.2
@@ -273,7 +256,7 @@ color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
 [node name="barrier2" type="CPUParticles2D" parent="Particles"]
-position = Vector2(761, -770)
+position = Vector2(788, -680)
 amount = 40
 speed_scale = 0.2
 texture = ExtResource("6_0bv8k")
@@ -292,7 +275,7 @@ color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
 [node name="barrier" type="CPUParticles2D" parent="Particles"]
-position = Vector2(760, 1203)
+position = Vector2(760, 1188)
 amount = 40
 speed_scale = 0.2
 texture = ExtResource("6_0bv8k")
@@ -345,7 +328,7 @@ wait_time = 45.0
 autostart = true
 
 [node name="Timer3" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 50.0
 autostart = true
 
 [node name="Timer4" type="Timer" parent="."]
@@ -394,22 +377,6 @@ shadow_filter = 1
 shadow_filter_smooth = 6.5
 shadow_item_cull_mask = 0
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="Ambience"]
-layer = 5
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Ambience/ParallaxBackground"]
-motion_mirroring = Vector2(1152, 648)
-
-[node name="ColorRect" type="ColorRect" parent="Ambience/ParallaxBackground/ParallaxLayer"]
-material = SubResource("ShaderMaterial_le5rh")
-offset_right = 1152.0
-offset_bottom = 648.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0.360231, 0.400199, 0.229241, 1)
-
 [node name="ScreenShake" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("7_stxj5")
@@ -419,10 +386,6 @@ script = ExtResource("7_stxj5")
 [node name="StaticBody2Dtree28" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-339.002, -481.16)
 scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree82" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1966, -667)
-scale = Vector2(1.75377, 1.73684)
 
 [node name="StaticBody2Dtree83" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1551, -414)
@@ -444,48 +407,20 @@ scale = Vector2(0.843896, 0.759999)
 position = Vector2(1361, -532)
 scale = Vector2(0.843896, 0.759999)
 
-[node name="StaticBody2Dtree91" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1268, -610)
-scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree92" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1749.69, -650.292)
-scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree65" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-430.008, -614.475)
-scale = Vector2(1.18498, 1.31579)
-
 [node name="StaticBody2Dtree68" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-100.932, -388.89)
 scale = Vector2(1, 0.999999)
 
-[node name="StaticBody2Dtree70" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-933, 310.843)
-scale = Vector2(1.48, 1.32)
-
-[node name="StaticBody2Dtree71" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-877.311, 170.054)
-scale = Vector2(0.71216, 0.577598)
-
 [node name="StaticBody2Dtree72" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-159, -481)
 scale = Vector2(1.24897, 1.0032)
-
-[node name="StaticBody2Dtree73" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-890.003, 459)
-scale = Vector2(0.71216, 0.577598)
-
-[node name="StaticBody2Dtree74" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-369.863, -570.433)
-scale = Vector2(0.71216, 0.577598)
 
 [node name="StaticBody2Dtree75" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(10, -552)
 scale = Vector2(1.18498, 1.31579)
 
 [node name="StaticBody2Dtree79" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2183, 457)
+position = Vector2(1991, 497)
 scale = Vector2(1.48, 1.32)
 
 [node name="StaticBody2Dtree80" parent="Trees" instance=ExtResource("4_b2gvr")]
@@ -497,44 +432,16 @@ position = Vector2(-298, -30)
 scale = Vector2(0.843896, 0.759998)
 
 [node name="StaticBody2Dtree85" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2102, 1011)
+position = Vector2(1962, 958)
 scale = Vector2(1.24897, 1.0032)
-
-[node name="StaticBody2Dtree86" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2198, 750)
-scale = Vector2(2.07819, 2.28532)
 
 [node name="Trees" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(396, 43)
 scale = Vector2(0.843896, 0.759999)
 
-[node name="StaticBody2Dtree2" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(519, -309)
-scale = Vector2(1.18498, 1.31579)
-
-[node name="StaticBody2Dtree3" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-469, -376)
-scale = Vector2(1.75377, 1.73684)
-
 [node name="StaticBody2Dtree16" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-474.998, 1026.84)
 scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree17" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(348, 1264)
-scale = Vector2(2.07819, 2.28532)
-
-[node name="StaticBody2Dtree18" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(594, 1203)
-scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree19" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(98.2309, 1141.66)
-scale = Vector2(1.18498, 1.31579)
-
-[node name="StaticBody2Dtree20" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1249, 1154)
-scale = Vector2(1.75377, 1.73684)
 
 [node name="StaticBody2Dtree21" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(11, 1051)
@@ -543,10 +450,6 @@ scale = Vector2(1.18498, 1.31579)
 [node name="StaticBody2Dtree22" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1092, 1125)
 scale = Vector2(1, 0.999999)
-
-[node name="StaticBody2Dtree23" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(150.035, -365.478)
-scale = Vector2(1.18498, 1.31579)
 
 [node name="StaticBody2Dtree24" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-573.118, 83.0004)
@@ -568,14 +471,6 @@ scale = Vector2(1, 0.999999)
 position = Vector2(-484.239, 386.948)
 scale = Vector2(1, 0.999999)
 
-[node name="StaticBody2Dtree5" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-575.253, -301)
-scale = Vector2(1, 0.999999)
-
-[node name="StaticBody2Dtree6" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(483, -445)
-scale = Vector2(1.48, 1.32)
-
 [node name="StaticBody2Dtree7" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1568, -208)
 scale = Vector2(1, 0.999999)
@@ -588,18 +483,6 @@ scale = Vector2(1, 0.999999)
 position = Vector2(-597.996, 669.843)
 scale = Vector2(1.48, 1.32)
 
-[node name="StaticBody2Dtree11" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-524.045, 1164.37)
-scale = Vector2(1, 0.999999)
-
-[node name="StaticBody2Dtree12" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-542.307, 529.054)
-scale = Vector2(0.71216, 0.577598)
-
-[node name="StaticBody2Dtree14" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-542.307, 294.843)
-scale = Vector2(1.24897, 1.0032)
-
 [node name="StaticBody2Dtree30" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-274, 504)
 scale = Vector2(1, 0.999999)
@@ -611,10 +494,6 @@ scale = Vector2(1.48, 1.32)
 [node name="StaticBody2Dtree32" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(597, -563)
 scale = Vector2(1.18498, 1.31579)
-
-[node name="StaticBody2Dtree33" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1486, -743)
-scale = Vector2(1.75377, 1.73684)
 
 [node name="StaticBody2Dtree34" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(95, 918)
@@ -636,52 +515,12 @@ scale = Vector2(1, 0.999999)
 position = Vector2(1397, -296)
 scale = Vector2(0.843896, 0.759999)
 
-[node name="StaticBody2Dtree64" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2179, -575)
-rotation = 3.14159
-scale = Vector2(1.75377, 1.73684)
-
-[node name="StaticBody2Dtree66" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2094, 72.9998)
-rotation = 3.14159
-scale = Vector2(1.18498, 1.31579)
-
-[node name="StaticBody2Dtree67" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2197, -139.001)
-rotation = 3.14159
-scale = Vector2(0.999999, 0.999999)
-
-[node name="StaticBody2Dtree69" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2121, -315)
-rotation = 3.14159
-scale = Vector2(1.24897, 1.0032)
-
-[node name="StaticBody2Dtree76" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2052, -133)
-rotation = 3.14159
-scale = Vector2(0.843895, 0.759999)
-
-[node name="StaticBody2Dtree77" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1976, 263)
-rotation = 3.14159
-scale = Vector2(0.843895, 0.759999)
-
-[node name="StaticBody2Dtree78" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1898, 356)
-rotation = 3.14159
-scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree81" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1939, -7.00002)
-rotation = 3.14159
-scale = Vector2(1.40418, 1.73131)
-
 [node name="StaticBody2Dtree39" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1490, 103)
 scale = Vector2(1, 0.999999)
 
 [node name="StaticBody2Dtree40" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1667, 267)
+position = Vector2(1943, -105)
 scale = Vector2(1.48, 1.32)
 
 [node name="StaticBody2Dtree41" parent="Trees" instance=ExtResource("4_b2gvr")]
@@ -692,12 +531,8 @@ scale = Vector2(1, 0.999999)
 position = Vector2(1712, 50)
 scale = Vector2(0.71216, 0.577598)
 
-[node name="StaticBody2Dtree43" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(2073, -595)
-scale = Vector2(0.843896, 0.759998)
-
 [node name="StaticBody2Dtree44" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1835, 203)
+position = Vector2(1981, 185)
 scale = Vector2(1.24897, 1.0032)
 
 [node name="StaticBody2Dtree45" parent="Trees" instance=ExtResource("4_b2gvr")]
@@ -720,10 +555,6 @@ scale = Vector2(1.24897, 1.0032)
 position = Vector2(-65.9999, 782)
 scale = Vector2(0.843896, 0.759999)
 
-[node name="StaticBody2Dtree50" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-554.999, 818)
-scale = Vector2(0.71216, 0.577598)
-
 [node name="StaticBody2Dtree51" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1455, -98.9999)
 scale = Vector2(0.843896, 0.759999)
@@ -740,10 +571,6 @@ scale = Vector2(0.843896, 0.759999)
 position = Vector2(1696, 445)
 scale = Vector2(0.600989, 0.438974)
 
-[node name="StaticBody2Dtree55" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-505.859, 937.567)
-scale = Vector2(0.71216, 0.577598)
-
 [node name="StaticBody2Dtree56" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1734, -343)
 scale = Vector2(1.054, 0.762431)
@@ -756,25 +583,13 @@ scale = Vector2(0.71216, 0.577598)
 position = Vector2(227, 92)
 scale = Vector2(0.71216, 0.577598)
 
-[node name="StaticBody2Dtree" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-649, -76)
-scale = Vector2(0.843896, 0.759999)
-
 [node name="StaticBody2Dtree59" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(908, -418)
 scale = Vector2(2.46261, 3.00701)
 
-[node name="StaticBody2Dtree60" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(-952, 104)
-scale = Vector2(1.66393, 2.27804)
-
 [node name="StaticBody2Dtree61" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(-236, 829)
 scale = Vector2(1.40418, 1.73131)
-
-[node name="StaticBody2Dtree62" parent="Trees" instance=ExtResource("4_b2gvr")]
-position = Vector2(1613, 1155)
-scale = Vector2(2.07819, 2.28532)
 
 [node name="StaticBody2Dtree63" parent="Trees" instance=ExtResource("4_b2gvr")]
 position = Vector2(1229, -403)
@@ -941,10 +756,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -51.0
-offset_top = -148.0
-offset_right = 51.0
-offset_bottom = -75.0
+offset_left = -86.0
+offset_top = -128.0
+offset_right = 86.0
+offset_bottom = -67.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
@@ -970,10 +785,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 66.0
-offset_top = 101.0
-offset_right = 346.0
-offset_bottom = 255.0
+offset_left = 32.0
+offset_top = 44.0
+offset_right = 312.0
+offset_bottom = 198.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
@@ -982,6 +797,7 @@ theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.0003
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
 text = "Charge
+
 Shield Bash
 "
 
@@ -992,10 +808,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -493.0
-offset_top = 101.0
-offset_right = 43.0
-offset_bottom = 255.0
+offset_left = -536.0
+offset_top = 44.0
+offset_bottom = 198.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
@@ -1004,6 +819,7 @@ theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.0003
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
 text = "Sprint + Attack :
+
 Defend + Attack :
 "
 horizontal_alignment = 2
@@ -1015,9 +831,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
+offset_left = 25.0
 offset_top = -284.0
-offset_right = 401.0
+offset_right = 446.0
 offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -1039,9 +855,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -274.0
+offset_left = -229.0
 offset_top = -284.0
-offset_right = -43.0
+offset_right = 2.0
 offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -1065,10 +881,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -184.0
+offset_left = -108.0
 offset_top = -128.0
-offset_right = 184.0
-offset_bottom = -35.0
+offset_right = 108.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
@@ -1124,6 +940,7 @@ text = "Arise Again?"
 
 [node name="FinalScore2" type="Label" parent="GameOverScreen/Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1213,7 +1030,7 @@ offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_hover_pressed_color = Color(0.782818, 0.406259, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 0.368627, 0.372549, 1)
+theme_override_colors/font_hover_color = Color(0.913955, 0, 0.182679, 1)
 theme_override_colors/font_color = Color(0.658824, 0.654902, 0.647059, 1)
 theme_override_fonts/font = ExtResource("23_55g18")
 theme_override_font_sizes/font_size = 50
@@ -1235,7 +1052,7 @@ offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_hover_pressed_color = Color(0.527775, 0.00174349, 0.735835, 1)
-theme_override_colors/font_hover_color = Color(0.641071, 0.0170368, 0.180112, 1)
+theme_override_colors/font_hover_color = Color(0.550489, 0, 0.076905, 1)
 theme_override_colors/font_color = Color(0.660065, 0.652982, 0.646915, 1)
 theme_override_fonts/font = ExtResource("23_55g18")
 theme_override_font_sizes/font_size = 50
@@ -1258,7 +1075,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
-text = "None, take me back"
+text = "Return"
 
 [node name="VictoryScreen" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1266,28 +1083,35 @@ visible = false
 
 [node name="ColorRect" type="ColorRect" parent="VictoryScreen"]
 material = SubResource("ShaderMaterial_nsyug")
-offset_right = 1158.0
-offset_bottom = 661.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0.541)
 
 [node name="Victory!" type="Label" parent="VictoryScreen"]
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -407.5
-offset_top = 100.0
+offset_top = -37.5
 offset_right = 407.5
-offset_bottom = 175.0
+offset_bottom = 37.5
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(0.4278, 0.65379, 0.93, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
 theme_override_fonts/font = ExtResource("9_xr0ao")
-theme_override_font_sizes/font_size = 80
+theme_override_font_sizes/font_size = 100
 text = "Thou Art VICTORIOUS!"
 
 [node name="FinalScore" type="Label" parent="VictoryScreen"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1360,10 +1184,10 @@ shape = SubResource("RectangleShape2D_it0qx")
 
 [node name="ColorRect" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
-offset_left = -2589.0
-offset_top = 1260.0
-offset_right = 4038.0
-offset_bottom = 2772.0
+offset_left = -2591.0
+offset_top = 1283.0
+offset_right = 4036.0
+offset_bottom = 2795.0
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect4" type="ColorRect" parent="Boundries/StaticBody2D"]
@@ -1427,7 +1251,7 @@ texture = SubResource("GradientTexture2D_12b2o")
 [connection signal="pressed" from="GameOverScreen/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/PackButton" to="." method="_on_pack_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
-[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="VictoryScreen/RestartButton2" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VictoryScreen/RestartButton2" to="." method="_on_restart_button_2_pressed"]

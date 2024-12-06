@@ -308,7 +308,7 @@ func enable_swarm_timer():
 
 func _on_timer_5_timeout() -> void:
 	if not %GameOverScreen.visible:
-		spawn_goblin(4)
+		spawn_moblin(2)
 		
 func load_high_score():
 	# Try to load the high score from the file
