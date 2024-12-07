@@ -18,11 +18,13 @@ var feint_duration = 0.25  # Duration of the feint effect
 var basic_attack_lunge_distance = 50  # Distance for basic attack lunge
 var basic_attack_lunge_duration = 0.15  # Duration of basic attack lunge
 var dodge_distance = 175  # Distance to dodge
-var dodge_duration = 0.3  # Duration of the dodge
+var dodge_duration = 0.4  # Duration of the dodge
 
 var attack_recovery_time = 0.5  # Recovery time after attacking while defending
 var attack_move_recovery_time = 0.5  # Recovery time after any attack
 var attack_move_recovery_speed = 0.1  # 10% of normal speed during recovery
+var attack_recovery_timer = 0.0
+var attack_move_recovery_timer = 0.0
 
 @export var health = 300.0
 var blood = load("res://scenes/blood.tscn")
@@ -31,8 +33,8 @@ var blood = load("res://scenes/blood.tscn")
 var is_attacking = false
 var is_bashing = false
 var is_defending = false
-var attack_recovery_timer = 0.0
-var attack_move_recovery_timer = 0.0
+var dodge_move_recovery_time = 0.15
+var dodge_move_recovery_timer = 0.0
 var lunge_timer = 0.0
 var feint_timer = 0.0
 var basic_attack_lunge_timer = 0.0  # Timer for basic attack lunge
@@ -50,10 +52,13 @@ var damage_delay = 0.2
 var max_stamina = 100.0  # Maximum stamina value
 var current_stamina = max_stamina  # Current stamina value
 var defend_stamina_cost = 20.0  
-var sprint_stamina_cost = 40.0 # Stamina cost per second when sprinting
+var sprint_stamina_cost = 50.0 # Stamina cost per second when sprinting
 var attack_stamina_cost = 15.0  # Stamina cost for each attack
+var sprint_attack_stamina_cost = 30
+var bash_stamina_cost = 30
+var dodge_stamina_cost = 30
 var stamina_recovery_rate = 30.0  # Stamina recovery rate per second
-var stamina_recovery_delay = 1.0  # Delay before recovery resumes after reaching 0 stamina
+var stamina_recovery_delay = 2.0  # Delay before recovery resumes after reaching 0 stamina
 var recovery_timer = 0.0  # Timer for delaying recovery
 
 #testing zone
@@ -69,6 +74,7 @@ signal dead
 @onready var audio_player = $AudioStreamPlayer2D  # Reference to the AudioStreamPlayer node
 @onready var shield_bash = $shieldbash  # Reference to the AudioStreamPlayer node
 @onready var defended = $defended  # Reference to the AudioStreamPlayer node
+@onready var dodgeSFX = $dodgeSFX
 @onready var health_bar = get_node("/root/amorphous2/UILayer/HUD/HealthBar")  # Adjust path as needed
 @onready var stamina_bar = get_node("/root/amorphous2/UILayer/HUD/StaminaBar")  # Adjust path as needed
 @export var bashback_distance := 250.0    # Knockback distance for affected units
@@ -167,15 +173,6 @@ func _physics_process(delta):
 	current_speed = move_speed
 	var is_moving = false
 
-	# Hurtbox from gdquest tutorial
-	#const HURT_RATE = 50.0
-	#var overlapping_goblins = %HurtBox.get_overlapping_bodies()
-	#if overlapping_goblins.size() > 0:
-		#health -= HURT_RATE * delta
-		#%ProgressBar.value = health
-		#if health <= 0.0:
-				#dead.emit()
-
 	# Handle attack recovery timers
 	if attack_recovery_timer > 0:
 		attack_recovery_timer -= delta
@@ -186,6 +183,11 @@ func _physics_process(delta):
 		attack_move_recovery_timer -= delta
 		if attack_move_recovery_timer <= 0:
 			attack_move_recovery_timer = 0
+
+	if dodge_move_recovery_timer > 0:
+		dodge_move_recovery_timer -= delta
+		if dodge_move_recovery_timer <= 0:
+			dodge_move_recovery_timer = 0
 
 	# Handle lunge duration
 	if lunge_timer > 0:
@@ -221,7 +223,7 @@ func _physics_process(delta):
 	if dodge_timer > 0:
 		dodge_timer -= delta
 		velocity = dodge_direction * (dodge_distance / dodge_duration)
-		attack_move_recovery_timer = attack_move_recovery_time
+		dodge_move_recovery_timer = dodge_move_recovery_time
 		move_and_slide()  # Apply dodge movement
 		return  # Skip other actions while dodging
 	else:
@@ -274,12 +276,14 @@ func _physics_process(delta):
 		is_moving = true
 
 	# Dodge input and direction
-	if Input.is_action_just_pressed("dodge") and not is_attacking and dodge_timer <= 0 and current_stamina > 9:
+	if Input.is_action_just_pressed("dodge") and not is_attacking and dodge_timer <= 0 and current_stamina > 9 and dodge_move_recovery_timer <= 0:
 		dodge_timer = dodge_duration  # Start dodge timer
 		dodge_direction = (mouse_pos - global_position).normalized()  # Set direction
 		collision_shape.disabled = true  # Disable collision during dodge
 		animated_sprite.play("dodge")
-		current_stamina -= attack_stamina_cost
+		dodgeSFX.pitch_scale = randf_range(0.6, 0.8)
+		dodgeSFX.play()
+		current_stamina -= dodge_stamina_cost
 		return  # Skip further processing during dodge
 
 	# Attack input and animations
@@ -290,8 +294,7 @@ func _physics_process(delta):
 			shield_bash.pitch_scale = randf_range(0.7, 0.9)
 			shield_bash.play()  # Play the sound effect
 			lunge_timer = lunge_duration  # Set lunge timer for sprint attack
-			current_stamina -= attack_stamina_cost
-			current_stamina -= attack_stamina_cost
+			current_stamina -= sprint_attack_stamina_cost
 			current_stamina -= attack_stamina_cost
 			feint_timer = feint_duration  # Set feint timer for shield
 			is_bashing = true
@@ -299,29 +302,27 @@ func _physics_process(delta):
 			attack_recovery_timer = attack_recovery_time
 			await get_tree().create_timer(0.1).timeout
 			bash_box.monitoring = false
-		elif Input.is_action_pressed("sprint") and current_stamina > 20:
+		elif Input.is_action_pressed("sprint") and current_stamina > 20 and not is_attacking and not is_bashing:
 			animated_sprite.play("sprint_attack")
 			audio_player.pitch_scale = randf_range(0.9, 1.1)
 			audio_player.play()  # Play the sound effect
-			current_stamina -= attack_stamina_cost
-			current_stamina -= attack_stamina_cost
+			current_stamina -= sprint_attack_stamina_cost
 			lunge_timer = lunge_duration  # Set lunge timer for sprint attack
 			is_attacking = true
 			attack_move_recovery_timer = attack_move_recovery_time  # Start recovery phase
-		elif Input.is_action_pressed("defend") and current_stamina > 20 and attack_recovery_timer <= 0:
+		elif Input.is_action_pressed("defend") and current_stamina > 20 and attack_recovery_timer <= 0 and not is_attacking and not is_bashing:
 			animated_sprite.play("shield_bash")
 			$BashParticles.restart()
 			shield_bash.pitch_scale = randf_range(0.7, 0.9)
 			shield_bash.play()  # Play the sound effect
-			current_stamina -= attack_stamina_cost
-			current_stamina -= attack_stamina_cost
+			current_stamina -= bash_stamina_cost
 			feint_timer = feint_duration  # Set feint timer for shield
 			is_bashing = true
 			bash_box.monitoring = true
 			attack_recovery_timer = attack_recovery_time
 			await get_tree().create_timer(0.1).timeout
 			bash_box.monitoring = false
-		else: 
+		elif not is_attacking and not is_bashing: 
 			animated_sprite.play("swing")
 			audio_player.pitch_scale = randf_range(0.9, 1.1)
 			audio_player.play()  # Play the sound effect
@@ -395,9 +396,9 @@ func _physics_process(delta):
 	# Reset the attack state when the animation finishes
 	if is_attacking and animated_sprite.animation == "swing" and animated_sprite.frame == 5:
 		is_attacking = false
-	elif is_attacking and animated_sprite.animation == "sprint_attack" and animated_sprite.frame == 5:
+	elif is_attacking and animated_sprite.animation == "sprint_attack" and animated_sprite.frame == 6:
 		is_attacking = false
-	elif is_attacking and animated_sprite.animation == "shield_bash" and animated_sprite.frame == 4:
+	elif is_attacking and animated_sprite.animation == "shield_bash" and animated_sprite.frame == 6:
 		is_attacking = false
 		is_bashing = false
 

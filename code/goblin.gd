@@ -33,20 +33,22 @@ var attack_timer = 0.0  # Timer to track the attack cooldown
 var prepare_duration = 1.0  # Duration of the prepare animation
 var prepare_interrupt = 1.5  # Duration of the interrupt animation
 var prepare_timer = 0.0  # Timer for the prepare phase
-var lunge_distance = 200.0  # Distance to lunge towards the player
-var lunge_duration = 0.6  # Duration of the lunge
+var lunge_distance = 400.0  # Distance to lunge towards the player
+var lunge_duration = 1.4  # Duration of the lunge
 var lunge_timer = 0.0  # Timer for the lunge
 var state = "idle"  # Current state of the goblin
 var last_known_player_position: Vector2  # Store the player's last position
 var last_damage_time = 0.0  # Store the last time damage was dealt
 var current_time = Time.get_ticks_msec()
 var move_speed = 125
-var aggro_range = 250
+var aggro_range = 200
 var is_frenzied = false  # Flag to track if speed boost has been applied
 var blood = load("res://scenes/blood.tscn")
 var player: Node
-
-
+var target_lunge_position: Vector2
+@export var lunge_speed = 500.0  # Maximum speed of the lunge
+var current_lunge_speed = 0.0    # Current tweened speed value
+var tween: Tween
 #var target_position: Vector2 = Vector2.ZERO
 var target_offset: Vector2 = Vector2.ZERO # Offset from the player's position
 
@@ -74,8 +76,10 @@ func _on_AttackArea_area_entered(area):
 		player.take_damage(attack_damage)
 
 func take_bash(_amount):
+	attack_area.set_deferred("monitoring", false)
 	if state == "preparing":
 		prepare_timer = prepare_duration
+		#state = "idle"
 	var screen_shake = get_node("/root/amorphous2/ScreenShake")
 	screen_shake.shake(0.5, 4.0)  # Screenshake for 0.5 seconds with a magnitude of 10
 	animated_sprite.play("hurt")  # Play the hurt animation
@@ -87,6 +91,7 @@ func take_bash(_amount):
 		die()
 
 func take_damage(amount):
+	attack_area.set_deferred("monitoring", false)
 	if is_dead:
 		return
 	if is_hurt:
@@ -205,24 +210,37 @@ func _physics_process(delta):
 				state = "lunging"
 				lunge_timer = lunge_duration
 				animated_sprite.play("attack")
+				audio_player2.pitch_scale = randf_range(0.9, 1.1)
+				audio_player2.play()
 				velocity = Vector2.ZERO
 
 		"lunging":
 			attack_timer = attack_cooldown
 			hitWarning.enabled = false
 			if lunge_timer > 0:
-				var lunge_direction = global_position.direction_to(last_known_player_position).normalized()
-				velocity = lunge_direction * (lunge_distance / lunge_duration)
+				if lunge_timer == lunge_duration:
+					var lunge_direction = global_position.direction_to(last_known_player_position).normalized()
+					target_lunge_position = global_position + (lunge_direction * lunge_distance)
+					
+					# Create tween for the speed value
+					tween = create_tween()
+					tween.set_ease(Tween.EASE_OUT)
+					tween.set_trans(Tween.TRANS_CUBIC)
+					# Start at full speed and tween down to 0
+					tween.tween_property(self, "current_lunge_speed", 0.0, lunge_duration).from(lunge_speed)
+					
+				var current_direction = global_position.direction_to(target_lunge_position).normalized()
+				velocity = current_direction * current_lunge_speed
 				move_and_slide()
-				audio_player2.pitch_scale = randf_range(0.7, 0.9)
-				audio_player2.play()
+				
 				lunge_timer -= delta
 				await get_tree().create_timer(0.2).timeout
 				attack_area.set_deferred("monitoring", true)
 
 				if !animated_sprite.is_playing():
 					animated_sprite.play("attack")
-
+				if lunge_timer < 1:
+					attack_area.set_deferred("monitoring", false)
 			else:
 				velocity = Vector2.ZERO
 				attack_area.set_deferred("monitoring", false)
@@ -263,7 +281,7 @@ func _physics_process(delta):
 		var overlapping_bodies = attack_area.get_overlapping_bodies()
 		for body in overlapping_bodies:
 			if body.is_in_group("player") and health > 0:
-				body.take_damage(5)
-				#hurt_player.pitch_scale = randf_range(0.7, 0.9)
-				#hurt_player.play()
+				body.take_damage(0)
+				hurt_player.pitch_scale = randf_range(0.7, 0.9)
+				hurt_player.play()
 				

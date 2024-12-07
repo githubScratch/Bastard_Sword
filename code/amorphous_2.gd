@@ -9,6 +9,7 @@ extends Node2D
 @onready var fog: CPUParticles2D = %fog
 @onready var rain: GPUParticles2D = $playerKnight/rain
 @onready var spalsh: GPUParticles2D = $playerKnight/rain/spalsh
+@onready var buttonSFX = $ButtonSFX  # Reference to the AudioStreamPlayer node
 
 var high_score: int = 0
 const HIGH_SCORE_FILE = "user://high_score.save"
@@ -52,7 +53,8 @@ func _ready() -> void:
 	fog.one_shot = false
 	load_high_score()
 	hud.update_score(score, high_score)
-	#hud.update_enemies_remaining(enemies_remaining)
+	spawn_moblin(6)
+	spawn_goblin(1)
 
 func _process(delta):
 	# Increment the elapsed time
@@ -221,6 +223,9 @@ func trigger_victory():
 	player_knight.animated_sprite.modulate = Color(1, 0, 0, 0.75)  # Set to red
 	player_knight.set_process(false)
 	player_knight.set_physics_process(false)
+	var victory_control = $VictoryScreen/Control  # Adjust this path
+	if victory_control:
+		victory_control.fade_in()
 
 @onready var player_knight: Player = $playerKnight
 
@@ -244,7 +249,9 @@ func _on_restart_button_pressed() -> void:
 	# Hide the Game Over screen (optional, depending on your UI setup)
 	$GameOverScreen.visible = false
 	get_tree().reload_current_scene()
-
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
+	
 func _on_restart_button_2_pressed() -> void:
 	# Get reference to SceneTree
 	var scene_tree = Engine.get_main_loop()
@@ -252,18 +259,22 @@ func _on_restart_button_2_pressed() -> void:
 		%VictoryScreen.visible = false
 		scene_tree.paused = false
 		scene_tree.reload_current_scene()
+		#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+		buttonSFX.play()
 	else:
 		push_error("Could not get scene tree!")
 
 func _on_begin_button_pressed() -> void:
 	$StartScreen.visible = false
 	$SelectScreen.visible = true
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
 	#reset_high_score()
 	
 func _on_pack_button_pressed() -> void:
 	get_tree().paused = false
 	$SelectScreen.visible = false
-	begin_audio.pitch_scale = randf_range(0.9, 1.1)
+	buttonSFX.pitch_scale = randf_range(0.8, 0.1)
 	begin_audio.play()  # Play the sound effect
 	enemies_remaining = max_enemies - total_enemies_killed
 	hud.update_enemies_remaining(enemies_remaining)
@@ -272,7 +283,7 @@ func _on_horde_button_pressed() -> void:
 	get_tree().paused = false
 	max_enemies += horde_enemies
 	$SelectScreen.visible = false
-	begin_audio.pitch_scale = randf_range(0.7, 0.9)
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
 	begin_audio.play()  # Play the sound effect
 	enemies_remaining = max_enemies - total_enemies_killed
 	hud.update_enemies_remaining(enemies_remaining)
@@ -280,17 +291,25 @@ func _on_horde_button_pressed() -> void:
 func _on_back_button_pressed() -> void:
 	$StartScreen.visible = true
 	$ControlsScreen.visible = false
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
 
 func _on_back_button_2_pressed() -> void:
 	$StartScreen.visible = true
 	$SelectScreen.visible = false
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
 
 func _on_controls_button_pressed() -> void:
 	$StartScreen.visible = false
 	$ControlsScreen.visible = true
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
 
 
 func _on_quit_button_pressed() -> void:
+	#buttonSFX.pitch_scale = randf_range(0.8, 0.1)
+	buttonSFX.play()
 	get_tree().quit()  # Exits the game
 
 func _on_timer_3_timeout() -> void:

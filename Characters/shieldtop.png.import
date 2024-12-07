@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ukynbc2ehfcc"
-path="res://.godot/imported/Warrior_Blue.png-b148010c8a115baefa6f7e7905c3cfad.ctex"
+uid="uid://d0epn2jxh7jvb"
+path="res://.godot/imported/shieldtop.png-7625a314c1b743b62bb97517befb52bd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Characters/Warrior_Blue.png"
-dest_files=["res://.godot/imported/Warrior_Blue.png-b148010c8a115baefa6f7e7905c3cfad.ctex"]
+source_file="res://Characters/shieldtop.png"
+dest_files=["res://.godot/imported/shieldtop.png-7625a314c1b743b62bb97517befb52bd.ctex"]
 
 [params]
 

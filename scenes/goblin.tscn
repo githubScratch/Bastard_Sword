@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://b6qui68yddw72"]
+[gd_scene load_steps=50 format=3 uid="uid://b6qui68yddw72"]
 
 [ext_resource type="Script" path="res://code/goblin.gd" id="1_61y07"]
 [ext_resource type="Texture2D" uid="uid://hl3oe6d2rfxe" path="res://Characters/Torch_Red.png" id="2_jriq7"]
@@ -6,9 +6,9 @@
 [ext_resource type="Script" path="res://code/goblin layering.gd" id="4_fkalk"]
 [ext_resource type="AudioStream" uid="uid://dks2ckewqsdj8" path="res://audio/sword-contact-with-swipe.wav" id="5_610i4"]
 [ext_resource type="Texture2D" uid="uid://spj17updtijw" path="res://particles/78.png" id="5_h7o3e"]
-[ext_resource type="AudioStream" uid="uid://dour7yii8mvih" path="res://audio/large-sword-swing.wav" id="6_sogsv"]
+[ext_resource type="AudioStream" uid="uid://dgp4apk61i46j" path="res://audio/Torch Attack Strike 1.wav" id="7_dkojt"]
 [ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="7_mplku"]
-[ext_resource type="AudioStream" uid="uid://ck6b384s4lrpr" path="res://audio/77611__joelaudio__sfx_attack_sword_001.wav" id="8_b0247"]
+[ext_resource type="AudioStream" uid="uid://kyhwj72ixc31" path="res://audio/fire_punch_finisher_06.wav" id="9_7jlg1"]
 [ext_resource type="Texture2D" uid="uid://bip07ud0pge1a" path="res://particles/star_08.png" id="10_2cqm2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6beum"]
@@ -26,6 +26,18 @@ region = Rect2(768, 576, 192, 192)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5jqen"]
 atlas = ExtResource("2_jriq7")
 region = Rect2(960, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_an6gu"]
+atlas = ExtResource("2_jriq7")
+region = Rect2(0, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gv5s5"]
+atlas = ExtResource("2_jriq7")
+region = Rect2(192, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_643v2"]
+atlas = ExtResource("2_jriq7")
+region = Rect2(384, 576, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c5ldg"]
 atlas = ExtResource("3_ijxvo")
@@ -143,6 +155,42 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jqen")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_an6gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv5s5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_643v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_an6gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv5s5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_643v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_an6gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv5s5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_643v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_an6gu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv5s5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_643v2")
 }],
 "loop": false,
 "name": &"attack",
@@ -291,7 +339,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"prepare",
-"speed": 26.0
+"speed": 30.0
 }]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sxkac"]
@@ -353,7 +401,9 @@ position = Vector2(-27, -2)
 rotation = -1.5708
 scale = Vector2(0.960001, 0.879999)
 sprite_frames = SubResource("SpriteFrames_80cig")
-animation = &"prepare"
+animation = &"attack"
+frame = 6
+frame_progress = 1.0
 script = ExtResource("4_fkalk")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
@@ -389,8 +439,8 @@ attenuation = 0.840896
 
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(-13, 1)
-stream = ExtResource("6_sogsv")
-pitch_scale = 0.77
+stream = ExtResource("7_dkojt")
+pitch_scale = 1.2
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -434,7 +484,7 @@ texture_scale = 0.7
 [node name="hurtplayer" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(-5, -1)
-stream = ExtResource("8_b0247")
+stream = ExtResource("9_7jlg1")
 volume_db = -6.933
 pitch_scale = 0.82
 
