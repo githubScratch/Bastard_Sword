@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=51 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -16,7 +16,6 @@
 [ext_resource type="Script" path="res://code/ScreenShake.gd" id="7_stxj5"]
 [ext_resource type="AudioStream" uid="uid://ugldd6411g7d" path="res://audio/goblin blood.mp3" id="7_vbpd5"]
 [ext_resource type="Texture2D" uid="uid://ckj5s7kcifkip" path="res://particles/smoke_04.png" id="8_6h204"]
-[ext_resource type="AudioStream" uid="uid://dsjorsjkghupj" path="res://audio/Gut wound.mp3" id="9_1wu8l"]
 [ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
 [ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
 [ext_resource type="AudioStream" uid="uid://cvbbgwt3rc6h7" path="res://audio/Warlock effigy.mp3" id="10_pvgkd"]
@@ -27,17 +26,16 @@
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
 [ext_resource type="FontFile" uid="uid://cydtr0e33ebaw" path="res://fonts/GothicPixels.ttf" id="23_55g18"]
 [ext_resource type="AudioStream" uid="uid://cqb3ksnv8exlr" path="res://audio/click_1.wav" id="27_vblf7"]
-[ext_resource type="PackedScene" uid="uid://b6qui68yddw72" path="res://scenes/goblin.tscn" id="28_wq5ms"]
+[ext_resource type="PackedScene" uid="uid://dewb36bcdpasb" path="res://scenes/moblin.tscn" id="28_wc4em"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
 fade_time = 1.0
-stream_count = 5
+stream_count = 4
 stream_0 = ExtResource("5_p4ej8")
 stream_1 = ExtResource("7_vbpd5")
 stream_2 = ExtResource("6_o7eq7")
-stream_3 = ExtResource("9_1wu8l")
-stream_4 = ExtResource("10_pvgkd")
+stream_3 = ExtResource("10_pvgkd")
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
 _data = {
@@ -114,6 +112,22 @@ colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
 offsets = PackedFloat32Array(0.82716, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nke7"]
+size = Vector2(6256, 1540.91)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_it0qx"]
+size = Vector2(1853, 4052)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3gpc"]
+shader = ExtResource("15_mqwap")
+
+[sub_resource type="Gradient" id="Gradient_xemxy"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_12b2o"]
+gradient = SubResource("Gradient_xemxy")
+fill_to = Vector2(0.724771, 0)
+
 [sub_resource type="Environment" id="Environment_iy8c3"]
 background_mode = 3
 tonemap_mode = 2
@@ -143,22 +157,6 @@ adjustment_saturation = 1.73
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nsyug"]
 shader = ExtResource("21_y83k0")
 shader_parameter/fog_strength = 0.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nke7"]
-size = Vector2(6256, 1540.91)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_it0qx"]
-size = Vector2(1853, 4052)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3gpc"]
-shader = ExtResource("15_mqwap")
-
-[sub_resource type="Gradient" id="Gradient_xemxy"]
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_12b2o"]
-gradient = SubResource("Gradient_xemxy")
-fill_to = Vector2(0.724771, 0)
 
 [node name="amorphous2" type="Node2D"]
 y_sort_enabled = true
@@ -215,9 +213,9 @@ amount = 80
 process_material = SubResource("ParticleProcessMaterial_4r17t")
 texture = ExtResource("6_hb7rr")
 
-[node name="Particles" type="Node" parent="."]
+[node name="FogAndBoundryParticles" type="Node" parent="."]
 
-[node name="barrier4" type="CPUParticles2D" parent="Particles"]
+[node name="barrier4" type="CPUParticles2D" parent="FogAndBoundryParticles"]
 position = Vector2(-657, 329)
 rotation = 1.5708
 amount = 40
@@ -237,7 +235,7 @@ scale_amount_max = 0.4
 color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
-[node name="barrier3" type="CPUParticles2D" parent="Particles"]
+[node name="barrier3" type="CPUParticles2D" parent="FogAndBoundryParticles"]
 position = Vector2(2018, 184)
 rotation = 1.5708
 amount = 40
@@ -257,7 +255,7 @@ scale_amount_max = 0.4
 color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
-[node name="barrier2" type="CPUParticles2D" parent="Particles"]
+[node name="barrier2" type="CPUParticles2D" parent="FogAndBoundryParticles"]
 position = Vector2(788, -680)
 amount = 40
 speed_scale = 0.2
@@ -276,7 +274,7 @@ scale_amount_max = 0.4
 color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
-[node name="barrier" type="CPUParticles2D" parent="Particles"]
+[node name="barrier" type="CPUParticles2D" parent="FogAndBoundryParticles"]
 position = Vector2(760, 1188)
 amount = 40
 speed_scale = 0.2
@@ -295,7 +293,7 @@ scale_amount_max = 0.4
 color = Color(0, 0, 0, 0.6)
 color_ramp = SubResource("Gradient_tqsy1")
 
-[node name="fog" type="CPUParticles2D" parent="Particles"]
+[node name="fog" type="CPUParticles2D" parent="FogAndBoundryParticles"]
 unique_name_in_owner = true
 process_mode = 3
 z_index = 4096
@@ -320,6 +318,84 @@ scale_amount_max = 3.5
 color = Color(0.744285, 0.7221, 0.87, 0.184314)
 color_ramp = SubResource("Gradient_bw4xp")
 color_initial_ramp = SubResource("Gradient_ir0bt")
+
+[node name="Boundries" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Boundries"]
+position = Vector2(-1, -13)
+collision_layer = 8
+collision_mask = 7
+
+[node name="northshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+position = Vector2(651, -1575)
+shape = SubResource("RectangleShape2D_0nke7")
+
+[node name="southshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+position = Vector2(614, 2024)
+shape = SubResource("RectangleShape2D_0nke7")
+
+[node name="eastshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+position = Vector2(3052.5, 199)
+shape = SubResource("RectangleShape2D_it0qx")
+
+[node name="westshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+position = Vector2(-1738, 253)
+shape = SubResource("RectangleShape2D_it0qx")
+
+[node name="ColorRect" type="ColorRect" parent="Boundries/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2591.0
+offset_top = 1283.0
+offset_right = 4036.0
+offset_bottom = 2795.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Boundries/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = 2190.0
+offset_top = -1292.0
+offset_right = 3878.0
+offset_bottom = 2092.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Boundries/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2498.0
+offset_top = -1313.0
+offset_right = -810.0
+offset_bottom = 2071.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Boundries/StaticBody2D"]
+material = SubResource("ShaderMaterial_d3gpc")
+offset_left = -2509.0
+offset_top = -2109.0
+offset_right = 3974.0
+offset_bottom = -760.0
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Boundries/StaticBody2D"]
+position = Vector2(1961, 228)
+scale = Vector2(7.15625, 41.75)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Boundries/StaticBody2D"]
+position = Vector2(-627, 284)
+rotation = -3.14159
+scale = Vector2(7.15625, 41.75)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Boundries/StaticBody2D"]
+position = Vector2(721, -584)
+rotation = -1.5708
+scale = Vector2(7.15625, 48.7579)
+texture = SubResource("GradientTexture2D_12b2o")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Boundries/StaticBody2D"]
+position = Vector2(674, 1084)
+rotation = 1.5708
+scale = Vector2(7.15625, 48.7579)
+texture = SubResource("GradientTexture2D_12b2o")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
@@ -685,6 +761,10 @@ position = Vector2(116, 143)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -1.0
+offset_right = -4.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -1146,6 +1226,7 @@ theme_override_font_sizes/font_size = 60
 text = "Final Score : "
 
 [node name="RestartButton2" type="Button" parent="VictoryScreen/Control"]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1166,92 +1247,14 @@ theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 60
 text = "Return"
 
-[node name="beginaudio" type="AudioStreamPlayer2D" parent="."]
-visible = false
-stream = ExtResource("13_0ejgo")
-volume_db = -8.914
-
 [node name="JoystickSupport" type="Node2D" parent="."]
 visible = false
 script = ExtResource("15_nb5k2")
 
-[node name="Boundries" type="Node" parent="."]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Boundries"]
-position = Vector2(-1, -13)
-collision_layer = 8
-collision_mask = 7
-
-[node name="northshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
-position = Vector2(651, -1575)
-shape = SubResource("RectangleShape2D_0nke7")
-
-[node name="southshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
-position = Vector2(614, 2024)
-shape = SubResource("RectangleShape2D_0nke7")
-
-[node name="eastshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
-position = Vector2(3052.5, 199)
-shape = SubResource("RectangleShape2D_it0qx")
-
-[node name="westshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
-position = Vector2(-1738, 253)
-shape = SubResource("RectangleShape2D_it0qx")
-
-[node name="ColorRect" type="ColorRect" parent="Boundries/StaticBody2D"]
-material = SubResource("ShaderMaterial_d3gpc")
-offset_left = -2591.0
-offset_top = 1283.0
-offset_right = 4036.0
-offset_bottom = 2795.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="Boundries/StaticBody2D"]
-material = SubResource("ShaderMaterial_d3gpc")
-offset_left = 2190.0
-offset_top = -1292.0
-offset_right = 3878.0
-offset_bottom = 2092.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="Boundries/StaticBody2D"]
-material = SubResource("ShaderMaterial_d3gpc")
-offset_left = -2498.0
-offset_top = -1313.0
-offset_right = -810.0
-offset_bottom = 2071.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="Boundries/StaticBody2D"]
-material = SubResource("ShaderMaterial_d3gpc")
-offset_left = -2509.0
-offset_top = -2109.0
-offset_right = 3974.0
-offset_bottom = -760.0
-color = Color(0, 0, 0, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="Boundries/StaticBody2D"]
-position = Vector2(1961, 228)
-scale = Vector2(7.15625, 41.75)
-texture = SubResource("GradientTexture2D_12b2o")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Boundries/StaticBody2D"]
-position = Vector2(-627, 284)
-rotation = -3.14159
-scale = Vector2(7.15625, 41.75)
-texture = SubResource("GradientTexture2D_12b2o")
-
-[node name="Sprite2D4" type="Sprite2D" parent="Boundries/StaticBody2D"]
-position = Vector2(721, -584)
-rotation = -1.5708
-scale = Vector2(7.15625, 48.7579)
-texture = SubResource("GradientTexture2D_12b2o")
-
-[node name="Sprite2D3" type="Sprite2D" parent="Boundries/StaticBody2D"]
-position = Vector2(674, 1084)
-rotation = 1.5708
-scale = Vector2(7.15625, 48.7579)
-texture = SubResource("GradientTexture2D_12b2o")
+[node name="beginaudio" type="AudioStreamPlayer2D" parent="."]
+visible = false
+stream = ExtResource("13_0ejgo")
+volume_db = -8.914
 
 [node name="ButtonSFX" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
@@ -1259,8 +1262,8 @@ process_mode = 3
 stream = ExtResource("27_vblf7")
 pitch_scale = 0.6
 
-[node name="goblin" parent="." instance=ExtResource("28_wq5ms")]
-position = Vector2(-251, 402)
+[node name="Node2D" parent="." instance=ExtResource("28_wc4em")]
+position = Vector2(-182, 324)
 
 [connection signal="timeout" from="globalTimer" to="globalTimer" method="_on_timeout"]
 [connection signal="dead" from="playerKnight" to="." method="_on_player_knight_dead"]
@@ -1276,7 +1279,7 @@ position = Vector2(-251, 402)
 [connection signal="pressed" from="GameOverScreen/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/PackButton" to="." method="_on_pack_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
-[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
 [connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]

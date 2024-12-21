@@ -18,7 +18,7 @@ var feint_duration = 0.25  # Duration of the feint effect
 var basic_attack_lunge_distance = 50  # Distance for basic attack lunge
 var basic_attack_lunge_duration = 0.15  # Duration of basic attack lunge
 var dodge_distance = 175  # Distance to dodge
-var dodge_duration = 0.4  # Duration of the dodge
+var dodge_duration = 0.3  # Duration of the dodge
 
 var attack_recovery_time = 0.5  # Recovery time after attacking while defending
 var attack_move_recovery_time = 0.5  # Recovery time after any attack

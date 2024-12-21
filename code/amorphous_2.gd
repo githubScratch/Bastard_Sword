@@ -16,7 +16,7 @@ const HIGH_SCORE_FILE = "user://high_score.save"
 
 var total_enemies_spawned = 0
 var total_enemies_killed = 0
-var max_enemies = 111
+var max_enemies = 1
 var horde_enemies = 222
 var victory_achieved = false
 var enemies_remaining = 0

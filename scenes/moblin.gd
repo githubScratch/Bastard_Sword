@@ -96,7 +96,6 @@ func die():
 	animated_sprite.play("death")
 	if is_dead:
 		return
-	is_dead = true
 	state = "dead"
 	velocity = Vector2.ZERO
 	#print("Starting death animation")
@@ -108,6 +107,7 @@ func die():
 	killed.emit(1)
 	enemy_defeated.emit()
 	await animated_sprite.animation_finished
+	is_dead = true
 	#print("Death animation finished")
 	await get_tree().create_timer(2.0).timeout
 	queue_free()
@@ -152,7 +152,7 @@ func _adjust_stats_based_on_time(elapsed_time: float):
 	if elapsed_time > 90.0: 
 		self.move_speed += 40
 		self.bump_distance += 100
-		self.bump_push_time += 0.8
+		self.bump_push_time += 0.4
 		self.bump_speed += 100
 		#point_light_2d.energy += 1
 	if elapsed_time > 120.0: 

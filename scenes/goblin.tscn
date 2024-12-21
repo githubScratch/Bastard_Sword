@@ -370,8 +370,8 @@ turbulence_enabled = true
 radius = 20.025
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mknou"]
-radius = 21.875
-height = 63.6364
+radius = 26.1364
+height = 59.091
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yfewg"]
 
@@ -402,7 +402,7 @@ rotation = -1.5708
 scale = Vector2(0.960001, 0.879999)
 sprite_frames = SubResource("SpriteFrames_80cig")
 animation = &"attack"
-frame = 6
+frame = 17
 frame_progress = 1.0
 script = ExtResource("4_fkalk")
 
@@ -421,12 +421,12 @@ shape = SubResource("CircleShape2D_543h2")
 
 [node name="AttackArea" type="Area2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(6, -32)
+position = Vector2(7, -32)
 scale = Vector2(0.960001, 0.879999)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(0, 36.3637)
+position = Vector2(6.24999, 36.3637)
 shape = SubResource("CapsuleShape2D_mknou")
 debug_color = Color(0.899836, 0.155061, 0.668102, 0.42)
 

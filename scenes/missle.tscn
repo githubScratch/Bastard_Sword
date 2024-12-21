@@ -428,7 +428,7 @@ modulate = Color(1, 1, 1, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ivcp8")
 animation = &"detonate_b"
-frame_progress = 0.532745
+frame_progress = 0.520073
 
 [node name="body" type="CollisionShape2D" parent="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
