@@ -82,11 +82,37 @@ signal dead
 @export var bash_damage := 50   
 @onready var bash_box = $BashBox
 @onready var hurt_player: AudioStreamPlayer2D = %hurtplayer
+@onready var vignette_rect: ColorRect = $VignetteCavnas/ColorRect
+var vignette_stamina_ratio = 1.0  # Smoothly updated ratio
 
 func _ready():
 	bash_box.monitoring = false  # Disable the explosion area until ready to explode
-	
-	
+
+func update_vignette():
+	# Ensure the ColorRect node exists and has a ShaderMaterial
+	if vignette_rect and vignette_rect.material and vignette_rect.material is ShaderMaterial:
+		var shader_material = vignette_rect.material as ShaderMaterial
+
+		# Use the smoothed vignette_stamina_ratio
+		var intensity = (1.0 - vignette_stamina_ratio) * 2.0
+		intensity = clamp(intensity, 0.0, 1.0)
+
+		var radius = 0.5 + intensity * 3.0
+
+		# Update shader parameters directly as properties
+		if health == 150:
+			shader_material.set("shader_parameter/MainAlpha", intensity * 1)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1.5)
+		elif health < 150 and health > 99:
+			shader_material.set("shader_parameter/MainAlpha", intensity * 1.15)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1)
+		elif health >= 0 and health <= 99:
+			shader_material.set("shader_parameter/MainAlpha", intensity * 1.45)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 0.85)
+	else:
+		print("Error: Vignette material is missing or not a ShaderMaterial.")
+
+
 func take_damage(amount):
 	if is_hurt:
 		return
@@ -166,6 +192,14 @@ func _physics_process(delta):
 	
 	%StaminaBar.value = int(current_stamina)  # Update the health bar here
 	stamina_bar.value = current_stamina  # Update health bar value
+	# Smoothly interpolate vignette_stamina_ratio to the new stamina ratio
+	var target_ratio = current_stamina / max_stamina
+	if vignette_stamina_ratio != target_ratio:
+		var tween = create_tween()
+		tween.tween_property(self, "vignette_stamina_ratio", target_ratio, 0.5)
+
+	# Update the vignette shader with the interpolated ratio
+	update_vignette()
 	
 		# Calculate base movement
 	var mouse_pos = get_global_mouse_position()
@@ -421,15 +455,3 @@ func _on_bash_box_body_entered(body: Node2D) -> void:
 		tween.tween_property(body, "global_position", target_position, bashback_duration)
 		await get_tree().create_timer(0.2).timeout
 		bash_box.monitoring = false
-
-func get_nearest_enemy():
-	var nearest_enemy = null
-	var shortest_distance = INF
-	for enemy in get_tree().get_nodes_in_group("goblins"):
-		if not enemy:  # Ensure the node still exists
-			continue
-		var distance = global_position.distance_to(enemy.global_position)
-		if distance < shortest_distance:
-			shortest_distance = distance
-			nearest_enemy = enemy
-	return nearest_enemy

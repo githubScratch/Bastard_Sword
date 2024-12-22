@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=53 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -26,7 +26,13 @@
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
 [ext_resource type="FontFile" uid="uid://cydtr0e33ebaw" path="res://fonts/GothicPixels.ttf" id="23_55g18"]
 [ext_resource type="AudioStream" uid="uid://cqb3ksnv8exlr" path="res://audio/click_1.wav" id="27_vblf7"]
+[ext_resource type="Shader" path="res://vignette.gdshader" id="28_byebw"]
 [ext_resource type="PackedScene" uid="uid://dewb36bcdpasb" path="res://scenes/moblin.tscn" id="28_wc4em"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_be5pe"]
+shader = ExtResource("28_byebw")
+shader_parameter/outerRadius = 0.774
+shader_parameter/MainAlpha = 0.392
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
@@ -173,6 +179,22 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 editor_draw_limits = true
 script = ExtResource("2_rwjdb")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UILayer" instance=ExtResource("10_mpyds")]
+
+[node name="VignetteCavnas" type="CanvasLayer" parent="."]
+layer = 0
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="VignetteCavnas"]
+material = SubResource("ShaderMaterial_be5pe")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="playerKnight" parent="." instance=ExtResource("3_s8k3s")]
 position = Vector2(574, 338)
@@ -751,20 +773,12 @@ position = Vector2(160, -90)
 modulate = Color(0.56, 0.56, 0.56, 0.345098)
 position = Vector2(116, 143)
 
-[node name="UILayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="UILayer" instance=ExtResource("10_mpyds")]
-
 [node name="StartScreen" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="StartScreen"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -1.0
-offset_right = -4.0
-offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -1279,7 +1293,7 @@ position = Vector2(-182, 324)
 [connection signal="pressed" from="GameOverScreen/Control/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/PackButton" to="." method="_on_pack_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
-[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
-[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]
+[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_pressed"]

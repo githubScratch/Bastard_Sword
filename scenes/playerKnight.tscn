@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://d3i6la4uyy1rv"]
+[gd_scene load_steps=69 format=3 uid="uid://d3i6la4uyy1rv"]
 
 [ext_resource type="Script" path="res://code/playerKnight.gd" id="1_c8ivu"]
 [ext_resource type="Texture2D" uid="uid://03vtf6l56anh" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="2_dg2hp"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://wi24y0nars55" path="res://particles/circle_05.png" id="7_6060s"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="8_kw3kp"]
 [ext_resource type="AudioStream" uid="uid://dn1b5l1jrjrru" path="res://audio/371922__mrthenoronha__single-iron-hit-hard.wav" id="9_8x3ph"]
+[ext_resource type="Shader" path="res://vignette.gdshader" id="9_wqik3"]
 [ext_resource type="AudioStream" uid="uid://cqi3emcudriv" path="res://audio/Wood Jump.wav" id="11_rf8s4"]
 [ext_resource type="AudioStream" uid="uid://423u4dwctxt1" path="res://audio/Sword Impact Hit 1.wav" id="14_ka3ie"]
 
@@ -356,6 +357,11 @@ corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xnsaf"]
+shader = ExtResource("9_wqik3")
+shader_parameter/outerRadius = 0.437
+shader_parameter/MainAlpha = 1.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6yexh"]
 radius = 16.0
 height = 34.0
@@ -501,6 +507,17 @@ theme_override_styles/background = SubResource("StyleBoxFlat_xy3rh")
 theme_override_styles/fill = SubResource("StyleBoxFlat_5hhim")
 value = 50.0
 show_percentage = false
+
+[node name="VignetteCavnas" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="ColorRect" type="ColorRect" parent="VignetteCavnas"]
+material = SubResource("ShaderMaterial_xnsaf")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
