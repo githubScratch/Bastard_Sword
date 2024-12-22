@@ -359,8 +359,9 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xnsaf"]
 shader = ExtResource("9_wqik3")
-shader_parameter/outerRadius = 0.437
+shader_parameter/outerRadius = 1.0
 shader_parameter/MainAlpha = 1.0
+shader_parameter/RedTint = 0.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6yexh"]
 radius = 16.0

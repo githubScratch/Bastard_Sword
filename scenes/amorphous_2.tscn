@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=62 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -24,15 +24,25 @@
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
 [ext_resource type="Script" path="res://scenes/game_over_control.gd" id="16_ulk6w"]
 [ext_resource type="Shader" path="res://scenes/warlock_fog.gdshader" id="21_y83k0"]
-[ext_resource type="FontFile" uid="uid://cydtr0e33ebaw" path="res://fonts/GothicPixels.ttf" id="23_55g18"]
+[ext_resource type="Texture2D" uid="uid://cb5gbp6khlqa2" path="res://icons/tile_0077.png" id="22_v8au0"]
+[ext_resource type="Texture2D" uid="uid://bwv3a6uuxpcsw" path="res://icons/tile_0078.png" id="23_u05pu"]
+[ext_resource type="Texture2D" uid="uid://bj2oeln2ndvd4" path="res://icons/tile_0122.png" id="24_qhj45"]
+[ext_resource type="Texture2D" uid="uid://d3lr7qpy1v8d0" path="res://icons/tile_0123.png" id="25_6khdp"]
+[ext_resource type="Texture2D" uid="uid://d3s6eneqxek66" path="res://icons/tile_0235.png" id="26_ynjo6"]
+[ext_resource type="Texture2D" uid="uid://c5x7h5np5uuph" path="res://icons/tile_0236.png" id="27_kcqn1"]
 [ext_resource type="AudioStream" uid="uid://cqb3ksnv8exlr" path="res://audio/click_1.wav" id="27_vblf7"]
+[ext_resource type="Texture2D" uid="uid://dthwwq1yvejm5" path="res://icons/tile_0237.png" id="28_atsu1"]
 [ext_resource type="Shader" path="res://vignette.gdshader" id="28_byebw"]
 [ext_resource type="PackedScene" uid="uid://dewb36bcdpasb" path="res://scenes/moblin.tscn" id="28_wc4em"]
+[ext_resource type="Texture2D" uid="uid://clpwo4vbjo6gr" path="res://icons/tile_0527.png" id="29_sc8oo"]
+[ext_resource type="Texture2D" uid="uid://caa2jox4hi6y3" path="res://icons/tile_0528.png" id="30_8pgaa"]
+[ext_resource type="Texture2D" uid="uid://dcewsuq48rjo3" path="res://icons/tile_0728.png" id="31_bhnxh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be5pe"]
 shader = ExtResource("28_byebw")
 shader_parameter/outerRadius = 0.774
 shader_parameter/MainAlpha = 0.392
+shader_parameter/RedTint = 0.0
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
@@ -349,22 +359,26 @@ collision_layer = 8
 collision_mask = 7
 
 [node name="northshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+visible = false
 position = Vector2(651, -1575)
 shape = SubResource("RectangleShape2D_0nke7")
 
 [node name="southshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+visible = false
 position = Vector2(614, 2024)
 shape = SubResource("RectangleShape2D_0nke7")
 
 [node name="eastshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+visible = false
 position = Vector2(3052.5, 199)
 shape = SubResource("RectangleShape2D_it0qx")
 
 [node name="westshape" type="CollisionShape2D" parent="Boundries/StaticBody2D"]
+visible = false
 position = Vector2(-1738, 253)
 shape = SubResource("RectangleShape2D_it0qx")
 
-[node name="ColorRect" type="ColorRect" parent="Boundries/StaticBody2D"]
+[node name="southRect" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2591.0
 offset_top = 1283.0
@@ -372,7 +386,7 @@ offset_right = 4036.0
 offset_bottom = 2795.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect4" type="ColorRect" parent="Boundries/StaticBody2D"]
+[node name="eastRect" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = 2190.0
 offset_top = -1292.0
@@ -380,7 +394,7 @@ offset_right = 3878.0
 offset_bottom = 2092.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="Boundries/StaticBody2D"]
+[node name="westRect3" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2498.0
 offset_top = -1313.0
@@ -388,7 +402,7 @@ offset_right = -810.0
 offset_bottom = 2071.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="Boundries/StaticBody2D"]
+[node name="NorthRect2" type="ColorRect" parent="Boundries/StaticBody2D"]
 material = SubResource("ShaderMaterial_d3gpc")
 offset_left = -2509.0
 offset_top = -2109.0
@@ -875,6 +889,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="4" type="Label" parent="ControlsScreen/ColorRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -898,6 +913,7 @@ Shield Bash
 "
 
 [node name="3" type="Label" parent="ControlsScreen/ColorRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -921,6 +937,7 @@ Defend + Attack :
 horizontal_alignment = 2
 
 [node name="2" type="Label" parent="ControlsScreen/ColorRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -945,6 +962,7 @@ Hold to Sprint
 Lock On"
 
 [node name="1" type="Label" parent="ControlsScreen/ColorRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -969,6 +987,35 @@ D :
 F :"
 horizontal_alignment = 2
 
+[node name="Text" type="Label" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.0
+offset_top = -244.0
+offset_right = 3.0
+offset_bottom = 212.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_constants/line_spacing = 26
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 40
+text = "Attack
+Hold to Defend
+Hold to Sprint
+Dodge
+
+Lunge
+ Bash
+Lock On"
+horizontal_alignment = 2
+
 [node name="BackButton" type="Button" parent="ControlsScreen/ColorRect"]
 process_mode = 3
 layout_mode = 1
@@ -987,6 +1034,96 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.592157)
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 40
 text = "Return"
+
+[node name="icons" type="ColorRect" parent="ControlsScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 350.0
+offset_top = 205.0
+offset_right = 350.0
+offset_bottom = -383.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Tile0077" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(672, 96)
+scale = Vector2(2, 2)
+texture = ExtResource("22_v8au0")
+
+[node name="Tile0080" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(752, 416)
+scale = Vector2(2, 2)
+texture = ExtResource("22_v8au0")
+
+[node name="Tile0081" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(752, 480)
+scale = Vector2(2, 2)
+texture = ExtResource("22_v8au0")
+
+[node name="Tile0078" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(672, 160)
+scale = Vector2(2, 2)
+texture = ExtResource("23_u05pu")
+
+[node name="Tile0079" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(672, 480)
+scale = Vector2(2, 2)
+texture = ExtResource("23_u05pu")
+
+[node name="Tile0122" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(672, 224)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("24_qhj45")
+
+[node name="Tile0124" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(672, 416)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("24_qhj45")
+
+[node name="Tile0123" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(674, 540)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("25_6khdp")
+
+[node name="Tile0235" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(670, 280)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("26_ynjo6")
+
+[node name="Tile0236" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(710, 280)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("27_kcqn1")
+
+[node name="Tile0237" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(750, 280)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("28_atsu1")
+
+[node name="Tile0527" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+visible = false
+position = Vector2(668, 412)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("29_sc8oo")
+
+[node name="Tile0528" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+visible = false
+position = Vector2(708, 412)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("30_8pgaa")
+
+[node name="Tile0728" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(712, 416)
+scale = Vector2(3, 3)
+texture = ExtResource("31_bhnxh")
+
+[node name="Tile0729" type="Sprite2D" parent="ControlsScreen/ColorRect/icons"]
+position = Vector2(712, 480)
+scale = Vector2(3, 3)
+texture = ExtResource("31_bhnxh")
 
 [node name="GameOverScreen" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -1105,11 +1242,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.188235, 0.466667, 0.803922, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0.00126312, 0.000528061, 0.000319159, 1)
+theme_override_colors/font_outline_color = Color(0.369, 0.524, 0.625, 0.687)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 60
-text = "What foe do you seek?"
-horizontal_alignment = 2
+text = "Choose your Path:"
+horizontal_alignment = 1
 
 [node name="PackButton" type="Button" parent="SelectScreen/ColorRect"]
 process_mode = 3
@@ -1119,19 +1257,40 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -321.0
+offset_left = -426.0
 offset_top = -24.0
-offset_right = -79.0
+offset_right = -90.0
 offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_hover_pressed_color = Color(0.782818, 0.406259, 1, 1)
-theme_override_colors/font_hover_color = Color(0.913955, 0, 0.182679, 1)
+theme_override_colors/font_hover_color = Color(0.489678, 0.489678, 0.489678, 1)
 theme_override_colors/font_color = Color(0.658824, 0.654902, 0.647059, 1)
-theme_override_fonts/font = ExtResource("23_55g18")
+theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 50
-text = "The Pack
+text = "Hunt the Pack
 "
+
+[node name="packDesc" type="Label" parent="SelectScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -426.0
+offset_top = 51.0
+offset_right = -93.0
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.474192, 0.463722, 0.462327, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.369, 0.524, 0.625, 0.687)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 30
+text = "a small skirmish"
+horizontal_alignment = 1
 
 [node name="HordeButton" type="Button" parent="SelectScreen/ColorRect"]
 process_mode = 3
@@ -1141,18 +1300,40 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 66.5
+offset_left = 24.0
 offset_top = -24.0
-offset_right = 333.5
+offset_right = 466.0
 offset_bottom = 35.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_hover_pressed_color = Color(0.527775, 0.00174349, 0.735835, 1)
-theme_override_colors/font_hover_color = Color(0.550489, 0, 0.076905, 1)
+theme_override_colors/font_hover_color = Color(0.479023, 1.86507e-07, 0.061336, 1)
 theme_override_colors/font_color = Color(0.660065, 0.652982, 0.646915, 1)
-theme_override_fonts/font = ExtResource("23_55g18")
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_xr0ao")
 theme_override_font_sizes/font_size = 50
-text = "The Horde"
+text = "Conquer the Horde"
+
+[node name="hordeDesc" type="Label" parent="SelectScreen/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 74.0
+offset_top = 51.0
+offset_right = 407.0
+offset_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.474192, 0.463722, 0.462327, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.369, 0.524, 0.625, 0.687)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("9_xr0ao")
+theme_override_font_sizes/font_size = 30
+text = "overwhelming odds"
+horizontal_alignment = 1
 
 [node name="BackButton2" type="Button" parent="SelectScreen/ColorRect"]
 process_mode = 3
@@ -1295,5 +1476,5 @@ position = Vector2(-182, 324)
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]
 [connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]

@@ -16,7 +16,7 @@ const HIGH_SCORE_FILE = "user://high_score.save"
 
 var total_enemies_spawned = 0
 var total_enemies_killed = 0
-var max_enemies = 1
+var max_enemies = 111
 var horde_enemies = 222
 var victory_achieved = false
 var enemies_remaining = 0
@@ -28,14 +28,15 @@ var enemies_remaining = 0
 @onready var timer5 = $swarmtimer
 
 var elapsed_time = 0.0
-var event_thresholds = [30, 60, 120, 150, 180]  # Time thresholds for events (in seconds)
+var event_thresholds = [30, 60, 120, 150, 180, 210]  # Time thresholds for events (in seconds)
 var triggered_events = []  # Stores which thresholds have already been triggered
 var event_actions = {
 	30: [Callable(self, "spawn_moblin").bind(20), Callable(self, "blood_rain")],
-	60: [Callable(self, "spawn_goblin").bind(10)],
+	90: [Callable(self, "spawn_goblin").bind(10)],
 	120: [Callable(self, "spawn_kaboomist").bind(2), Callable(self, "spawn_moblin").bind(20)],
 	150: [Callable(self, "spawn_goblin").bind(10), Callable(self, "spawn_warlock").bind(1)],
-	180: [Callable(self, "enable_swarm_timer")]
+	180: [Callable(self, "enable_swarm_timer")],
+	210: [Callable(self, "spawn_warlock").bind(3)]
 }
 
 var score := 0:
@@ -287,6 +288,7 @@ func _on_horde_button_pressed() -> void:
 	begin_audio.play()  # Play the sound effect
 	enemies_remaining = max_enemies - total_enemies_killed
 	hud.update_enemies_remaining(enemies_remaining)
+	enable_swarm_timer()
 
 func _on_back_button_pressed() -> void:
 	$StartScreen.visible = true
@@ -327,6 +329,7 @@ func enable_swarm_timer():
 
 func _on_timer_5_timeout() -> void:
 	if not %GameOverScreen.visible:
+		spawn_goblin(1)
 		spawn_moblin(2)
 		
 func load_high_score():

@@ -88,27 +88,36 @@ var vignette_stamina_ratio = 1.0  # Smoothly updated ratio
 func _ready():
 	bash_box.monitoring = false  # Disable the explosion area until ready to explode
 
+func adjust_vignette_red_tint(value: float):
+	# Ensure the material exists and is a ShaderMaterial
+	if vignette_rect and vignette_rect.material and vignette_rect.material is ShaderMaterial:
+		vignette_rect.material.set("shader_parameter/RedTint", value)
+
+
 func update_vignette():
 	# Ensure the ColorRect node exists and has a ShaderMaterial
 	if vignette_rect and vignette_rect.material and vignette_rect.material is ShaderMaterial:
 		var shader_material = vignette_rect.material as ShaderMaterial
 
 		# Use the smoothed vignette_stamina_ratio
-		var intensity = (1.0 - vignette_stamina_ratio) * 2.0
+		var intensity = (1.0 - vignette_stamina_ratio - 0.25) * 2.0
 		intensity = clamp(intensity, 0.0, 1.0)
-
-		var radius = 0.5 + intensity * 3.0
+		var radius = 0.25 + intensity * 3.0
 
 		# Update shader parameters directly as properties
 		if health == 150:
-			shader_material.set("shader_parameter/MainAlpha", intensity * 1)
-			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1.5)
+			shader_material.set("shader_parameter/MainAlpha", intensity * .85)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 2.75)
 		elif health < 150 and health > 99:
-			shader_material.set("shader_parameter/MainAlpha", intensity * 1.15)
-			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1)
+			shader_material.set("shader_parameter/MainAlpha", intensity * 1.0)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1.25)
+			var red_tint_value = (1.0 - vignette_stamina_ratio) * 0.1  # Scale up to a max red value of 0.4
+			adjust_vignette_red_tint(red_tint_value)
 		elif health >= 0 and health <= 99:
-			shader_material.set("shader_parameter/MainAlpha", intensity * 1.45)
-			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 0.85)
+			shader_material.set("shader_parameter/MainAlpha", intensity * 1.15)
+			shader_material.set("shader_parameter/outerRadius", 0.5 + intensity * 1.0)
+			var red_tint_value = (1.0 - vignette_stamina_ratio) * 0.15  # Scale up to a max red value of 0.4
+			adjust_vignette_red_tint(red_tint_value)
 	else:
 		print("Error: Vignette material is missing or not a ShaderMaterial.")
 
@@ -200,7 +209,8 @@ func _physics_process(delta):
 
 	# Update the vignette shader with the interpolated ratio
 	update_vignette()
-	
+
+
 		# Calculate base movement
 	var mouse_pos = get_global_mouse_position()
 	var distance_to_mouse = global_position.distance_to(mouse_pos)

@@ -109,7 +109,7 @@ func die():
 	await animated_sprite.animation_finished
 	is_dead = true
 	#print("Death animation finished")
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(1.0).timeout
 	queue_free()
 
 func start_flash_effect():
@@ -149,13 +149,13 @@ func _adjust_stats_based_on_time(elapsed_time: float):
 		self.move_speed += 40
 		#animated_sprite.modulate = Color(0.8, 0.6, 0.4, 1.0) 
 		#point_light_2d.energy += 0.5
-	if elapsed_time > 90.0: 
-		self.move_speed += 40
-		self.bump_distance += 100
-		self.bump_push_time += 0.4
-		self.bump_speed += 100
-		#point_light_2d.energy += 1
 	if elapsed_time > 120.0: 
+		self.move_speed += 40
+		self.bump_distance += 40
+		self.bump_push_time += 0.2
+		self.bump_speed += 40
+		#point_light_2d.energy += 1
+	if elapsed_time > 210.0: 
 		animated_sprite.scale = Vector2(1.0,1.0)
 		self.bump_speed += 100
 		animated_sprite.modulate = Color(0.2, 0.5, 0.5, 1.0)  # Adds red tint

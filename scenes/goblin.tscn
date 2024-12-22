@@ -370,8 +370,8 @@ turbulence_enabled = true
 radius = 20.025
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mknou"]
-radius = 26.1364
-height = 59.091
+radius = 31.25
+height = 88.6365
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yfewg"]
 
@@ -426,7 +426,7 @@ scale = Vector2(0.960001, 0.879999)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(6.24999, 36.3637)
+position = Vector2(10.4167, 36.3637)
 shape = SubResource("CapsuleShape2D_mknou")
 debug_color = Color(0.899836, 0.155061, 0.668102, 0.42)
 
