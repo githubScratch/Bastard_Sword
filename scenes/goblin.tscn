@@ -371,7 +371,7 @@ radius = 20.025
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mknou"]
 radius = 31.25
-height = 88.6365
+height = 113.636
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yfewg"]
 

@@ -67,7 +67,6 @@ func _process(delta):
 func can_spawn_more_enemies() -> bool:
 	if total_enemies_spawned >= max_enemies:
 		stop_all_spawn_timers()
-		print("Maximum enemy limit reached!")
 		return false
 	return true
 
@@ -206,12 +205,12 @@ func _on_enemy_killed(score_value: int):
 		hud.update_score(score, high_score)
 
 func _on_enemy_defeated():
-	print("Enemy defeated signal received!")  # Debug print
+	#print("Enemy defeated signal received!")  # Debug print
 	if not %GameOverScreen.visible and not victory_achieved:
 		total_enemies_killed += 1
 		print("Enemies defeated: ", total_enemies_killed)
 		enemies_remaining = max_enemies - total_enemies_killed
-		print("Enemies remaining: ", enemies_remaining)
+		#print("Enemies remaining: ", enemies_remaining)
 		hud.update_enemies_remaining(enemies_remaining)
 	if total_enemies_killed >= max_enemies:
 			trigger_victory()

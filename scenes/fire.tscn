@@ -58,7 +58,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 12.0
+"speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e6wjp"]
@@ -69,14 +69,31 @@ radius = 23.1948
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(-1, -27)
-scale = Vector2(1, 0.966338)
+scale = Vector2(2, 1)
 sprite_frames = SubResource("SpriteFrames_bar02")
-frame_progress = 0.173635
+frame_progress = 0.164669
+script = ExtResource("2_kw0te")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(-26.5, 25)
+scale = Vector2(0.460001, 1)
+sprite_frames = SubResource("SpriteFrames_bar02")
+frame_progress = 0.549664
+script = ExtResource("2_kw0te")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+unique_name_in_owner = true
+position = Vector2(10.5, 21)
+scale = Vector2(0.53513, 1.39089)
+sprite_frames = SubResource("SpriteFrames_bar02")
+frame_progress = 0.886056
 script = ExtResource("2_kw0te")
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D"]
+visible = false
 position = Vector2(0, 28)
 shape = SubResource("CircleShape2D_e6wjp")
 

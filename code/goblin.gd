@@ -234,7 +234,7 @@ func _physics_process(delta):
 				move_and_slide()
 				
 				lunge_timer -= delta
-				await get_tree().create_timer(0.2).timeout
+				await get_tree().create_timer(0.1).timeout
 				attack_area.set_deferred("monitoring", true)
 
 				if !animated_sprite.is_playing():

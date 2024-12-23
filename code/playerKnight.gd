@@ -40,7 +40,7 @@ var feint_timer = 0.0
 var basic_attack_lunge_timer = 0.0  # Timer for basic attack lunge
 var dodge_timer = 0.0
 var sprint_timer = 0.0
-var sprint_recovery = .5
+var sprint_recovery = 1.0
 var defend_timer = 0.0
 var defend_recovery = .5
 var dodge_direction = Vector2.ZERO  # Dodge direction
@@ -277,7 +277,7 @@ func _physics_process(delta):
 		is_bashing = false  # Ensure we exit the bash state
 
 	#stamina: Regenerate stamina if not sprinting, defending, or attacking
-	if current_stamina < max_stamina and recovery_timer <= 0:
+	if current_stamina < max_stamina and recovery_timer <= 0 and not is_defending:
 		current_stamina += stamina_recovery_rate * delta
 		if current_stamina > max_stamina:
 			current_stamina = max_stamina
@@ -312,10 +312,10 @@ func _physics_process(delta):
 		#locked_target = null
 
 	# Apply sprint speed if sprinting
-	if Input.is_action_pressed("sprint") and not is_defending and current_stamina > 9 and sprint_timer <= 0:  # #stamina: Only sprint if stamina is available
+	if Input.is_action_pressed("sprint") and not is_defending and current_stamina > -5 and sprint_timer <= 0:  # #stamina: Only sprint if stamina is available
 		current_speed *= sprint_speed_multiplier
 		current_stamina -= sprint_stamina_cost * delta  # #stamina: Drain stamina while sprinting
-		if current_stamina <=10:
+		if current_stamina <=-5:
 			sprint_timer = sprint_recovery #stutter prevention
 		is_moving = true
 
