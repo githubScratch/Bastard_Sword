@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dfg4iigcakbx"
+path="res://.godot/imported/Ogre Rats.mp3-8e2954fb07f36c09ebf882ed7bd349a3.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Ogre Rats.mp3"
+dest_files=["res://.godot/imported/Ogre Rats.mp3-8e2954fb07f36c09ebf882ed7bd349a3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

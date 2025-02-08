@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c3jkl23l8ug4o"
+path="res://.godot/imported/Scamper unto shadows.mp3-8e2da02774a7e9e12f8afd4202e40385.mp3str"
+
+[deps]
+
+source_file="res://audio/music/Scamper unto shadows.mp3"
+dest_files=["res://.godot/imported/Scamper unto shadows.mp3-8e2da02774a7e9e12f8afd4202e40385.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

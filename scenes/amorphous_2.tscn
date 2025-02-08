@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://c3ehdu5ygtc8f"]
+[gd_scene load_steps=63 format=3 uid="uid://c3ehdu5ygtc8f"]
 
 [ext_resource type="Script" path="res://code/amorphous_2.gd" id="1_hepxq"]
 [ext_resource type="Script" path="res://scenes/global_timer.gd" id="2_ax5jh"]
@@ -7,18 +7,19 @@
 [ext_resource type="PackedScene" uid="uid://du4urybcs2ggd" path="res://scenes/static_body_2d_tree.tscn" id="4_b2gvr"]
 [ext_resource type="Texture2D" uid="uid://cg3rg2eysu10o" path="res://particles/74.png" id="5_6rxkt"]
 [ext_resource type="PackedScene" uid="uid://t1n4myqmsbu4" path="res://scenes/grass.tscn" id="5_f5omf"]
-[ext_resource type="AudioStream" uid="uid://cs4nafvf760o0" path="res://audio/Hordes from Hell.mp3" id="5_p4ej8"]
 [ext_resource type="Material" uid="uid://brbhehj8i5x3y" path="res://CRTMaterial.tres" id="5_t53eh"]
 [ext_resource type="Texture2D" uid="uid://bo80bfxcndbd0" path="res://particles/sprite_0029.png" id="6_0bv8k"]
 [ext_resource type="Script" path="res://scenes/song_1.gd" id="6_5fkhe"]
 [ext_resource type="Texture2D" uid="uid://d1xrqy0kihmhy" path="res://particles/88.png" id="6_hb7rr"]
-[ext_resource type="AudioStream" uid="uid://dagiveqnjlb4f" path="res://audio/good knight.mp3" id="6_o7eq7"]
+[ext_resource type="AudioStream" uid="uid://dagiveqnjlb4f" path="res://audio/music/good knight.mp3" id="6_o7eq7"]
+[ext_resource type="AudioStream" uid="uid://dfg4iigcakbx" path="res://audio/music/Ogre Rats.mp3" id="7_krwq8"]
 [ext_resource type="Script" path="res://code/ScreenShake.gd" id="7_stxj5"]
-[ext_resource type="AudioStream" uid="uid://ugldd6411g7d" path="res://audio/goblin blood.mp3" id="7_vbpd5"]
 [ext_resource type="Texture2D" uid="uid://ckj5s7kcifkip" path="res://particles/smoke_04.png" id="8_6h204"]
+[ext_resource type="AudioStream" uid="uid://bhpxxjymam2jc" path="res://audio/music/Ogre Rats Slow.mp3" id="8_jthfh"]
 [ext_resource type="FontFile" uid="uid://buqo4h7pkwd1l" path="res://fonts/alagard.ttf" id="9_xr0ao"]
+[ext_resource type="AudioStream" uid="uid://6tn6hkns0ow4" path="res://audio/music/Scamper unto shadows (1).mp3" id="10_53l8c"]
 [ext_resource type="PackedScene" uid="uid://cj68s8it2kvcx" path="res://scenes/hud.tscn" id="10_mpyds"]
-[ext_resource type="AudioStream" uid="uid://cvbbgwt3rc6h7" path="res://audio/Warlock effigy.mp3" id="10_pvgkd"]
+[ext_resource type="AudioStream" uid="uid://c3jkl23l8ug4o" path="res://audio/music/Scamper unto shadows.mp3" id="11_k8y1s"]
 [ext_resource type="AudioStream" uid="uid://dngqj5fgso53x" path="res://audio/unsheathe.wav" id="13_0ejgo"]
 [ext_resource type="Shader" path="res://scenes/boundry_shader.gdshader" id="15_mqwap"]
 [ext_resource type="Script" path="res://scenes/controller_support.gd" id="15_nb5k2"]
@@ -47,11 +48,12 @@ shader_parameter/RedTint = 0.0
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_gymkk"]
 shuffle = true
 fade_time = 1.0
-stream_count = 4
-stream_0 = ExtResource("5_p4ej8")
-stream_1 = ExtResource("7_vbpd5")
+stream_count = 5
+stream_0 = ExtResource("7_krwq8")
+stream_1 = ExtResource("8_jthfh")
 stream_2 = ExtResource("6_o7eq7")
-stream_3 = ExtResource("10_pvgkd")
+stream_3 = ExtResource("10_53l8c")
+stream_4 = ExtResource("11_k8y1s")
 
 [sub_resource type="Curve2D" id="Curve2D_h2b6t"]
 _data = {
@@ -1476,5 +1478,5 @@ position = Vector2(-182, 324)
 [connection signal="pressed" from="SelectScreen/ColorRect/HordeButton" to="." method="_on_horde_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="SelectScreen/ColorRect/BackButton2" to="." method="_on_back_button_2_pressed"]
-[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]
 [connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VictoryScreen/Control/RestartButton2" to="." method="_on_restart_button_2_pressed"]
